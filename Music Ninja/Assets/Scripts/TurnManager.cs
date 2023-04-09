@@ -18,11 +18,12 @@ namespace MirrorBasics
 
         void Update()
         {
-            for(int i = 0; i < players.Count; i++)
-            {
+            // These line prints scores at server
+            //for(int i = 0; i < players.Count; i++)
+            //{
                 
-                Debug.Log($"Player {i} Score {players[i].playerScore}");
-            }
+            //    Debug.Log($"Player {i} Score {players[i].playerScore}");
+            //}
         }
     }
 
