@@ -126,7 +126,7 @@ namespace MirrorBasics
             Debug.Log($"MatchID {matchID} | Beginning");
             //Additionally load game scene
             UILobby.instance.DisableConnect();
-            SceneManager.LoadScene(4, LoadSceneMode.Additive);
+            SceneManager.LoadScene("MultiplayerGame", LoadSceneMode.Additive);
             //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
 
         }
