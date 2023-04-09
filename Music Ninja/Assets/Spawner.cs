@@ -243,6 +243,11 @@ public class Menu
 
 public class Spawner : MonoBehaviour
 {
+
+    [SerializeField] GameObject SongBackground;
+    [SerializeField] GameObject ScoreDisplay;
+    [SerializeField] GameObject SpawnerObject;
+
     public float offset;
     //float startDelay = 7.1f;   // for now
     public GameObject prefab;
@@ -285,7 +290,7 @@ public class Spawner : MonoBehaviour
     {
         offset = Time.time;
         Debug.Log("SPAWNER AWAKE ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-        Invoke("LoadNextScene", 163.0f);  // For switching to the EndScreen scene
+        Invoke("LoadNextScene", 30.0f);  // For switching to the EndScreen scene
 
         //Debug.Log("Spawner::Start_____________________________________________");
         // Get song choice using speech recognition
@@ -573,7 +578,12 @@ public class Spawner : MonoBehaviour
     void LoadNextScene()
     {
         //score = getInput.playerscore;
-        SceneManager.LoadScene("EndScreen");
+        //SceneManager.LoadScene("EndScreen");
+        SceneManager.LoadScene("EndScreen", LoadSceneMode.Additive);
+        SongBackground.SetActive(false);
+        ScoreDisplay.SetActive(false);
+        SpawnerObject.SetActive(false);
+
     }
 
 

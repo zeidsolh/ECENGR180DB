@@ -969,6 +969,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9b41d0baaefabd4da5133c32340f4f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SongBackground: {fileID: 2017215868}
+  ScoreDisplay: {fileID: 2007185735}
+  SpawnerObject: {fileID: 1346008854}
   offset: 0
   prefab: {fileID: 6789085640221451619, guid: f21ce08e3ce53234a87d8d2ed6595660, type: 3}
   obstacle: {fileID: 7206027853205130914, guid: da808bdebe3c0fe41a7e7bb5de7912a2, type: 3}
