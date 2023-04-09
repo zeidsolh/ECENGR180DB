@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using TMPro;
 
 namespace MirrorBasics
 {
@@ -13,6 +14,7 @@ namespace MirrorBasics
         int score;
         public Text scoreText;
         public int totalPossibleNotes;
+        public TMP_Text endScreenText;
 
         void Start()
         {
@@ -44,6 +46,7 @@ namespace MirrorBasics
             percent = percent * 100;
             percent = Math.Truncate(percent);
             scoreText.text = score.ToString() + " / " + totalPossibleNotes + " = " + percent.ToString() + "% Accuracy";
+            endScreenText.text = "Your stats:\n" + "Score " + score.ToString() + "\n" + percent.ToString() + "% Accuracy";
         }
 
         void addScore()

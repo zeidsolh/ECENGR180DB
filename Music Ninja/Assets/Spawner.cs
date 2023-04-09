@@ -245,7 +245,8 @@ public class Spawner : MonoBehaviour
 {
 
     [SerializeField] GameObject SongBackground;
-    [SerializeField] GameObject ScoreDisplay;
+    [SerializeField] GameObject CurrentScoreDisplay;
+    [SerializeField] GameObject EndScoreDisplay;
     [SerializeField] GameObject SpawnerObject;
 
     public float offset;
@@ -581,7 +582,8 @@ public class Spawner : MonoBehaviour
         //SceneManager.LoadScene("EndScreen");
         SceneManager.LoadScene("EndScreen", LoadSceneMode.Additive);
         SongBackground.SetActive(false);
-        ScoreDisplay.SetActive(false);
+        CurrentScoreDisplay.SetActive(false);
+        EndScoreDisplay.SetActive(true);
         SpawnerObject.SetActive(false);
 
     }
