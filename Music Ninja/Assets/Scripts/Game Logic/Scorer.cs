@@ -51,7 +51,7 @@ public class Matcher
     public Matcher()
     {
         testMode = false; // set to True to test module
-        outputPath = "../../../../Gesture/gesturefile.txt"; // change this to the correct output file
+        outputPath = "../Gesture/gesturefile.txt"; // change this to the correct output file
         objects = new List<Constructs>() { new Constructs(DateTime.Parse("16:36:33.09"), 1) }; // create a seed to keep member variable alive
         missMatch = new List<int>() { 0, 0 };
         matchedDataIndexes = new List<int>();
