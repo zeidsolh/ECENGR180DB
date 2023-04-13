@@ -248,6 +248,6 @@ with mp_holistic.Holistic(
     cv2.imshow('MediaPipe Holistic', resized)
     #cv2.resizeWindow("MediaPipe Holistic", int(width/2),int(height/2))
 
-    if cv2.waitKey(5) & 0xFF == 27:
+    if cv2.waitKey(5) & 0xFF == ord('q'):
       break
 cap.release()
