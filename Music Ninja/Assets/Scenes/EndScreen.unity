@@ -1910,6 +1910,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scoreText: {fileID: 1463914065}
   totalPossibleNotes: 0
+  highScoreText: {fileID: 455592896}
 --- !u!1 &1103743922
 GameObject:
   m_ObjectHideFlags: 0
@@ -3638,9 +3639,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
-        m_MethodName: LoadMainMenu
+      - m_Target: {fileID: 967398861}
+        m_TargetAssemblyTypeName: MirrorBasics.endScreen, Assembly-CSharp
+        m_MethodName: ContinueFunction
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
