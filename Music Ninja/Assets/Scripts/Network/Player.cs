@@ -33,6 +33,22 @@ namespace MirrorBasics
             }
             
         }
+
+        void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.X))
+            {
+                Player[] players = GameObject.FindObjectsOfType<Player>();
+                foreach (Player player in players)
+                {
+                    if(player.GetComponent<Player>() != localPlayer)
+                    {
+                        SendMessageTo(player.gameObject, "hello");
+                    }
+                }
+            }
+        }
+
         // host game
 
         public void HostGame()
@@ -174,6 +190,34 @@ namespace MirrorBasics
             score_display_v2.instance.UpdatePoint(score);
         }
 
+
+        //power up
+
+        [Client]
+        void SendMessageTo(GameObject target, string message)
+        {
+            CmdSendMessageTo(target, message);
+        }
+
+        [Command]
+        void CmdSendMessageTo(GameObject target, string message)
+        {
+            target.GetComponent<Player>().ReceiveMessage(message);
+        }
+
+        [Server]
+        void ReceiveMessage(string message)
+        {
+            Debug.Log("RECEIVED X on server");
+            TargetReceiveMessage(message);
+        }
+
+        [TargetRpc]
+        void TargetReceiveMessage(string message)
+        {
+            // Display message
+            Debug.Log("RECEIVED X");
+        }
     }
 
 }

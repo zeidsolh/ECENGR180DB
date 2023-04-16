@@ -21,10 +21,11 @@ namespace MirrorBasics
             // These line prints scores at server
             //for(int i = 0; i < players.Count; i++)
             //{
-                
+
             //    Debug.Log($"Player {i} Score {players[i].playerScore}");
             //}
         }
+
     }
 
 
