@@ -1,3 +1,7 @@
+/*
+Description: meshTriangles is used to create the target prefab.
+ */
+
 using UnityEngine;
 
 public class meshTriangles : MonoBehaviour

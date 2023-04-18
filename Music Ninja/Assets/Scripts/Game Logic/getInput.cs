@@ -1,5 +1,9 @@
 /*
 Description:
+    getInput.cs is attached to the GameObject "Hitbox Trigger Box" to detect when a target passes through the triggering region.
+    OnTriggerEnter invokes addObject on the Scorer object "score" to tell the scorer the timestamp and direction of each target
+    that passes through the region.
+    The keyboard version of the game uses OnTriggerExit to increment score (currently commented out).
 */
 
 using System;
@@ -126,9 +130,7 @@ public class getInput : MonoBehaviour
             //targets.RemoveAt(targets.size() - 1);
         }
 
-
-
-
+        /* The keyboard version of the game uses the following OnTriggerExit if-else chain to keep score */
         // Check if user input matches current object objectRotation
         // 90 ==> swipe right, 270 ==> swipe left
         // 180 ==> up, 0 ==> down
@@ -179,6 +181,5 @@ public class getInput : MonoBehaviour
 
         // Print the current score
         //Debug.Log("Player Score: " + playerScore);
-
     }
 }

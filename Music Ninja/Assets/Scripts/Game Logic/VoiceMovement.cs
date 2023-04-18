@@ -1,5 +1,7 @@
 /*
 Description:
+    VoiceMovement.cs is attached to the GameObject "SpeechRecog" and is responsible for recognizing spoken player commands
+    such as "continue" and "play" for navigating between scenes.
 */
 
 using System;

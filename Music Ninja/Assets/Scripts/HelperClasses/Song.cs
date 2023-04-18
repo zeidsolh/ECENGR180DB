@@ -1,5 +1,6 @@
 /*
-Description: Song Class for ..
+Description: Each song has a Song class object to keep track of it's name, bpm, sequence, highscore etc.
+Sequencing is explained below.
 */
 
 using UnityEngine;
@@ -11,7 +12,7 @@ public class Song
     private float initialSpawnerDelay;
     //private int highscore;
     private string seqKey;  // encoded data for spawner
-    public float startDelay;
+    public float startDelay;    // Used to align the first target with the correct beat
     int m_difficulty;
     public static int highscore;
     public static string players_name;
@@ -31,12 +32,15 @@ public class Song
         }
 
     }
+
     public Song(string nm, int rate)
     {
         m_name = nm;
         bpm = rate;
         initialSpawnerDelay = 0.0f;
     }
+
+
     public void loadScript(ref Song curSong)
     {
         //public getInput script;
@@ -61,13 +65,21 @@ public class Song
             }
             //startDelay = 5.68f; // 5.67f - 4.13f + 5.36f + 5.25f; // - 2.27f;
             // Hard-code the sequence for Crab Rave here or read with infile
-            // char1 = position r/m/l
-            // char2 = rotation u/d/l/r
+
+            /* 
+                The string sequence for a song tells Spawner.cs how to spawn each target for that song.
+                Each target has a 3 character string associated with it followed by a comma.
+                The first character in each set of 3 corresponds to the lane or initial x position of that target.
+                The second character corresponds to the swipe direction for that target.
+                The third character corresponds to when that target ought to spawn.
+             */
+            // char1 = position r/m/l = right-lane, middle-lane, left-lane
+            // char2 = rotation u/d/l/r = swipe up/down/left/right
             // char3 = time (ms) between last target spawn and current target spawn
-            // code for new implementation + old
             /*
-            //            new implementation       old implementation
-            //     0 time: 5                        0
+                Here is how the decoder determines the interval between notes based on the 3rd character:
+            //             new implementation       old implementation
+            //     0 time: 5........................0
             //single note: 6........................1
             //  two notes: 7       
             //three notes: 8

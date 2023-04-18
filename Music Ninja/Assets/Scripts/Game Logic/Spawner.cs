@@ -1,104 +1,18 @@
 /*
 Description:
+    Spawner.cs is responsible for instantiating targets and transforming them towards the player.
+    Sequence data is passed in as sequenceKey string to a Song object which also contains bpm, song title, etc.
 */
 
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
 using System.IO;    // for reading input from .txt files for song sequencing, gesture/speech recognition, and localization
 using MenuLogicNamespace;   // to access Menu
 
-
-
-// Declare this class elsewhere
-// Song Class
-
-/*
-public class Menu
-{
-    public void PausePlay()
-    {
-        // Check for user speech commands:
-        // on_message("MusicNinja"..."
-        // string msg = message.payload(2:-1);
-        string msg = "start";   // for now;
-        msg.ToLower();
-        string confirm = "";
-        // Move below code to Menu or UI 
-        if (msg == "quit")
-        {
-            // pause the current game
-            // display("Are you sure?);
-            // display("Yes/No");
-            // get user speech
-            confirm = "yes"; // for now
-            confirm.ToLower();
-            if (confirm == "yes")
-            {
-                // Go to the Menu screen
-            }
-            else if (confirm == "no")
-            {
-                // resume
-            }
-        }
-        else if (msg == "pause")
-        {
-            // pause the current game
-            Time.timeScale = 0;
-            Debug.Log("Set timescale to 0.");
-            // display("Resume?")
-            // display("Yes/No?)
-            // get user speech
-            confirm = "yes"; // for now
-        }
-        if (confirm == "yes")
-        {
-            // resume the game
-            Time.timeScale = 1;
-            //Debug.Log("Set timescale to 1.");
-        }
-        else if (confirm == "no")
-        {
-            // quit the game
-        }
-        else if (msg == "start")
-        {
-        }
-    }
-    public void displaySongList()
-    {
-        // write to on-screen display
-        Debug.Log("Displaying Song List."); // for now
-    }
-    public void setSongChoice()
-    {
-        // get user speech
-        songChoice = "Crab Rave";   // for now
-    }
-    public void setDifficulty()
-    {
-        // get user difficulty from speech recognition
-        difficulty = "easy";   // for now
-    }
-    public int updateHighScores(Song song, int score)
-    {
-        return 0;
-        // Write to local game file that stores an array of 10 x number of songs in song list
-        // each song records the top 10 scores in a .txt file whenever a game is finished
-    }
-    private Song[] songList;
-    //private List<Song> songList;
-    private string songChoice;
-    private string difficulty;
-}
-*/
-
 public class Spawner : MonoBehaviour
 {
-
     [SerializeField] GameObject SongBackground;
     [SerializeField] GameObject CurrentScoreDisplay;
     [SerializeField] GameObject EndScoreDisplay;
@@ -138,8 +52,6 @@ public class Spawner : MonoBehaviour
     public static string songChoice = "Crab Rave";
     public string sequenceKey = ""; // for now
     public Song curSong = new Song(songChoice, 125, 0.58f);
-    //public Menu curMenu = new Menu();
-    //MenuLogic curMenu;
     public int difficultySelected;
     private int maxLimit = 999;
 
@@ -153,29 +65,9 @@ public class Spawner : MonoBehaviour
         if (test)
             Debug.Log("Start Spawner");
 
-        Invoke("LoadNextScene", 30.0f);  // For switching to the EndScreen scene
+        Invoke("LoadNextScene", 30.0f);  // Switch to EndScreen scene after the duration specified
 
-        //Debug.Log("Spawner::Start_____________________________________________");
         // Get song choice using speech recognition
-
-        //Debug.Log("Initializing Menu...");
-        //curMenu = new MenuLogic();
-        //curMenu.init();
-        //Debug.Log("Menu Initialized.");
-        // Pause execution from Menu screen
-
-        /*
-        while (curMenu.inMenuScreen)
-        {
-            Debug.Log("Waiting for game paramters.");
-            //break;
-        }
-        */
-
-        //curSong =     // for now
-        //Song curSong = new Song(songChoice, 125);    // for now
-
-        // load the sequence from file into the song's key
 
         // Get difficulty
         difficultySelected = 1; // for now
@@ -188,29 +80,27 @@ public class Spawner : MonoBehaviour
             curSong.beat() * 2
         };
 
+        // beat = (60f / curSong.bpm) * 2f;
         speed = speedList[difficultySelected-1]; // set speed
-        //beat = (60f / curSong.bpm) * 2f;
         beat = (60f / curSong.bpm);
 
         if (test)
             Debug.Log("curSong Key: " + curSong.getKey() + "++++++++++++++++++++++++++++++++++");
-        
-        decodeAndPopulate(curSong.name(), curSong.getKey(), curSong); // Decode the song script and populate the following containers: targets, timeBetweenEachNote, startPoints, endPoints
-        StartCoroutine(DelayedPause(curSong.getDelay())); // Delay execution to synchronize 1st target with the start of the song and call the DelayedPause coroutine with a startDelay second delay
-    }
 
+        // Decode the song script and populate the following containers: targets, timeBetweenEachNote, startPoints, endPoints
+        decodeAndPopulate(curSong.name(), curSong.getKey(), curSong);
+
+        // Delay execution to synchronize 1st target with the start of the song and call the DelayedPause coroutine with a startDelay second delay
+        StartCoroutine(DelayedPause(curSong.getDelay())); 
+    }
 
     void Update()
     {
-        //Debug.Log("Targets count: " + targets.Count);
-        // Pause?
-        //curMenu.PausePlay();    // Check for start/pause/resume/quit
+        // Check for pause/resume/quit
 
-
-        // wait for song delay
+        // Wait for startDelay seconds to pass before spawing targets so that targets are synced to the song and the first targets is on beat
         if (!delayInProgress)
         {
-            //Debug.Log("Waiting to send first target...");
             // max targets container to 99 items
             if (targets.Count > maxLimit)
             {
@@ -233,7 +123,6 @@ public class Spawner : MonoBehaviour
                 numTargetsSpawned++;
             }
             move(numTargetsSpawned); // spawn a new target and move all existing targets forward a bit
-
         }
     }
 
@@ -246,32 +135,25 @@ public class Spawner : MonoBehaviour
 
     void decodeAndPopulate(string songName, string sequence, Song curSong)
     {
-        //Debug.Log("Entered dap function. _-------------------------------------------------------");
-        //Debug.Log("songName is " + songName);
-        // Transcribe the sequence key and populate the "targets" and "timeBetweenEachNote" containers appropriately
         if (songName != "" && sequence != "")
         {
             if (test)
                 Debug.Log("if statement 1.");
 
-
-            //Debug.Log("SEQ: " + sequence);
             string sequenceKey = sequence;
-            //Debug.Log("SequenceKey length" + sequenceKey.Length);
-            //Debug.Log("SeqKey: " + sequenceKey + "+++++++++++++++++++++++++++++++++++++++++++++++");
             // Clear containers
             targets.Clear();
             timeBetweenEachNote.Clear();
             startPoints.Clear();
             endPoints.Clear();
 
-            // declare temporary variables for position, rotation and interval
+            // Variables for position, rotation and interval of next target to be instantiated:
             Quaternion rotation = Quaternion.Euler(0, 0, 180);  // default
             Vector3 position = startPosition;   // default
             Vector3 positionFinal = finalPosition;  // default
-            //float interval = quarterNote;   // default
             float interval = curSong.beat();   // default
 
+            // Transcribe the sequence key and populate the "targets" and "timeBetweenEachNote" containers appropriately
             for (int i = 0; i < sequenceKey.Length - 3; i++)
             {
                 // set position variable
@@ -324,11 +206,11 @@ public class Spawner : MonoBehaviour
                 // set time since previous note
                 else if (sequenceKey[i + 1] == ',')
                 {
-                    int c = sequenceKey[i] - '0';
+                    int c = sequenceKey[i] - '0';   // char to int conversion
                     // set the temporary interval variable appropriately for the next target instantiation
+                    // interval = (60 / bpm) / ( 2 ^ i )
                     if ((0 < c) && (c <= 4))
                     {
-                        // (60 / bpm) / ( 2 ^ i )
                         interval = curSong.beat() / Mathf.Pow(2, c);
                         interval *= 2f;
                     }
@@ -375,7 +257,6 @@ public class Spawner : MonoBehaviour
         //Debug.Log(numTargets);
         for (int i = 0; i < numTargets; i++) // add time condition
         {
-
             if (targets[i] != null) // memory leak atm? (targets destroyed but container size not decremented)
             {
                 GameObject target = activeTargets[i];
@@ -401,8 +282,6 @@ public class Spawner : MonoBehaviour
                 Vector3 startPoint = startPoints[i];
                 Vector3 endPoint = endPoints[i];
 
-
-
                 currentPosition = startPoint + (endPoint - startPoint) * ((elapsedTime - timeSinceFirstSpawn(i)) * speed);
                 target.transform.position = currentPosition;
 
@@ -427,7 +306,6 @@ public class Spawner : MonoBehaviour
     void LoadNextScene()
     {
         //score = getInput.playerscore;
-        //SceneManager.LoadScene("EndScreen");
         SceneManager.LoadScene("EndScreen", LoadSceneMode.Additive);
         SongBackground.SetActive(false);
         CurrentScoreDisplay.SetActive(false);
@@ -435,6 +313,4 @@ public class Spawner : MonoBehaviour
         SpawnerObject.SetActive(false);
 
     }
-
-
 }
