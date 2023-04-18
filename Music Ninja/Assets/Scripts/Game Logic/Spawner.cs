@@ -13,155 +13,7 @@ using MenuLogicNamespace;   // to access Menu
 
 
 // Declare this class elsewhere
-public class Song
-{
-    public Song(string nm, int rate, float delay)
-    {
-        m_name = nm;
-        bpm = rate;
-        initialSpawnerDelay = delay;
-        int winners_score = 0;  //for now
-        if (winners_score >= highscore)
-        {
-            highscore = winners_score;
-        }
-
-    }
-    public Song(string nm, int rate)
-    {
-        m_name = nm;
-        bpm = rate;
-        initialSpawnerDelay = 0.0f;
-    }
-    public void loadScript(ref Song curSong)
-    {
-        //public getInput script;
-        // Load song script into targets container and the time between notes into the timeBetweenEachNote container
-        if (curSong.name() == "Crab Rave")
-        {
-            //startDelay = 0.2f;
-            if (curSong.getDifficulty() == 1)
-            {
-                // CURRENT DIFFICULTY
-                startDelay = 5.68f - 2.3f - 0.45f - 1.9f + 4f - 5.57f - 0.3f + 2f + 0.51f;
-
-                Debug.Log("Diifculty " + curSong.getDifficulty() + " Start Delay " + startDelay);
-            }
-            else if (curSong.getDifficulty() == 2)
-            {
-                startDelay = 5.68f;
-            }
-            else
-            {
-                startDelay = 5.58f;  // for debugging
-            }
-            //startDelay = 5.68f; // 5.67f - 4.13f + 5.36f + 5.25f; // - 2.27f;
-            // Hard-code the sequence for Crab Rave here or read with infile
-            // char1 = position r/m/l
-            // char2 = rotation u/d/l/r
-            // char3 = time (ms) between last target spawn and current target spawn
-            // code for new implementation + old
-            /*
-            //            new implementation       old implementation
-            //     0 time: 5                        0
-            //single note: 6........................1
-            //  two notes: 7       
-            //three notes: 8
-            // four notes: 9........................5
-            //   1/2 note: 1........................2
-            //   1/4 note: 2........................3
-            // 1/8th note: 3........................4
-            // 1/16th note:4   
-            //    triplet: 0
-            */
-
-
-            // 1 + 2 + 3 + 4 + 
-            // for obstacle : lo_ or ro_
-            //"ll6,rr6,ll6,rr6," + //ll6,rr6" + "ll6,rr6," + //ll6,rr6,ll6,rr6" +
-            // string sequenceKey = "rd1,ld1,rd2,ru2,rd1," + "ld1,rd1,ld2,lu2,ld1," + "rr1,ll1,rd2,ru2,rd1," + "ll1,rr1,lld2,lu2,ld1," + 
-            //     "ll1,mr1,ll2,lr2,ll1," + "rr1,ml1,rr2,rl2,rr1," + "ll1,rr1,ll2,lr2,ll1," + "rr1,ll1,rr2,rl2,rr1," +
-            //     "rd1,ld1,lu2,ld2,lu1," + "ld1,rd1,ru2,rd2,ru1," + "ru1,lu1,ld2,lu2,ld1," + "lu1,ru1,rd2,ru2,ru1," + 
-            //     "md1,mu1,md2,mu2,md1," + "ld1,lu1,ld2,lu2,ld1," + "rd1,ru1,rd2,ru2,rd1," +
-            //     "md1,mu1,md2,mu2,md1," + "ld1,lu1,ld2,lu2,ld1," + "rd1,ru1,rd2,ru2,rd1," +
-            //     "mu1,md1,md2,mu2,md1," + "lu1,ld1,ld2,lu2,ld1," +
-            //     "ml1,rr2,ml3,rr2,ml2,ll2," + "mr1,ll2,mr3,ll2,mr2,rl2" + "mr1,ll2,mr3,ll2,mr2,rr2," + "ml1,rr2,ml3,rr2,ml2,lr2" +
-            //     "ml1,rr2,ml3,rr2,ml2,ll2," + "mr1,ll2,mr3,ll2,mr2,rl2" + "mr1,ll2,mr3,ll2,mr2,rr2," + "ml1,rr2,ml3,rr2,ml2,lr2" +
-            //     "ml1,rr2,ml3,rr2,ml2,ll2," + "mr1,ll2,mr3,ll2,mr2,rl2" + "mr1,ll2,mr3,ll2,mr2,rr2," + "ml1,rr2,ml3,rr2,ml2,lr2" +
-            //     "ml1,rr2,ml3,rr2,ml2,ll2," + "mr1,ll2,mr3,ll2,mr2,rl2" + "mr1,ll2,mr3,ll2,mr2,rr2," + "ml1,rr2,ml3,rr2,ml2,lr2" +
-            //     "ml1,rr2,ml3,rr2,ml2,ll2," + "mr1,ll2,mr3,ll2,mr2,rl2" + "mr1,ll2,mr3,ll2,mr2,rr2," + "ml1,rr2,ml3,rr2,ml2,lr2" + "ml1,rr2,ml3,rr2,ml2,ll7," +
-            //     "md7,md7,md7,md7," + "md7,md7,md7,md7," +
-            //     "rd1,ld1,rd2,ru2,rd1," + "ld1,rd1,ld2,lu2,ld1," + "rr1,ll1,rd2,ru2,rd1," + "ll1,rr1,lld2,lu2,ld1," +
-            //     "ll1,mr1,ll2,lr2,ll1," + "rr1,ml1,rr2,rl2,rr1," + "ll1,rr1,ll2,lr2,ll1," + "rr1,ll1,rr2,rl2,rr1," +
-            //     "ml1,rr2,ml3,rr2,ml2,ll2," + "mr1,ll2,mr3,ll2,mr2,rl2" + "ml1,rr2,ml3,rr2,ml2,ll2," + "mr1,ll2,mr3,ll2,mr2,rl2" +
-            //     "mr1,ll2,mr3,ll2,mr2,rr2," + "ml1,rr2,ml3,rr2,ml2,lr2" + "mr1,ll2,mr3,ll2,mr2,rr2," + "ml1,rr2,ml3,rr2,ml2,lr2" +
-            //     "ml1,rr2,ml3,rr2,ml2,ll2," + "mr1,ll2,mr3,ll2,mr2,rl2" + "ml1,rr2,ml3,rr2,ml2,ll2," + "mr1,ll2,mr3,ll2,mr2,rl2" +
-            //     "mr1,ll2,mr3,ll2,mr2,rr2," + "ml1,rr2,ml3,rr2,ml2,lr2" + "mr1,ll2,mr3,ll2,mr2,rr2," + "ml1,rr2,ml3,rr2,ml2,lr2" +
-            //     "ml1,rr2,ml3,rr2,ml2,ll2," + "mr1,ll2,mr3,ll2,mr2,rl2" + "ml1,rr2,ml3,rr2,ml2,ll2," + "mr1,ll2,mr3,ll2,mr2,rl2" +
-            //     "mr1,ll2,mr3,ll2,mr2,rr2," + "ml1,rr2,ml3,rr2,ml2,lr2" + "rd2,mu2,ll2,rr2,rd2,ru3,ll2,rr2," + "ld2,mu2,rr2,ll2,ld2,lu3,rr2,ll2," +
-            //     "md7,md7,md7,md7," +
-            //     "###,";
-            //test sequence
-            string sequenceKey = "ml7,lr7,mu7,ld7,ll7,rl7,ml7,mr7,lu7,rd7,ll7,rl7,ml7,lr7,ru7,rd7,ml7,ll7,ml7,lr7,mu7,ld7,ll7,rl7,ml7,mr7,lu7,rd7,ll7,rl7,ml7,lr7,ru7,rd7,ml7,ll7" + "###,";
-
-            curSong.setKey(sequenceKey);
-        }
-        else if (curSong.name() == "Matangi")
-        {
-            startDelay = 8f;
-            string sequenceKey = "ll5,rr9,ll9,rr9,mu9,md9,mu9,md9,ll9,mr3,rr3,rl4,rr4,ml3,ll3,lr4,ll4,lr4,mr4" + "###,";
-            curSong.setKey(sequenceKey);
-        }
-        else if (curSong.name() == "Other Song")
-        {
-            string sequenceKey = "mu0,md3,mu3,md3";
-            curSong.setKey(sequenceKey);
-        }
-    }
-    public void setKey(string seq)
-    {
-        seqKey = seq.ToLower();
-    }
-    public string getKey()
-    {
-        return seqKey;
-    }
-    public float getDelay()
-    {
-        return startDelay;
-    }
-    public float beat()
-    {
-        int i = 240;
-        int ll = 80;
-        if ((ll < bpm) && (bpm < i))
-        {
-            return (60f / bpm);
-        }
-        else { return 128.0f; }
-    }
-    public string name() { return m_name; }
-    public void setDifficulty(int d)
-    {
-        m_difficulty = d;
-    }
-    public int getDifficulty()
-    {
-        return m_difficulty;
-    }
-    private string m_name;
-    public int bpm;
-    private float initialSpawnerDelay;
-    //private int highscore;
-    private string seqKey;  // encoded data for spawner
-    public float startDelay;
-    int m_difficulty;
-    public static int highscore;
-    public static string players_name;
-    public static string opponents_name;
-    public static int opponents_score;
-    public int winners_score;
-}
+// Song Class
 
 /*
 public class Menu
@@ -272,6 +124,7 @@ public class Spawner : MonoBehaviour
     public List<float> timeBetweenEachNote = new List<float>();
     public List<Vector3> startPoints = new List<Vector3>();
     public List<Vector3> endPoints = new List<Vector3>();
+    private List<float> speedList;
 
     public Vector3 startPosition = new Vector3(0, 1.6f, 50.0f);
     public Vector3 startPositionLeft = new Vector3(-0.8f, 1.6f, 50.0f);
@@ -288,12 +141,18 @@ public class Spawner : MonoBehaviour
     //public Menu curMenu = new Menu();
     //MenuLogic curMenu;
     public int difficultySelected;
+    private int maxLimit = 999;
+
+    private bool test = true;
 
     //public float duration = 2.0f; // length of Crab Rave in seconds: 163
     void Start()
     {
         offset = Time.time;
-        Debug.Log("SPAWNER AWAKE ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+
+        if (test)
+            Debug.Log("Start Spawner");
+
         Invoke("LoadNextScene", 30.0f);  // For switching to the EndScreen scene
 
         //Debug.Log("Spawner::Start_____________________________________________");
@@ -321,41 +180,23 @@ public class Spawner : MonoBehaviour
         // Get difficulty
         difficultySelected = 1; // for now
         curSong.setDifficulty(difficultySelected);
-
-
         curSong.loadScript(ref curSong);
+        speedList = new List<float>(){
+            curSong.beat() / 8.0f, 
+            curSong.beat() / 2f,
+            curSong.beat(),
+            curSong.beat() * 2
+        };
 
-
-        // Set speed
-        if (difficultySelected == 1)
-        {
-            // easy//was 4.0f//for testing use .8
-            speed = curSong.beat() / 8.0f;
-        }
-        else if (difficultySelected == 2)
-        {
-            // medium
-            speed = curSong.beat() / 2f;
-        }
-        else if (difficultySelected == 3)
-        {
-            // hard mode
-            speed = curSong.beat();
-        }
-        else if (difficultySelected == 4)
-        {
-            // super hard mode
-            speed = (curSong.beat() * 2);
-        }
+        speed = speedList[difficultySelected-1]; // set speed
         //beat = (60f / curSong.bpm) * 2f;
         beat = (60f / curSong.bpm);
 
-        Debug.Log("curSong Key: " + curSong.getKey() + "++++++++++++++++++++++++++++++++++");
-        // Decode the song script and populate the following containers: targets, timeBetweenEachNote, startPoints, endPoints
-        decodeAndPopulate(curSong.name(), curSong.getKey(), curSong);
-
-        // Delay execution to synchronize 1st target with the start of the song
-        StartCoroutine(DelayedPause(curSong.getDelay())); // Call the DelayedPause coroutine with a startDelay second delay
+        if (test)
+            Debug.Log("curSong Key: " + curSong.getKey() + "++++++++++++++++++++++++++++++++++");
+        
+        decodeAndPopulate(curSong.name(), curSong.getKey(), curSong); // Decode the song script and populate the following containers: targets, timeBetweenEachNote, startPoints, endPoints
+        StartCoroutine(DelayedPause(curSong.getDelay())); // Delay execution to synchronize 1st target with the start of the song and call the DelayedPause coroutine with a startDelay second delay
     }
 
 
@@ -371,9 +212,11 @@ public class Spawner : MonoBehaviour
         {
             //Debug.Log("Waiting to send first target...");
             // max targets container to 99 items
-            if (targets.Count > 999)
+            if (targets.Count > maxLimit)
             {
-                Debug.Log("targets.Count countainer limit reached.");
+                if (test)
+                    Debug.Log("targets.Count countainer limit reached.");
+
                 targets.RemoveAt(targets.Count - 1);
             }
 
@@ -408,7 +251,8 @@ public class Spawner : MonoBehaviour
         // Transcribe the sequence key and populate the "targets" and "timeBetweenEachNote" containers appropriately
         if (songName != "" && sequence != "")
         {
-            Debug.Log("if statement 1.");
+            if (test)
+                Debug.Log("if statement 1.");
 
 
             //Debug.Log("SEQ: " + sequence);
@@ -473,7 +317,8 @@ public class Spawner : MonoBehaviour
                     {
                         //GameObject ob = Instantiate(obstacle, position, Quaternion.identity);
                         //obstacles.Add(ob);
-                        Debug.Log("Add obstacle here");
+                        if (test)
+                            Debug.Log("Add obstacle here");
                     }
                 }
                 // set time since previous note
