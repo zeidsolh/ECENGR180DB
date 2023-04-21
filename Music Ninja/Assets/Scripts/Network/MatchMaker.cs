@@ -14,12 +14,16 @@ namespace MirrorBasics
     public class Match
     {
         public string matchID;
+        public int gameDifficulty;
+        public int songNumber;
         public List<Player> players = new List<Player>();
 
-        public Match(string matchID, Player player)
+        public Match(string matchID, Player player, int gameDifficulty, int songNumber)
         {
             this.matchID = matchID;
             players.Add(player);
+            this.gameDifficulty = gameDifficulty;
+            this.songNumber = songNumber;
         }
 
         public Match() { }
@@ -44,13 +48,15 @@ namespace MirrorBasics
         }
 
 
-        public bool HostGame(string _matchID, Player _player, out int playerIndex)
+        public bool HostGame(string _matchID, Player _player, out int playerIndex, int _song, int _difficulty)
         {
             playerIndex = -1;
             if (!matchIDs.Contains(_matchID))
             {
                 matchIDs.Add(_matchID);
-                matches.Add(new Match(_matchID, _player));
+                Debug.Log(_song);
+                Debug.Log(_difficulty);
+                matches.Add(new Match(_matchID, _player, _song, _difficulty));
                 Debug.Log($"Match generated");
                 playerIndex = 1;
                 return true;
@@ -109,6 +115,30 @@ namespace MirrorBasics
                     break;
                 }
             }
+        }
+
+        public int getSongNumber(string _matchID)
+        {
+            for (int i = 0; i < matches.Count; i++)
+            {
+                if (matches[i].matchID == _matchID)
+                {
+                    return matches[i].songNumber;
+                }
+            }
+            return -1;
+        }
+
+        public int getGameDifficulty(string _matchID)
+        {
+            for (int i = 0; i < matches.Count; i++)
+            {
+                if (matches[i].matchID == _matchID)
+                {
+                    return matches[i].gameDifficulty;
+                }
+            }
+            return -1;
         }
 
         public static string GetRandomMatchID()

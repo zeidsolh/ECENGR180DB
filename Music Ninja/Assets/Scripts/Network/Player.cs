@@ -54,14 +54,18 @@ namespace MirrorBasics
         public void HostGame()
         {
             string matchID = MatchMaker.GetRandomMatchID();
-            CmdHostGame(matchID);
+            int song;
+            song = PlayerPrefs.GetInt("songNumber");
+            int difficulty;
+            difficulty = PlayerPrefs.GetInt("gameDifficulty");
+            CmdHostGame(matchID, song, difficulty);
         }
 
         [Command]
-        void CmdHostGame(string _matchID)
+        void CmdHostGame(string _matchID, int _song, int _difficulty)
         {
             matchID = _matchID;
-            if (MatchMaker.instance.HostGame(_matchID, this, out playerIndex))
+            if (MatchMaker.instance.HostGame(_matchID, this, out playerIndex, _song, _difficulty))
             {
                 Debug.Log($"<color = green>Game Hosted Successfully</color>");
                 networkMatchChecker.matchId = _matchID.ToGuid();
@@ -98,20 +102,28 @@ namespace MirrorBasics
             {
                 Debug.Log($"<color = green>Game Joined Successfully</color>");
                 networkMatchChecker.matchId = _matchID.ToGuid();
-                TargetJoinGame(true, _matchID, playerIndex);
+                int song;
+                song = MatchMaker.instance.getSongNumber(_matchID);
+                int difficulty;
+                difficulty = MatchMaker.instance.getGameDifficulty(_matchID);
+                TargetJoinGame(true, _matchID, playerIndex, song, difficulty);
             }
             else
             {
                 Debug.Log($"<color = red>Game Joined Unsuccessfully</color>");
-                TargetJoinGame(false, _matchID, playerIndex);
+                TargetJoinGame(false, _matchID, playerIndex, 1, 1);
             }
         }
 
         [TargetRpc]
-        void TargetJoinGame(bool success, string _matchID, int _playerIndex)
+        void TargetJoinGame(bool success, string _matchID, int _playerIndex, int songNumber, int gameDifficulty)
         {
             playerIndex = _playerIndex;
             matchID = _matchID;
+            PlayerPrefs.SetInt("songNumber", songNumber);
+            PlayerPrefs.SetInt("gameDifficulty", gameDifficulty);
+            Debug.Log($"song number {PlayerPrefs.GetInt("songNumber")}");
+            Debug.Log($"game difficulty {PlayerPrefs.GetInt("gameDifficulty")}");
             Debug.Log($"MatchID {matchID} == {_matchID}");
             UILobby.instance.JoinSuccess(success, _matchID);
         }
@@ -152,7 +164,7 @@ namespace MirrorBasics
         [Client]
         public void UpdateScore(int score)
         {
-            if (!hasAuthority) return;
+            if (!isOwned) return;
 
             playerScore = score;
             CmdUpdateScore(score);

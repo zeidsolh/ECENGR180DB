@@ -29,6 +29,9 @@ public class MainMenu : MonoBehaviour
     public void Options()
     {
         Debug.Log("Options menu selected.");
+        PlayerPrefs.SetInt("gameDifficulty", 2);
+        PlayerPrefs.SetInt("songNumber", 2);
+        Debug.Log(PlayerPrefs.GetInt("songNumber"));
         //SceneManager.LoadScene(2);
     }
 

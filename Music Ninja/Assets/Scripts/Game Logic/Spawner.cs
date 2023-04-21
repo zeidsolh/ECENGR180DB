@@ -65,7 +65,7 @@ public class Spawner : MonoBehaviour
         if (test)
             Debug.Log("Start Spawner");
 
-        Invoke("LoadNextScene", 30.0f);  // Switch to EndScreen scene after the duration specified
+        Invoke("LoadNextScene", 40.0f);  // Switch to EndScreen scene after the duration specified
 
         // Get song choice using speech recognition
 
