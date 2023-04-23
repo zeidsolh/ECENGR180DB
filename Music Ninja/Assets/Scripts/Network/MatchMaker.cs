@@ -56,7 +56,7 @@ namespace MirrorBasics
                 matchIDs.Add(_matchID);
                 Debug.Log(_song);
                 Debug.Log(_difficulty);
-                matches.Add(new Match(_matchID, _player, _song, _difficulty));
+                matches.Add(new Match(_matchID, _player, _difficulty, _song));
                 Debug.Log($"Match generated");
                 playerIndex = 1;
                 return true;
