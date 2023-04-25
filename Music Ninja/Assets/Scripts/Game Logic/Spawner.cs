@@ -39,6 +39,8 @@ public class Spawner : MonoBehaviour
     public List<Vector3> startPoints = new List<Vector3>();
     public List<Vector3> endPoints = new List<Vector3>();
     private List<float> speedList;
+    private List<(Vector3, Vector3)> positionList;
+    private List<Quaternion> rotationList;
 
     public Vector3 startPosition = new Vector3(0, 1.6f, 50.0f);
     public Vector3 startPositionLeft = new Vector3(-0.8f, 1.6f, 50.0f);
@@ -73,19 +75,30 @@ public class Spawner : MonoBehaviour
         difficultySelected = 1; // for now
         curSong.setDifficulty(difficultySelected);
         curSong.loadScript(ref curSong);
-        speedList = new List<float>(){
+        speedList = new List<float>()
+        {
             curSong.beat() / 8.0f, 
             curSong.beat() / 2f,
             curSong.beat(),
             curSong.beat() * 2
         };
+        positionList = new List<(Vector3 start, Vector3 end)>() 
+        {
+            (startPositionLeft, finalPositionRight),
+            (startPosition, finalPosition),
+            (startPositionRight, finalPositionRight)
+        };
+        rotationList = new List<Quaternion>()
+        {
+            new Quaternion.Euler(0, 0, 180),
+            new Quaternion.Euler(0, 0, 0),
+            new Quaternion.Euler(0, 0, 270),
+            new Quaternion.Euler(0, 0, 90)
+        };
 
         // beat = (60f / curSong.bpm) * 2f;
         speed = speedList[difficultySelected-1]; // set speed
         beat = (60f / curSong.bpm);
-
-        if (test)
-            Debug.Log("curSong Key: " + curSong.getKey() + "++++++++++++++++++++++++++++++++++");
 
         // Decode the song script and populate the following containers: targets, timeBetweenEachNote, startPoints, endPoints
         decodeAndPopulate(curSong.name(), curSong.getKey(), curSong);
@@ -133,14 +146,13 @@ public class Spawner : MonoBehaviour
         delayInProgress = false;
     }
 
-    void decodeAndPopulate(string songName, string sequence, Song curSong)
+    void decodeAndPopulate(string songName, Sequence sequence, Song curSong)
     {
-        if (songName != "" && sequence != "")
+        if (songName != "" && sequence["lane"][0] != 0)
         {
             if (test)
                 Debug.Log("if statement 1.");
 
-            string sequenceKey = sequence;
             // Clear containers
             targets.Clear();
             timeBetweenEachNote.Clear();
@@ -154,98 +166,122 @@ public class Spawner : MonoBehaviour
             float interval = curSong.beat();   // default
 
             // Transcribe the sequence key and populate the "targets" and "timeBetweenEachNote" containers appropriately
-            for (int i = 0; i < sequenceKey.Length - 3; i++)
+            for (int i = 0; i < sequenceKey.Length - 1; i++)
             {
                 // set position variable
-                if (sequenceKey[i + 3] == ',')
+                if (false) 
                 {
-                    if (sequenceKey[i] == 'l')
+                    if (sequenceKey[i + 3] == ',')
                     {
-                        position = startPositionLeft;
-                        positionFinal = finalPositionLeft;
+                        if (sequenceKey[i] == 'l')
+                        {
+                            position = startPositionLeft;
+                            positionFinal = finalPositionLeft;
+                        }
+                        else if (sequenceKey[i] == 'r')
+                        {
+                            position = startPositionRight;
+                            positionFinal = finalPositionRight;
+                        }
+                        else if (sequenceKey[i] == 'm')
+                        {
+                            position = startPosition;   // middle
+                            positionFinal = finalPosition;
+                        }
                     }
-                    else if (sequenceKey[i] == 'r')
-                    {
-                        position = startPositionRight;
-                        positionFinal = finalPositionRight;
-                    }
-                    else if (sequenceKey[i] == 'm')
-                    {
-                        position = startPosition;   // middle
-                        positionFinal = finalPosition;
-                    }
-                }
-                // set rotation variable
-                else if (sequenceKey[i + 2] == ',')
-                {
                     // set rotation variable
-                    if (sequenceKey[i] == 'l')
+                    else if (sequenceKey[i + 2] == ',')
                     {
-                        rotation = Quaternion.Euler(0, 0, 270);
+                        // set rotation variable
+                        if (sequenceKey[i] == 'l')
+                        {
+                            rotation = Quaternion.Euler(0, 0, 270);
+                        }
+                        else if (sequenceKey[i] == 'r')
+                        {
+                            rotation = Quaternion.Euler(0, 0, 90);
+                        }
+                        else if (sequenceKey[i] == 'u')
+                        {
+                            rotation = Quaternion.Euler(0, 0, 180);
+                        }
+                        else if (sequenceKey[i] == 'd')
+                        {
+                            rotation = Quaternion.Euler(0, 0, 0);
+                        }
+                        else if (sequenceKey[i] == 'o')
+                        {
+                            //GameObject ob = Instantiate(obstacle, position, Quaternion.identity);
+                            //obstacles.Add(ob);
+                            if (test)
+                                Debug.Log("Add obstacle here");
+                        }
                     }
-                    else if (sequenceKey[i] == 'r')
+                    // set time since previous note
+                    else if (sequenceKey[i + 1] == ',')
                     {
-                        rotation = Quaternion.Euler(0, 0, 90);
+                        int c = sequenceKey[i] - '0';   // char to int conversion
+                        // set the temporary interval variable appropriately for the next target instantiation
+                        // interval = (60 / bpm) / ( 2 ^ i )
+                        if ((0 < c) && (c <= 4))
+                        {
+                            interval = curSong.beat() / Mathf.Pow(2, c);
+                            interval *= 2f;
+                        }
+                        else if ((4 < c) && (c <= 9))
+                        {
+                            interval = curSong.beat() * (c - 5);
+                            interval *= 2f;
+                        }
+                        else if (c == 0)
+                        {
+                            interval = curSong.beat() / 3.0f;  // triplet
+                            interval *= 2f;
+                        }
+
                     }
-                    else if (sequenceKey[i] == 'u')
+                    // Populate containers w/ objects + data
+                    else if (sequenceKey[i] == ',')
                     {
-                        rotation = Quaternion.Euler(0, 0, 180);
-                    }
-                    else if (sequenceKey[i] == 'd')
-                    {
-                        rotation = Quaternion.Euler(0, 0, 0);
-                    }
-                    else if (sequenceKey[i] == 'o')
-                    {
-                        //GameObject ob = Instantiate(obstacle, position, Quaternion.identity);
-                        //obstacles.Add(ob);
-                        if (test)
-                            Debug.Log("Add obstacle here");
+                        //Debug.Log("interval cur value: " + interval);
+                        // Instantiate a prefab target game object with the temporary fields
+                        GameObject target = Instantiate(prefab, position, rotation);
+
+                        // Add the game object to the "targets" container
+                        targets.Add(target);
+
+
+                        // Update the "startPoints" and "endPoints" containers
+                        startPoints.Add(position);
+                        endPoints.Add(positionFinal);
+
+                        // Update the "timeBetweenEachNote" container by adding the current interval to the end of the list
+                        timeBetweenEachNote.Add(interval);
+                        continue;
                     }
                 }
-                // set time since previous note
-                else if (sequenceKey[i + 1] == ',')
+
+                (position, positionFinal) = positionList[sequence["lane"][i] - 1];
+                rotation = rotationList[sequence["direction"][i] - 1];
+
+                switch (sequence["rate"][i])
                 {
-                    int c = sequenceKey[i] - '0';   // char to int conversion
-                    // set the temporary interval variable appropriately for the next target instantiation
-                    // interval = (60 / bpm) / ( 2 ^ i )
-                    if ((0 < c) && (c <= 4))
-                    {
-                        interval = curSong.beat() / Mathf.Pow(2, c);
-                        interval *= 2f;
-                    }
-                    else if ((4 < c) && (c <= 9))
-                    {
+                    case 0:
+                        interval = curSong.beat() / 3.0f * 2;
+                        break;
+                    case int n when (n > 0 && n <= 4):
+                        interval = curSong.beat() / Mathf.Pow(2, c + 1);
+                    case int n when (n <= 9):
                         interval = curSong.beat() * (c - 5);
-                        interval *= 2f;
-                    }
-                    else if (c == 0)
-                    {
-                        interval = curSong.beat() / 3.0f;  // triplet
-                        interval *= 2f;
-                    }
-
-                }
-                // Populate containers w/ objects + data
-                else if (sequenceKey[i] == ',')
-                {
-                    //Debug.Log("interval cur value: " + interval);
-                    // Instantiate a prefab target game object with the temporary fields
-                    GameObject target = Instantiate(prefab, position, rotation);
-
-                    // Add the game object to the "targets" container
-                    targets.Add(target);
-
-
-                    // Update the "startPoints" and "endPoints" containers
-                    startPoints.Add(position);
-                    endPoints.Add(positionFinal);
-
-                    // Update the "timeBetweenEachNote" container by adding the current interval to the end of the list
-                    timeBetweenEachNote.Add(interval);
-                    continue;
+                    default:
+                        Debug.Log($"Should never reach here");
                 }
 
+                GameObject target = Instantiate(prefab, position, rotation);
+                targets.Add(target); // add game object to "targets" container
+                startPoints.Add(position);
+                endPoints.Add(positionFinal);
+                timeBetweenEachNote.Add(interval);
             }
         }
     }

@@ -1,6 +1,11 @@
 /*
 Description: Instantiate the sequence of all songs
-Future Work: Read from a JSON file
+Future Work: Read from a JSON file or randomly create encoded lists
+*/
+
+/*
+Notes:
+    no consecutive gestures
 */
 
 using System.Collections;

@@ -11,7 +11,7 @@ public class Song
     public int bpm;
     private float initialSpawnerDelay;
     //private int highscore;
-    private string seqKey;  // encoded data for spawner
+    private Sequence seqKey;  // encoded data for spawner
     public float startDelay;    // Used to align the first target with the correct beat
     int m_difficulty;
     public static int highscore;
@@ -118,25 +118,25 @@ public class Song
             //     "md7,md7,md7,md7," +
             //     "###,";
             //test sequence
-            string sequenceKey = "ml7,lr7,mu7,ld7,ll7,rl7,ml7,mr7,lu7,rd7,ll7,rl7,ml7,lr7,ru7,rd7,ml7,ll7,ml7,lr7,mu7,ld7,ll7,rl7,ml7,mr7,lu7,rd7,ll7,rl7,ml7,lr7,ru7,rd7,ml7,ll7" + "###,";
-
-            curSong.setKey(sequenceKey);
+            //string sequenceKey = "ml7,lr7,mu7,ld7,ll7,rl7,ml7,mr7,lu7,rd7,ll7,rl7,ml7,lr7,ru7,rd7,ml7,ll7,ml7,lr7,mu7,ld7,ll7,rl7,ml7,mr7,lu7,rd7,ll7,rl7,ml7,lr7,ru7,rd7,ml7,ll7" + "###,";
+            Sequence seq = new Sequence();
+            curSong.setKey(seq.sequence["test"]);
         }
-        else if (curSong.name() == "Matangi")
-        {
-            startDelay = 8f;
-            string sequenceKey = "ll5,rr9,ll9,rr9,mu9,md9,mu9,md9,ll9,mr3,rr3,rl4,rr4,ml3,ll3,lr4,ll4,lr4,mr4" + "###,";
-            curSong.setKey(sequenceKey);
-        }
-        else if (curSong.name() == "Other Song")
-        {
-            string sequenceKey = "mu0,md3,mu3,md3";
-            curSong.setKey(sequenceKey);
-        }
+        // else if (curSong.name() == "Matangi")
+        // {
+        //     startDelay = 8f;
+        //     string sequenceKey = "ll5,rr9,ll9,rr9,mu9,md9,mu9,md9,ll9,mr3,rr3,rl4,rr4,ml3,ll3,lr4,ll4,lr4,mr4" + "###,";
+        //     curSong.setKey(sequenceKey);
+        // }
+        // else if (curSong.name() == "Other Song")
+        // {
+        //     string sequenceKey = "mu0,md3,mu3,md3";
+        //     curSong.setKey(sequenceKey);
+        // }
     }
-    public void setKey(string seq)
+    public void setKey(Sequence seq)
     {
-        seqKey = seq.ToLower();
+        seqKey = seq;
     }
     public string getKey()
     {
