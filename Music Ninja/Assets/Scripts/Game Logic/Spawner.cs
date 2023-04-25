@@ -90,10 +90,10 @@ public class Spawner : MonoBehaviour
         };
         rotationList = new List<Quaternion>()
         {
-            new Quaternion.Euler(0, 0, 180),
-            new Quaternion.Euler(0, 0, 0),
-            new Quaternion.Euler(0, 0, 270),
-            new Quaternion.Euler(0, 0, 90)
+            Quaternion.Euler(0, 0, 180),
+            Quaternion.Euler(0, 0, 0),
+            Quaternion.Euler(0, 0, 270),
+            Quaternion.Euler(0, 0, 90)
         };
 
         // beat = (60f / curSong.bpm) * 2f;
@@ -146,7 +146,7 @@ public class Spawner : MonoBehaviour
         delayInProgress = false;
     }
 
-    void decodeAndPopulate(string songName, Sequence sequence, Song curSong)
+    void decodeAndPopulate(string songName, Dictionary<string, List<int>> sequence, Song curSong)
     {
         if (songName != "" && sequence["lane"][0] != 0)
         {
@@ -168,120 +168,31 @@ public class Spawner : MonoBehaviour
             // Transcribe the sequence key and populate the "targets" and "timeBetweenEachNote" containers appropriately
             for (int i = 0; i < sequenceKey.Length - 1; i++)
             {
-                // set position variable
-                if (false) 
-                {
-                    if (sequenceKey[i + 3] == ',')
-                    {
-                        if (sequenceKey[i] == 'l')
-                        {
-                            position = startPositionLeft;
-                            positionFinal = finalPositionLeft;
-                        }
-                        else if (sequenceKey[i] == 'r')
-                        {
-                            position = startPositionRight;
-                            positionFinal = finalPositionRight;
-                        }
-                        else if (sequenceKey[i] == 'm')
-                        {
-                            position = startPosition;   // middle
-                            positionFinal = finalPosition;
-                        }
-                    }
-                    // set rotation variable
-                    else if (sequenceKey[i + 2] == ',')
-                    {
-                        // set rotation variable
-                        if (sequenceKey[i] == 'l')
-                        {
-                            rotation = Quaternion.Euler(0, 0, 270);
-                        }
-                        else if (sequenceKey[i] == 'r')
-                        {
-                            rotation = Quaternion.Euler(0, 0, 90);
-                        }
-                        else if (sequenceKey[i] == 'u')
-                        {
-                            rotation = Quaternion.Euler(0, 0, 180);
-                        }
-                        else if (sequenceKey[i] == 'd')
-                        {
-                            rotation = Quaternion.Euler(0, 0, 0);
-                        }
-                        else if (sequenceKey[i] == 'o')
-                        {
-                            //GameObject ob = Instantiate(obstacle, position, Quaternion.identity);
-                            //obstacles.Add(ob);
-                            if (test)
-                                Debug.Log("Add obstacle here");
-                        }
-                    }
-                    // set time since previous note
-                    else if (sequenceKey[i + 1] == ',')
-                    {
-                        int c = sequenceKey[i] - '0';   // char to int conversion
-                        // set the temporary interval variable appropriately for the next target instantiation
-                        // interval = (60 / bpm) / ( 2 ^ i )
-                        if ((0 < c) && (c <= 4))
-                        {
-                            interval = curSong.beat() / Mathf.Pow(2, c);
-                            interval *= 2f;
-                        }
-                        else if ((4 < c) && (c <= 9))
-                        {
-                            interval = curSong.beat() * (c - 5);
-                            interval *= 2f;
-                        }
-                        else if (c == 0)
-                        {
-                            interval = curSong.beat() / 3.0f;  // triplet
-                            interval *= 2f;
-                        }
+                (position, positionFinal) = positionList[sequence["lane"][i] - 1]; // set positions for game object
+                rotation = rotationList[sequence["direction"][i] - 1]; // set direction of gesture for game object
 
-                    }
-                    // Populate containers w/ objects + data
-                    else if (sequenceKey[i] == ',')
-                    {
-                        //Debug.Log("interval cur value: " + interval);
-                        // Instantiate a prefab target game object with the temporary fields
-                        GameObject target = Instantiate(prefab, position, rotation);
-
-                        // Add the game object to the "targets" container
-                        targets.Add(target);
-
-
-                        // Update the "startPoints" and "endPoints" containers
-                        startPoints.Add(position);
-                        endPoints.Add(positionFinal);
-
-                        // Update the "timeBetweenEachNote" container by adding the current interval to the end of the list
-                        timeBetweenEachNote.Add(interval);
-                        continue;
-                    }
-                }
-
-                (position, positionFinal) = positionList[sequence["lane"][i] - 1];
-                rotation = rotationList[sequence["direction"][i] - 1];
-
+                // set the correct spawn rate for game object
                 switch (sequence["rate"][i])
                 {
                     case 0:
                         interval = curSong.beat() / 3.0f * 2;
                         break;
                     case int n when (n > 0 && n <= 4):
-                        interval = curSong.beat() / Mathf.Pow(2, c + 1);
+                        interval = curSong.beat() / Mathf.Pow(2, n + 1);
+                        break;
                     case int n when (n <= 9):
-                        interval = curSong.beat() * (c - 5);
+                        interval = curSong.beat() * (n - 5);
+                        break;
                     default:
                         Debug.Log($"Should never reach here");
+                        break;
                 }
-
-                GameObject target = Instantiate(prefab, position, rotation);
-                targets.Add(target); // add game object to "targets" container
-                startPoints.Add(position);
-                endPoints.Add(positionFinal);
-                timeBetweenEachNote.Add(interval);
+                Debug.Log($"Index {i}, position {position}, positionFinal {positionFinal}, rotation {rotation}, interval {interval}");
+                GameObject t = Instantiate(prefab, position, rotation);
+                targets.Add(t); // add game object to "targets" container
+                startPoints.Add(position); // update start point of game object
+                endPoints.Add(positionFinal); // update end point of game object
+                timeBetweenEachNote.Add(interval); // update rate of game object spawn
             }
         }
     }

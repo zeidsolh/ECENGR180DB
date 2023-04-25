@@ -3,7 +3,10 @@ Description: Each song has a Song class object to keep track of it's name, bpm, 
 Sequencing is explained below.
 */
 
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class Song
 {
@@ -11,7 +14,7 @@ public class Song
     public int bpm;
     private float initialSpawnerDelay;
     //private int highscore;
-    private Sequence seqKey;  // encoded data for spawner
+    private Dictionary<string, List<int>> seqKey;  // encoded data for spawner
     public float startDelay;    // Used to align the first target with the correct beat
     int m_difficulty;
     public static int highscore;
@@ -134,11 +137,11 @@ public class Song
         //     curSong.setKey(sequenceKey);
         // }
     }
-    public void setKey(Sequence seq)
+    public void setKey(Dictionary<string, List<int>> seq)
     {
         seqKey = seq;
     }
-    public string getKey()
+    public Dictionary<string, List<int>> getKey()
     {
         return seqKey;
     }
