@@ -52,7 +52,6 @@ public class Spawner : MonoBehaviour
 
     //public static string songChoice = "Crab Rave";    // for now
     public static string songChoice = "Crab Rave";
-    public string sequenceKey = ""; // for now
     public Song curSong = new Song(songChoice, 125, 0.58f);
     public int difficultySelected;
     private int maxLimit = 999;
@@ -166,7 +165,7 @@ public class Spawner : MonoBehaviour
             float interval = curSong.beat();   // default
 
             // Transcribe the sequence key and populate the "targets" and "timeBetweenEachNote" containers appropriately
-            for (int i = 0; i < sequenceKey.Length - 1; i++)
+            for (int i = 0; i < sequence["lane"].Count - 1; i++)
             {
                 (position, positionFinal) = positionList[sequence["lane"][i] - 1]; // set positions for game object
                 rotation = rotationList[sequence["direction"][i] - 1]; // set direction of gesture for game object
@@ -187,7 +186,10 @@ public class Spawner : MonoBehaviour
                         Debug.Log($"Should never reach here");
                         break;
                 }
-                Debug.Log($"Index {i}, position {position}, positionFinal {positionFinal}, rotation {rotation}, interval {interval}");
+                
+                if (test)
+                    Debug.Log($"Index {i}, position {position}, positionFinal {positionFinal}, rotation {rotation}, interval {interval}");
+                
                 GameObject t = Instantiate(prefab, position, rotation);
                 targets.Add(t); // add game object to "targets" container
                 startPoints.Add(position); // update start point of game object
