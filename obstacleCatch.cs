@@ -8,14 +8,30 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+
 public class obstacleCatch : MonoBehaviour
 {
+    GameObject obsSpawnerObj;
+    obstacleSpawner script;
+
+    void Start()
+    {
+        obsSpawnerObj = GameObject.Find("ObstacleSpawner");
+        script = obsSpawnerObj.GetComponent<obstacleSpawner>();
+        
+        //obstacleSpawner script;
+        //script = ob
+    }
+
     void OnTriggerExit(Collider other)
     {
+        Debug.Log("Obstacle exited collider catch");
         if (other.CompareTag("obstaclePrefab"))
         {
             Destroy(other.gameObject);
-            //obstacles.RemoveAt(obstacles.size() - 1);
+            
+            //script.obstacles.RemoveAt(script.obstacles.Count - 1);
         }
     }
 }

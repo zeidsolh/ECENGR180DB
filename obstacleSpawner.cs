@@ -2,7 +2,7 @@
  Description: obstacleSpawner.cs is used to instantiate and transform 
 (move) obstacles towards the player camera in one of two lanes 
 (left or right) at speed "speed"
-    x for right lane
+    o for right lane
     z for left lane
 Script should be attached to empty obstacleSpawner object in Sample Scene
 obstacle prefab must be dragged from assets into the object field in the inspector window
@@ -23,41 +23,41 @@ public class obstacleSpawner : MonoBehaviour
     public Vector3 obs_finalPositionRight = new Vector3(0.8f, 1.6f, 1.9f);
     public float os;
     public float speed;
+    public float elapsedTime;
 
     // Start is called before the first frame update
     void Start()
     {
         os = Time.time;   // offset from menu screen
-        speed = 0.1f;
+        speed = 0.1f;   // 0.1f - 0.4f
     }
 
     // Update is called once per frame
     void Update()
     {
-        float elapsedTime = Time.time - os;
+        elapsedTime = Time.time - os;
 
-        // If player presses "x" send an obstacle on the right side
-        if (Input.GetKeyDown(KeyCode.X))
+        // If player presses "o" send an obstacle on the right side
+        if (Input.GetKeyDown(KeyCode.O))
         {
-            Debug.Log("user hit x");
-            GameObject ob = Instantiate(obstacle, obs_startPositionRight, Quaternion.identity);
-            obstacles.Add(ob);
-            timeSinceSpawn.Add(elapsedTime);
+            spawnLeft();
         }
 
         // If a player presses "z" send an obstacle on the left side
         if (Input.GetKeyDown(KeyCode.Z))
         {
-            Debug.Log("user hit z");
-            GameObject ob = Instantiate(obstacle, obs_startPositionLeft, Quaternion.identity);
-            obstacles.Add(ob);
-            timeSinceSpawn.Add(elapsedTime);
+            spawnRight();
         }
     
         // If obstacles container is not empty, move all obstacles forward
         for (int f = 0; f < obstacles.Count; f++)
         {
             GameObject obstacle = obstacles[f];
+            if (obstacle == null)
+            {
+                continue;
+            }
+            
             Vector3 obstacleCurrentPosition = obstacle.transform.position;
 
             // Determine startPoint and endPoint for current obstacle
@@ -67,12 +67,12 @@ public class obstacleSpawner : MonoBehaviour
             float xCoord = obstacle.transform.position.x;
             if (xCoord == -0.8f)
             {
-                Debug.Log("Current obstacle position Left ----------------");
+                //Debug.Log("Current obstacle position Left ----------------");
                 obstacleStartPoint = obs_startPositionLeft;
                 obstacleEndPoint = obs_finalPositionLeft;
             } else if (xCoord == 0.8f)
             {
-                Debug.Log("Current obstacle position Right ----------------");
+                //Debug.Log("Current obstacle position Right ----------------");
                 obstacleStartPoint = obs_startPositionRight;
                 obstacleEndPoint = obs_finalPositionRight;
             }
@@ -83,4 +83,22 @@ public class obstacleSpawner : MonoBehaviour
         }
 
     }
+    void spawnLeft()
+    {
+        Debug.Log("user hit o");
+        GameObject ob = Instantiate(obstacle, obs_startPositionRight, Quaternion.identity);
+        obstacles.Add(ob);
+        timeSinceSpawn.Add(elapsedTime);
+    }
+
+    void spawnRight()
+    {
+        Debug.Log("user hit z");
+        GameObject ob = Instantiate(obstacle, obs_startPositionLeft, Quaternion.identity);
+        obstacles.Add(ob);
+        timeSinceSpawn.Add(elapsedTime);
+    }
+
 }
+
+
