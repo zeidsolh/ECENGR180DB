@@ -27,6 +27,8 @@ public class getInput : MonoBehaviour
     private Scorer score;
     public string comment = "";
 
+    public int streak;
+
     void Start()
     {
         //audioSource = GameObject.Find("AudioObject").GetComponent<AudioSource>();
@@ -129,6 +131,8 @@ public class getInput : MonoBehaviour
             Destroy(other.gameObject);
             //targets.RemoveAt(targets.size() - 1);
         }
+
+        streak = score.getStreak();
 
         /* The keyboard version of the game uses the following OnTriggerExit if-else chain to keep score */
         // Check if user input matches current object objectRotation

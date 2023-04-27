@@ -38,6 +38,7 @@ public class Matcher
     private List<Constructs> objects;
     private bool testMode;
     private string outputPath;
+    public int streak;
 
 
     //Add this to store data index
@@ -56,6 +57,7 @@ public class Matcher
         missMatch = new List<int>() { 0, 0 };
         matchedDataIndexes = new List<int>();
         comment = "";
+        streak = 0;
 
         // 0 = null, 1 = up, 2 = down, 3 = left, 4 = right
         if (testMode)
@@ -178,6 +180,7 @@ public class Matcher
                 object_index++;
                 matched++;
                 match = true;
+                streak++;
 
             }
             if (object_index >= objects.Count)
@@ -196,7 +199,7 @@ public class Matcher
                     object_index++;
                     matched++;
                     match = true;
-
+                    streak++;
 
 
                     if (gestureTime < targetTime)
@@ -224,6 +227,12 @@ public class Matcher
                     Debug.Log("Not Matched");
 
                 Debug.Log("Deleted Object");
+
+                if (objects[object_index].Direction != 0)
+                {
+                    streak = 0;
+                }
+
                 objects[object_index].Reason = "Not Matched";
                 objects[object_index].DataAgainst = $"Min: {line.Time[0]}, Max: {line.Time[1]}, Count: {line.Count}";
                 objects[object_index].Consider = false;
@@ -323,5 +332,9 @@ public class Scorer
         count++;
 
         return output;
+    }
+
+    public int getStreak() {
+        return match.streak;
     }
 }
