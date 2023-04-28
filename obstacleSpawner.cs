@@ -14,6 +14,8 @@ using UnityEngine;
 
 public class obstacleSpawner : MonoBehaviour
 {
+    GameObject inputObject; // to access curSong.speed from class Spawner in Spawner.cs attached to G.O. Spawner
+    Spawner inputSpawner;
     public GameObject obstacle;
     public List<float> timeSinceSpawn;
     public List<GameObject> obstacles = new List<GameObject>();
@@ -29,12 +31,21 @@ public class obstacleSpawner : MonoBehaviour
     void Start()
     {
         os = Time.time;   // offset from menu screen
-        speed = 0.1f;   // 0.1f - 0.4f
+
+        inputObject = GameObject.Find("Spawner");
+        inputSpawner = inputObject.GetComponent<Spawner>();
+
+        
+
+        // speed = 0.1f;   // 0.1f - 0.4f
     }
 
     // Update is called once per frame
     void Update()
     {
+        speed = inputSpawner.speed;
+        //Debug.Log("Obstacle speed = " + speed);
+
         elapsedTime = Time.time - os;
 
         // If player presses "o" send an obstacle on the right side
