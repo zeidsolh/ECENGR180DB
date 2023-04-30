@@ -19,7 +19,7 @@ public class score_display_v2 : MonoBehaviour
     int score = 0;
     public Text score_Text;
     public TMP_Text oppEndScreenText;
-    public int totalPossibleNotes;
+    public int totalPossibleNotes = 0;
 
     private void Awake()
     {
@@ -31,7 +31,7 @@ public class score_display_v2 : MonoBehaviour
     {
         inputObject = GameObject.Find("Hitbox Trigger Box");
         inputScript = inputObject.GetComponent<getInput>();
-        score_Text.text = score.ToString();
+        score_Text.text = score.ToString() + " / " + totalPossibleNotes.ToString();
     }
 
     void Update()
@@ -40,8 +40,8 @@ public class score_display_v2 : MonoBehaviour
 
     public void UpdatePoint(int score1)
     {
-        totalPossibleNotes = inputScript.possiblePoints / 4;
-        score_Text.text = score1.ToString();
+        score = score1;
+        score_Text.text = score.ToString() + " / " + totalPossibleNotes.ToString();
         double percent = 0;
         if (totalPossibleNotes == 0)
         {
@@ -49,11 +49,30 @@ public class score_display_v2 : MonoBehaviour
         }
         else
         {
-            percent = Convert.ToDouble(score1) / Convert.ToDouble(totalPossibleNotes);
+            percent = Convert.ToDouble(score) / Convert.ToDouble(totalPossibleNotes);
         }
         percent = percent * 100;
         percent = Math.Truncate(percent);
-        oppEndScreenText.text = "Opponent stats:\n" + "Score " + score1.ToString() + "\n" + percent.ToString() + "% Accuracy";
+        oppEndScreenText.text = "Opponent stats:\n" + "Score " + score.ToString() + "\n" + percent.ToString() + "% Accuracy";
+    }
+
+    public void UpdatePossiblePoint(int score2)
+    {
+        totalPossibleNotes = score2;
+        score_Text.text = score.ToString() + " / " + totalPossibleNotes.ToString();
+        double percent = 0;
+        if (totalPossibleNotes == 0)
+        {
+            percent = 0;
+        }
+        else
+        {
+            percent = Convert.ToDouble(score) / Convert.ToDouble(totalPossibleNotes);
+        }
+        percent = percent * 100;
+        percent = Math.Truncate(percent);
+        oppEndScreenText.text = "Opponent stats:\n" + "Score " + score.ToString() + "\n" + percent.ToString() + "% Accuracy";
+
     }
 
 

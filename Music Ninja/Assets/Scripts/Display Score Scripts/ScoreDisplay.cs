@@ -29,6 +29,7 @@ namespace MirrorBasics
             totalPossibleNotes = inputScript.possiblePoints / 4;
             score = inputScript.playerScore;
             Player.localPlayer.UpdateScore(score);
+            Player.localPlayer.UpdatePossibleScore(totalPossibleNotes);
             
 
             //Player.localPlayer.incrementScore(Player.localPlayer.playerIndex, score);
