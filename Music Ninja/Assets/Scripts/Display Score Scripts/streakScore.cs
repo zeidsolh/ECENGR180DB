@@ -5,6 +5,9 @@ using UnityEngine.UI;
 
 public class streakScore : MonoBehaviour
 {
+
+    public static streakScore instance;
+
     GameObject inputObject;
     getInput inputScript;
     int streak;
@@ -12,6 +15,12 @@ public class streakScore : MonoBehaviour
     int previousStreak;
     public Text streakNumber;
     public Text powerUpNumber;
+
+    private void Awake()
+    {
+
+        instance = this;
+    }
 
     void Start()
     {
@@ -35,5 +44,22 @@ public class streakScore : MonoBehaviour
         }
         streakNumber.text = streak.ToString();
         powerUpNumber.text = powerUps.ToString();
+    }
+
+    public bool positivePowerUps()
+    {
+        if(powerUps >= 1)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public void decrementPowerUps()
+    {
+        powerUps--;
     }
 }

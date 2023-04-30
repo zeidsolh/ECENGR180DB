@@ -37,17 +37,22 @@ namespace MirrorBasics
 
         void Update()
         {
-            if (Input.GetKeyDown(KeyCode.X))
+            if (localPlayer)
             {
-                Player[] players = GameObject.FindObjectsOfType<Player>();
-                foreach (Player player in players)
+                if (Input.GetKeyDown(KeyCode.X) && streakScore.instance.positivePowerUps())
                 {
-                    if(player.GetComponent<Player>() != localPlayer)
+                    Player[] players = GameObject.FindObjectsOfType<Player>();
+                    foreach (Player player in players)
                     {
-                        SendMessageTo(player.gameObject, "hello");
+                        if (player.GetComponent<Player>() != localPlayer)
+                        {
+                            SendMessageTo(player.gameObject, "hello");
+                            streakScore.instance.decrementPowerUps();
+                        }
                     }
                 }
             }
+            
         }
 
         // host game
@@ -265,8 +270,9 @@ namespace MirrorBasics
         [TargetRpc]
         void TargetReceiveMessage(string message)
         {
-            // Display message
+            // Add function to do
             Debug.Log("RECEIVED X");
+            score_display_v2.instance.randomDisplay();
         }
     }
 

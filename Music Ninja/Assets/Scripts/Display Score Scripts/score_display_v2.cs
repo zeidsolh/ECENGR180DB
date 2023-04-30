@@ -75,5 +75,9 @@ public class score_display_v2 : MonoBehaviour
 
     }
 
+    public void randomDisplay()
+    {
+        score_Text.text = "POWER UP";
+    }
 
 }
