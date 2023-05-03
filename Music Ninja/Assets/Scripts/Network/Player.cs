@@ -37,7 +37,7 @@ namespace MirrorBasics
 
         void Update()
         {
-            if (localPlayer)
+            if (isLocalPlayer)
             {
                 if (Input.GetKeyDown(KeyCode.X) && streakScore.instance.positivePowerUps())
                 {
@@ -53,6 +53,11 @@ namespace MirrorBasics
                 }
             }
             
+        }
+
+        public void clientDisconnect()
+        {
+            NetworkClient.Disconnect();
         }
 
         // host game

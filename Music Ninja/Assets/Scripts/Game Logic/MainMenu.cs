@@ -7,6 +7,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -15,12 +16,25 @@ public class MainMenu : MonoBehaviour
 
 {
     [SerializeField] GameObject MainMenuCanvas;
+    public static MainMenu instance;
+    public GameObject NetworkManagerGameObject;
+
+    private void Awake()
+    {
+        instance = this;
+    }
+
+    public void DestroyNetworkManager()
+    {
+        Destroy(NetworkManagerGameObject);
+    }
 
     int n;
     public void OnButtonPress()
     {
         n++;
         Debug.Log("Button clicked " + n + " times.");
+        PlayerPrefs.SetInt("Online", 0);
         //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         MainMenuCanvas.SetActive(false);
         SceneManager.LoadScene(1, LoadSceneMode.Additive);
@@ -38,6 +52,7 @@ public class MainMenu : MonoBehaviour
     public void Multiplayer()
     {
         Debug.Log("Multiplayer menu selected.");
+        PlayerPrefs.SetInt("Online", 1);
         //SceneManager.LoadScene(2);
     }
 

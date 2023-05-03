@@ -51,7 +51,17 @@ namespace MirrorBasics
 
         public void ContinueFunction()
         {
-            SceneManager.LoadScene("MainMenu");
+            if(PlayerPrefs.GetInt("Online", 0) == 0)
+            {
+                MainMenu.instance.DestroyNetworkManager();
+                SceneManager.LoadScene("MainMenu");
+            }
+            else if(PlayerPrefs.GetInt("Online") == 1)
+            {
+                Player.localPlayer.clientDisconnect();
+            }
+            
+            
         }
 
     }
