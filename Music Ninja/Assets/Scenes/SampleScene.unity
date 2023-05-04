@@ -1123,6 +1123,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerScore: 0
+  points_lost_to_obstacles: 0
   audioSource: {fileID: 0}
   possiblePoints: 0
   comment: 
@@ -2176,7 +2177,7 @@ GameObject:
   - component: {fileID: 1718704471}
   m_Layer: 0
   m_Name: Hitbox Trigger Box
-  m_TagString: Untagged
+  m_TagString: Trigger Box
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
@@ -2259,6 +2260,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerScore: 0
+  points_lost_to_obstacles: 0
   audioSource: {fileID: 1718704471}
   possiblePoints: 0
   comment: 

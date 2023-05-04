@@ -5325,7 +5325,7 @@ GameObject:
   - component: {fileID: 1718704471}
   m_Layer: 0
   m_Name: Hitbox Trigger Box
-  m_TagString: Untagged
+  m_TagString: Trigger Box
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
@@ -5408,6 +5408,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerScore: 0
+  points_lost_to_obstacles: 0
   audioSource: {fileID: 1718704471}
   possiblePoints: 0
   comment: 
@@ -6156,7 +6157,7 @@ MonoBehaviour:
   offlineScene: Assets/Scenes/MainMenu.unity
   onlineScene: Assets/Scenes/Lobby.unity
   transport: {fileID: 1951708774}
-  networkAddress: 172.30.73.117
+  networkAddress: 172.20.10.2
   maxConnections: 100
   authenticator: {fileID: 0}
   playerPrefab: {fileID: 2349955937369507092, guid: a8806696858644060b8eb695b43a0fe4, type: 3}
