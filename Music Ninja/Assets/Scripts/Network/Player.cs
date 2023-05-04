@@ -46,7 +46,19 @@ namespace MirrorBasics
                     {
                         if (player.GetComponent<Player>() != localPlayer)
                         {
-                            SendMessageTo(player.gameObject, "hello");
+                            SendMessageTo(player.gameObject, "left");
+                            streakScore.instance.decrementPowerUps();
+                        }
+                    }
+                }
+                if (Input.GetKeyDown(KeyCode.O) && streakScore.instance.positivePowerUps())
+                {
+                    Player[] players = GameObject.FindObjectsOfType<Player>();
+                    foreach (Player player in players)
+                    {
+                        if (player.GetComponent<Player>() != localPlayer)
+                        {
+                            SendMessageTo(player.gameObject, "right");
                             streakScore.instance.decrementPowerUps();
                         }
                     }
@@ -277,7 +289,17 @@ namespace MirrorBasics
         {
             // Add function to do
             Debug.Log("RECEIVED X");
-            score_display_v2.instance.randomDisplay();
+            //score_display_v2.instance.randomDisplay();
+            Debug.Log($"message is {message}");
+            if(message == "left")
+            {
+                obstacleSpawner.instance.spawnLeft();
+            }
+            else
+            {
+                obstacleSpawner.instance.spawnRight();
+            }
+            
         }
     }
 

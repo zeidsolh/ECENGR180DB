@@ -114,8 +114,8 @@ open("file_append.txt", "w").close()
 
 # For webcam input:
 cap = cv2.VideoCapture(0)
-#cap.set(3, 640)
-#cap.set(4, 420)
+cap.set(3, 640)
+cap.set(4, 420)
 
 dataindex=0
 with mp_holistic.Holistic(
@@ -180,7 +180,7 @@ with mp_holistic.Holistic(
 
         #boxdimension
         #boxdimension=int((0.9*abs(leftshoulderx-rightshoulderx))/2)
-        boxdimension = 150
+        boxdimension = 75
         #box for to check if wrist is in
 
         boxcenter=(elbowx, elbowy)

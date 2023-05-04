@@ -16,6 +16,7 @@ public class getInput : MonoBehaviour
 {
     //public Spawner myspawner;
     public int playerScore = 0;
+    public int points_lost_to_obstacles = 0;
     private Transform objectTransform;
     Quaternion objectRotation;
     Vector3 objectPosition;
@@ -123,7 +124,7 @@ public class getInput : MonoBehaviour
     void OnTriggerExit(Collider other)
     {
         score.Update();
-        playerScore = score.score;
+        playerScore = score.score - points_lost_to_obstacles;
         comment = score.getComment();
         //Debug.Log("Object has exited the trigger box region.");
         if (other.CompareTag("targetPrefab"))

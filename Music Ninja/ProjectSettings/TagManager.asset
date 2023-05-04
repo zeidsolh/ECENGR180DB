@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - targetPrefab
+  - obstaclePrefab
+  - Trigger Box
   layers:
   - Default
   - TransparentFX
