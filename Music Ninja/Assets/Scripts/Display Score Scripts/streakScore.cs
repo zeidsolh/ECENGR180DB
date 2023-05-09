@@ -10,8 +10,8 @@ public class streakScore : MonoBehaviour
 
     GameObject inputObject;
     getInput inputScript;
-    int streak;
-    int powerUps;
+    public int streak;
+    public int powerUps;
     int previousStreak;
     public Text streakNumber;
     public Text powerUpNumber;
