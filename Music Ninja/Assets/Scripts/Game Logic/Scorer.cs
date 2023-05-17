@@ -179,6 +179,7 @@ public class Matcher
                 objects[object_index].Consider = false;
                 object_index++;
                 matched++;
+                SoundEffects.instance.PlayEffect();
                 match = true;
                 streak++;
 
@@ -198,6 +199,7 @@ public class Matcher
                     objects[object_index].Consider = false;
                     object_index++;
                     matched++;
+                    SoundEffects.instance.PlayEffect();
                     match = true;
                     streak++;
 

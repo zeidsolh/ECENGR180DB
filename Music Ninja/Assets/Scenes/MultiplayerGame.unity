@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.12731749, g: 0.13414757, b: 0.1210787, a: 1}
+  m_IndirectSpecularColor: {r: 0.12731689, g: 0.13414702, b: 0.1210784, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -3201,6 +3201,7 @@ GameObject:
   - component: {fileID: 1718704470}
   - component: {fileID: 1718704467}
   - component: {fileID: 1718704471}
+  - component: {fileID: 1718704472}
   m_Layer: 0
   m_Name: Hitbox Trigger Box
   m_TagString: Trigger Box
@@ -3314,7 +3315,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: adc5a4251054b124abf906ac4428230b, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -3400,6 +3401,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1718704472
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1718704463}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0dbc4a081b79543b7b122df0d57ffb4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioEffect: {fileID: 1718704471}
 --- !u!1 &1722648919
 GameObject:
   m_ObjectHideFlags: 0
