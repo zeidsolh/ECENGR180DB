@@ -16,8 +16,14 @@ namespace MirrorBasics
         public TMP_Text scoreText;
         public int totalPossibleNotes;
         Button continueButton;
+        public static endScreen instance;
 
         public TMP_Text highScoreText;
+
+        private void Awake()
+        {
+            instance = this;
+        }
 
         void Start()
         {

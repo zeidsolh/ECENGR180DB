@@ -12,35 +12,38 @@ using UnityEngine;
 using UnityEngine.Windows.Speech;
 using UnityEngine.SceneManagement;
 
-public class VoiceMovement : MonoBehaviour
+namespace MirrorBasics
 {
-    private KeywordRecognizer keywordRecognizer;
-    private Dictionary<string, Action> actions = new Dictionary<string, Action>();
-
-    void Start()
+    public class VoiceMovement : MonoBehaviour
     {
-        actions.Add("continue", Continue);
-        actions.Add("play", Play);
+        private KeywordRecognizer keywordRecognizer;
+        private Dictionary<string, Action> actions = new Dictionary<string, Action>();
 
-        keywordRecognizer = new KeywordRecognizer(actions.Keys.ToArray());
-        keywordRecognizer.OnPhraseRecognized += RecognizedSpeech;
-        keywordRecognizer.Start();
-    }
+        void Start()
+        {
+            actions.Add("continue", Continue);
+            actions.Add("play", Play);
 
-    private void RecognizedSpeech(PhraseRecognizedEventArgs speech)
-    {
-        Debug.Log(speech.text);
-        actions[speech.text].Invoke();
-    }
+            keywordRecognizer = new KeywordRecognizer(actions.Keys.ToArray());
+            keywordRecognizer.OnPhraseRecognized += RecognizedSpeech;
+            keywordRecognizer.Start();
+        }
 
-    private void Continue()
-    {
-        SceneManager.LoadScene("MainMenu");
-    }
+        private void RecognizedSpeech(PhraseRecognizedEventArgs speech)
+        {
+            Debug.Log(speech.text);
+            actions[speech.text].Invoke();
+        }
 
-    private void Play()
-    {
-        Debug.Log("PLAY");
-        SceneManager.LoadScene("SampleScene");  // (Crab Rave)
+        private void Continue()
+        {
+            endScreen.instance.ContinueFunction();
+        }
+
+        private void Play()
+        {
+            Debug.Log("PLAY");
+            MainMenu.instance.OnButtonPress();
+        }
     }
 }
