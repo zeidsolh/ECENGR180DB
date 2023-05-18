@@ -66,7 +66,16 @@ public class getInput : MonoBehaviour
             temp_direction = 1;
         }
         Debug.Log(DateTime.Now);
-        score.addObject(DateTime.Now.AddSeconds(0.25), temp_direction);
+        if (other.gameObject.tag == "blueTarget")
+        {
+            score.addObject(DateTime.Now.AddSeconds(0.25), -1, temp_direction);
+            Debug.Log($"Added Left Target With Direction: {temp_direction}");
+        }
+        else
+        {
+            score.addObject(DateTime.Now.AddSeconds(0.25), temp_direction, -1);
+            Debug.Log($"Added Right Target With Direction: {temp_direction}");
+        }
 
 
         //Debug.Log("Object entered the trigger");
@@ -124,13 +133,24 @@ public class getInput : MonoBehaviour
     void OnTriggerExit(Collider other)
     {
         score.Update();
-        playerScore = score.score - points_lost_to_obstacles;
+        if(score.score - points_lost_to_obstacles < 0)
+        {
+            playerScore = 0;
+        }
+        else
+        {
+            playerScore = score.score - points_lost_to_obstacles;
+        }
         comment = score.getComment();
         //Debug.Log("Object has exited the trigger box region.");
         if (other.CompareTag("targetPrefab"))
         {
             Destroy(other.gameObject);
             //targets.RemoveAt(targets.size() - 1);
+        }
+        else if (other.CompareTag("blueTarget"))
+        {
+            Destroy(other.gameObject);
         }
 
         streak = score.getStreak();

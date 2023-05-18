@@ -21,6 +21,7 @@ public class Spawner : MonoBehaviour
     public float offset;
     //float startDelay = 7.1f;   // for now
     public GameObject prefab;
+    public GameObject prefab2;
     public GameObject obstacle;
     public Transform[] points;
     //public float beat = (60f / 125f) * 2f;
@@ -189,12 +190,28 @@ public class Spawner : MonoBehaviour
                 
                 if (test)
                     Debug.Log($"Index {i}, position {position}, positionFinal {positionFinal}, rotation {rotation}, interval {interval}");
-                
-                GameObject t = Instantiate(prefab, position, rotation);
-                targets.Add(t); // add game object to "targets" container
-                startPoints.Add(position); // update start point of game object
-                endPoints.Add(positionFinal); // update end point of game object
-                timeBetweenEachNote.Add(interval); // update rate of game object spawn
+
+                int randomInt = Random.Range(1, 3);
+                if(PlayerPrefs.GetInt("gameDifficulty", 1) == 1)
+                {
+                    randomInt = 1;
+                }
+                if (randomInt == 1)
+                {
+                    GameObject t = Instantiate(prefab, position, rotation);    // orange target (right hand)
+                    targets.Add(t); // add game object to "targets" container
+                    startPoints.Add(position); // update start point of game object
+                    endPoints.Add(positionFinal); // update end point of game object
+                    timeBetweenEachNote.Add(interval); // update rate of game object spawn
+                }
+                else if (randomInt == 2)
+                {
+                    GameObject t = Instantiate(prefab2, position, rotation);   // blue target (left hand)
+                    targets.Add(t); // add game object to "targets" container
+                    startPoints.Add(position); // update start point of game object
+                    endPoints.Add(positionFinal); // update end point of game object
+                    timeBetweenEachNote.Add(interval); // update rate of game object spawn
+                }
             }
         }
     }

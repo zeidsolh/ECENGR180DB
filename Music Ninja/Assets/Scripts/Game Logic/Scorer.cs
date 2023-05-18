@@ -17,8 +17,11 @@ public class Constructs
     public int Count { get; set; }
     public bool Consider { get; set; }
 
+    //added left swipe direction data, note that its coded that if right direction is -1, use the constructs left direction data,else use the right direction data
+    public int DirectionLeft { get; set; }
 
-    public Constructs(DateTime time, int direction, int count = -1)
+
+    public Constructs(DateTime time, int direction, int directionLeft, int count = -1)
     {
         Time = new List<DateTime>()
         {
@@ -30,6 +33,7 @@ public class Constructs
         Direction = direction;
         Count = count;
         Consider = true;
+        DirectionLeft = directionLeft;
     }
 }
 
@@ -53,7 +57,7 @@ public class Matcher
     {
         testMode = false; // set to True to test module
         outputPath = "../Gesture/gesturefile.txt"; // change this to the correct output file
-        objects = new List<Constructs>() { new Constructs(DateTime.Parse("16:36:33.09"), 1) }; // create a seed to keep member variable alive
+        objects = new List<Constructs>() { new Constructs(DateTime.Parse("16:36:33.09"), -1, 1) }; // create a seed to keep member variable alive
         missMatch = new List<int>() { 0, 0 };
         matchedDataIndexes = new List<int>();
         comment = "";
@@ -64,9 +68,9 @@ public class Matcher
         {
             objects = new List<Constructs>()
             {
-                new Constructs(DateTime.Parse("16:36:33.09"), 1, 0),
-                new Constructs(DateTime.Parse("16:36:33.69"), 0, 1),
-                new Constructs(DateTime.Parse("16:36:34.30"), 3, 2)
+                new Constructs(DateTime.Parse("16:36:33.09"), 1,-1, 0),
+                new Constructs(DateTime.Parse("16:36:33.69"), 0, -1,1),
+                new Constructs(DateTime.Parse("16:36:34.30"), 3,-1, 2)
             };
 
             moduleTest();
@@ -116,13 +120,13 @@ public class Matcher
     public void printObjects(List<Constructs> objects)
     {
         foreach (var o in objects)
-            Debug.Log($"Min Time: {o.Time[0].ToString("hh:mm:ss.fff")}, Max Time: {o.Time[1].ToString("hh:mm:ss.fff")}, Direction: {o.Direction}");
+            Debug.Log($"Min Time: {o.Time[0].ToString("hh:mm:ss.fff")}, Max Time: {o.Time[1].ToString("hh:mm:ss.fff")}, Direction: {o.Direction}, Direction Left: {o.DirectionLeft}");
     }
 
     // use to add objects from another file
-    public bool addObject(DateTime time, int direction, int count)
+    public bool addObject(DateTime time, int direction, int directionLeft, int count)
     {
-        Constructs curr = new Constructs(time, direction);
+        Constructs curr = new Constructs(time, direction, directionLeft);
 
         if ((objects[objects.Count - 1].Time[0] == curr.Time[0] && objects[objects.Count - 1].Time[1] == curr.Time[1]) || // data.min == obj.min <= data.max == obj.max
             (curr.Time[0] <= objects[objects.Count - 1].Time[1] && objects[objects.Count - 1].Time[1] <= curr.Time[1]) || // data.min <= obj.max <= data.max
@@ -165,11 +169,28 @@ public class Matcher
             if (object_index >= objects.Count)
                 break;
 
+            //if direction is -1, it means its a left handed target, so look at the left data for matching
+            int correctSwipeHand = 0;
+            int objectDirection = 0;
+            if (objects[object_index].Direction == -1 && objects[object_index].DirectionLeft != -1)
+            {
+                correctSwipeHand = line.DirectionLeft;
+                objectDirection = objects[object_index].DirectionLeft;
+            }
+            else
+            {
+                correctSwipeHand = line.Direction;
+                objectDirection = objects[object_index].Direction;
+            }
+
+
+
+
             if ((
                     (objects[object_index].Time[0] == line.Time[0] && objects[object_index].Time[1] == line.Time[1]) || // data.min == obj.min <= data.max == obj.max
                     (line.Time[0] <= objects[object_index].Time[1] && objects[object_index].Time[1] <= line.Time[1]) || // data.min <= obj.max <= data.max
                     (line.Time[0] <= objects[object_index].Time[0] && objects[object_index].Time[0] <= line.Time[1]) // data.min <= obj.min <= data.max
-                ) && objects[object_index].Direction == line.Direction)
+                ) && objectDirection == correctSwipeHand)
             {
                 if (testMode)
                     Debug.Log("Matched");
@@ -183,10 +204,35 @@ public class Matcher
                 match = true;
                 streak++;
 
+                // DateTime gestureTime = line.Time[0].AddSeconds(Globals.spawnRate / 2);
+                // DateTime targetTime = objects[object_index].Time[0].AddSeconds(Globals.spawnRate / 2);
+
+                // TimeSpan difference= gestureTime-targetTime;
+                // float difsec=(float)difference.Seconds;
+                // float milsec=(float)difference.Milliseconds;
+                // float dif =difsec +milsec*0.001f;
+
+                // if(dif<=0.001)
+                // {
+                //     matched+=15;
+                // }
+                // else if(dif>0.001&&dif<=0.0324)
+                // {
+
+                //     matched+=(int)(-309.59752322f*dif+15.0309597523f);
+                // }
+                // else
+                // {
+                //     matched+=5;
+                // }
+
+                // Debug.Log($"Current Score: {matched}");
+
+
             }
             if (object_index >= objects.Count)
                 break;
-            if (objects[object_index].Direction == line.Direction && !match)
+            if (correctSwipeHand == objectDirection && !match)
             {
                 DateTime gestureTime = line.Time[0].AddSeconds(Globals.spawnRate / 2);
                 DateTime targetTime = objects[object_index].Time[0].AddSeconds(Globals.spawnRate / 2);
@@ -202,6 +248,31 @@ public class Matcher
                     SoundEffects.instance.PlayEffect();
                     match = true;
                     streak++;
+
+
+                    // TimeSpan difference= gestureTime-targetTime;
+                    // float difsec=(float)(Math.Abs(difference.Seconds));
+                    // float milsec=(float)(Math.Abs(difference.Milliseconds));
+                    // float dif =difsec +milsec*0.001f;
+
+                    // Debug.Log($"Dif:{dif}");
+                    // if(dif<=0.001)
+                    // {
+                    //     matched+=15;
+                    // }
+                    // else if(dif>0.001&&dif<=0.0324)
+                    // {
+
+                    //     matched+=(int)(-309.59752322f*dif+15.0309597523f);
+                    // }
+                    // else
+                    // {
+                    //     matched+=5;
+                    // }
+
+
+                    // Debug.Log($"Current Score: {matched}");
+
 
 
                     if (gestureTime < targetTime)
@@ -289,11 +360,22 @@ public class Matcher
             string[] data = line.Split(',');
             string time = data[0].Split(' ')[1]; // get time
 
+            //this was the only right hand methodolgy
             //we should't add nulls, they are mostly pointless?
-            if (data[1] != "null")
-                line_data.Add(new Constructs(DateTime.Parse(time.Substring(0, time.Length - 1)), Int32.Parse(data[1]), Int32.Parse(data[4])));
+            // if (data[1] != "null")
+            //     line_data.Add(new Constructs(DateTime.Parse(time.Substring(0, time.Length - 1)), Int32.Parse(data[1]), Int32.Parse(data[4])));
+            // else
+            //     line_data.Add(new Constructs(DateTime.Parse(time.Substring(0, time.Length - 1)), 0, Int32.Parse(data[4])));
+
+            //added for lefthand
+            if (data[1] != "null" && data[4] != "null")
+                line_data.Add(new Constructs(DateTime.Parse(time.Substring(0, time.Length - 1)), Int32.Parse(data[1]), Int32.Parse(data[4]), Int32.Parse(data[5])));
+            else if (data[1] != "null" && data[4] == "null")
+                line_data.Add(new Constructs(DateTime.Parse(time.Substring(0, time.Length - 1)), Int32.Parse(data[1]), 0, Int32.Parse(data[5])));
+            else if (data[1] == "null" && data[4] != "null")
+                line_data.Add(new Constructs(DateTime.Parse(time.Substring(0, time.Length - 1)), 0, Int32.Parse(data[4]), Int32.Parse(data[5])));
             else
-                line_data.Add(new Constructs(DateTime.Parse(time.Substring(0, time.Length - 1)), 0, Int32.Parse(data[4])));
+                line_data.Add(new Constructs(DateTime.Parse(time.Substring(0, time.Length - 1)), 0, 0, Int32.Parse(data[5])));
         }
 
         return line_data;
@@ -327,16 +409,17 @@ public class Scorer
     {
         return match.comment;
     }
-    public bool addObject(DateTime time, int direction)
+    public bool addObject(DateTime time, int direction, int directionLeft)
     {
-        bool output = match.addObject(time, direction, count);
+        bool output = match.addObject(time, direction, directionLeft, count);
         total++;
         count++;
 
         return output;
     }
 
-    public int getStreak() {
+    public int getStreak()
+    {
         return match.streak;
     }
 }

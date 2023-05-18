@@ -27,16 +27,30 @@ wasInBox=False
 firstRun=True
 protentialGesture=0
 
+#for left hand:
+previousGestureleft=0
+
+onleftShoulderleft=False
+wasOnLeftShoulderleft=False
+belowShoulderleft=False
+wasBelowShoulderleft=False
+wasInBoxleft=False
+firstRunleft=True
+protentialGestureleft=0
+
+
+
+
 def inBoxCheck(x,y,boxlocation,boxdimension):
-    diffx=boxcenter[0]-x
-    diffy=boxcenter[1]-y
+    diffx=boxlocation[0]-x
+    diffy=boxlocation[1]-y
     if abs(diffx)<=boxdimension and abs(diffy)<=boxdimension:
         return True
     else:
         return False
 def directionLeftBoxIn(x,y,boxlocation,boxdimension):
-    diffx=boxcenter[0]-x
-    diffy=boxcenter[1]-y
+    diffx=boxlocation[0]-x
+    diffy=boxlocation[1]-y
     #print("y: " +str(diffy))
     #print("x: " +str(diffx))
     if abs(diffx)>boxdimension and abs(diffy)>boxdimension:
@@ -118,11 +132,15 @@ cap.set(3, 640)
 cap.set(4, 420)
 
 dataindex=0
+
+print("MediaPipe Opened")
 with mp_holistic.Holistic(
     min_detection_confidence=0.5,
     min_tracking_confidence=0.5) as holistic:
+  print("MediaPipe Opened")
   while cap.isOpened():
     recognizegesture='null'
+    recognizegestureleft='null'
     success, image = cap.read()
     if not success:
       print("Ignoring empty camera frame.")
@@ -165,27 +183,42 @@ with mp_holistic.Holistic(
         elbow = results.pose_landmarks.landmark[14]
         elbowx=int(elbow.x*width)
         elbowy=int(elbow.y*height)
+
+        #get left wrist
+        wristleft = results.pose_landmarks.landmark[15]
+        wristxleft=int(wristleft.x*width)
+        wristyleft=int(wristleft.y*height)
+
+        #get  left elbow
+        elbowleft = results.pose_landmarks.landmark[13]
+        elbowxleft=int(elbowleft.x*width)
+        elbowyleft=int(elbowleft.y*height)
         
         #get right shoulder
-        # rightshoulder = results.pose_landmarks.landmark[12]
-        # rightshoulderx=int(rightshoulder.x*width)
-        # rightshouldery=int(rightshoulder.y*height)
+        rightshoulder = results.pose_landmarks.landmark[12]
+        rightshoulderx=int(rightshoulder.x*width)
+        rightshouldery=int(rightshoulder.y*height)
         #cv2.putText(image,str(shoulderx),(shoulderx,shouldery),cv2.FONT_HERSHEY_PLAIN,2,(255,0,0),2)
 
         #get left shoulder
-        # leftshoulder = results.pose_landmarks.landmark[11]
-        # leftshoulderx=int(leftshoulder.x*width)
-        # leftshouldery=int(leftshoulder.y*height)
+        leftshoulder = results.pose_landmarks.landmark[11]
+        leftshoulderx=int(leftshoulder.x*width)
+        leftshouldery=int(leftshoulder.y*height)
         #cv2.putText(image,str(shoulderx),(shoulderx,shouldery),cv2.FONT_HERSHEY_PLAIN,2,(255,0,0),2)
 
         #boxdimension
-        #boxdimension=int((0.9*abs(leftshoulderx-rightshoulderx))/2)
-        boxdimension = 75
+        boxdimension=int((0.9*abs(leftshoulderx-rightshoulderx))/2)
+        #boxdimension = 75
         #box for to check if wrist is in
 
         boxcenter=(elbowx, elbowy)
         boxleft=(boxcenter[0]-boxdimension,boxcenter[1]-boxdimension)
         boxright=(boxcenter[0]+boxdimension,boxcenter[1]+boxdimension)
+
+        #for left hand
+        boxcenterleft=(elbowxleft, elbowyleft)
+        boxleftleft=(boxcenterleft[0]-boxdimension,boxcenterleft[1]-boxdimension)
+        boxrightleft=(boxcenterleft[0]+boxdimension,boxcenterleft[1]+boxdimension)
 
         #get nose
         nose = results.pose_landmarks.landmark[0]
@@ -193,9 +226,37 @@ with mp_holistic.Holistic(
         nosey=int(nose.y*height)
 
         inBox=inBoxCheck(wristx,wristy,boxcenter,boxdimension)
+
+        #is left hand in box:
+        inBoxleft=inBoxCheck(wristxleft,wristyleft,boxcenterleft,boxdimension)
         #cv2.putText(image,"In Box: " + str(inBox),(10,100),cv2.FONT_HERSHEY_PLAIN,1,(255,0,0),1)
         #cv2.putText(image,"Most Recent Gesture: " + directions[previousGesture],(300,100),cv2.FONT_HERSHEY_PLAIN,1,(255,0,0),1)
 
+        
+        #for left hand
+        if wasInBoxleft or firstRunleft:  
+            if firstRunleft:
+                firstRunleft=False
+            if not inBoxleft:
+                directionleft = directionLeftBoxIn(wristxleft,wristyleft,boxcenterleft,boxdimension)
+                #print(direction)
+                wasInBoxleft=False
+                if directionleft ==-1:
+                    #cv2.putText(image,"Gesture: Other ",(300,100),cv2.FONT_HERSHEY_PLAIN,1,(255,0,0),1)
+                    pass
+                else:
+                    previousGestureleft=directionleft
+                    #cv2.putText(image,"Gesture: " + directions[direction],(300,100),cv2.FONT_HERSHEY_PLAIN,1,(255,0,0),1)
+                    recognizegestureleft=directions[directionleft]
+            else:
+                wasInBoxleft = True      
+        else:
+            if inBoxleft:
+                wasInBoxleft=True
+            else:
+                wasInBoxleft=False
+
+        #for the right hand
         if wasInBox or firstRun:  
             if firstRun:
                 firstRun=False
@@ -217,7 +278,15 @@ with mp_holistic.Holistic(
                 wasInBox=True
             else:
                 wasInBox=False
-        data=recognizegesture+','+str(nosex)+ ','+str(nosey)
+
+
+
+
+
+
+
+
+        data=recognizegesture+','+str(nosex)+ ','+str(nosey)+','+recognizegestureleft
         ##changed to buffer to 3 for my version
         ##added time here to make it potentialllt more accurate time
         dataindex+=1
@@ -233,11 +302,13 @@ with mp_holistic.Holistic(
     
     try:
         cv2.rectangle(image,boxleft,boxright,(0,255,0),2)
+        cv2.rectangle(image,boxleftleft,boxrightleft,(255,0,0),2)
     except:
         print("Box Dimensions out of Range")
         pass
     flippedimage =cv2.flip(image, 1)
-    cv2.putText(flippedimage,"Most Recent Gesture: " + directions[previousGesture],(300,100),cv2.FONT_HERSHEY_PLAIN,1,(255,0,0),1)
+    cv2.putText(flippedimage,"Most Recent Gesture Right: " + directions[previousGesture],(330,100),cv2.FONT_HERSHEY_PLAIN,1,(0,255,0),1)
+    cv2.putText(flippedimage,"Most Recent Gesture Left: " + directions[previousGestureleft],(70,100),cv2.FONT_HERSHEY_PLAIN,1,(255,0,0),1)
     scale_percent = 60 # percent of original size
     widthscaled = int(width * scale_percent / 100)
     heightscaled = int(height * scale_percent / 100)

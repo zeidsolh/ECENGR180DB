@@ -26,7 +26,7 @@ namespace MirrorBasics
 
         void Update()
         {
-            totalPossibleNotes = inputScript.possiblePoints / 4;
+            totalPossibleNotes = inputScript.possiblePoints;
             score = inputScript.playerScore;
             Player.localPlayer.UpdateScore(score);
             Player.localPlayer.UpdatePossibleScore(totalPossibleNotes);
