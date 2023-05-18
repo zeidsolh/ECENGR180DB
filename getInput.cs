@@ -1,3 +1,11 @@
+/*
+Description:
+    getInput.cs is attached to the GameObject "Hitbox Trigger Box" to detect when a target passes through the triggering region.
+    OnTriggerEnter invokes addObject on the Scorer object "score" to tell the scorer the timestamp and direction of each target
+    that passes through the region.
+    The keyboard version of the game uses OnTriggerExit to increment score (currently commented out).
+*/
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -20,9 +28,11 @@ public class getInput : MonoBehaviour
     private Scorer score;
     public string comment = "";
 
+    public int streak;
+
     void Start()
     {
-        //audioSource = GameObject.Find("AudioObject").GetComponent<AudioSource>();
+        audioSource = GameObject.Find("AudioObject").GetComponent<AudioSource>();
         score = new Scorer();
         Debug.Log("Created Scorer");
         comment = "";
@@ -114,7 +124,13 @@ public class getInput : MonoBehaviour
     void OnTriggerExit(Collider other)
     {
         score.Update();
-        playerScore = score.score - points_lost_to_obstacles;
+        if (score.score - points_lost_to_obstacles < 0)
+        {
+            playerScore = 0;
+        } else
+        {
+            playerScore = score.score - points_lost_to_obstacles;
+        }
         comment = score.getComment();
         //Debug.Log("Object has exited the trigger box region.");
         if (other.CompareTag("targetPrefab"))
@@ -122,10 +138,14 @@ public class getInput : MonoBehaviour
             Destroy(other.gameObject);
             //targets.RemoveAt(targets.size() - 1);
         }
+        else if (other.CompareTag("blueTarget"))
+        {
+            Destroy(other.gameObject);
+        }
 
+        streak = score.getStreak();
 
-
-
+        /* The keyboard version of the game uses the following OnTriggerExit if-else chain to keep score */
         // Check if user input matches current object objectRotation
         // 90 ==> swipe right, 270 ==> swipe left
         // 180 ==> up, 0 ==> down
@@ -176,6 +196,5 @@ public class getInput : MonoBehaviour
 
         // Print the current score
         //Debug.Log("Player Score: " + playerScore);
-
     }
 }
