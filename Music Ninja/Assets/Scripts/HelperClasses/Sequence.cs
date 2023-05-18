@@ -16,7 +16,7 @@ using System;
 public class Sequence 
 {
     // a name mapping it to a dictionary where it holds the sequence of the song in 3 different vectors -> lane, direction, and timing
-    public Dictionary<string, Dictionary<string, List<int>>> sequence { get; set; } = new Dictionary<string, Dictionary<string, List<int>>>();
+    public Dictionary<string, Dictionary<string, List<float>>> sequence { get; set; } = new Dictionary<string, Dictionary<string, List<float>>>();
 
     public Sequence() 
     {
@@ -24,31 +24,69 @@ public class Sequence
         // "ml7,lr7,mu7,ld7,ll7,rl7,ml7,mr7,lu7,rd7,ll7,rl7,ml7,lr7,ru7,rd7,ml7,ll7" + "###,";
         sequence.Add
         (
-            "test",
-            new Dictionary<string, List<int>>()
+            "test", // name of song
+            new Dictionary<string, List<float>>()
             {
                 {
                     "lane",
-                    new List<int>() // 0 = finish, 1 = left, 2 = middle, 3 = right
-                    {
-                        2, 1, 2, 1, 1, 3, 2, 2, 1 ,3, 1, 3, 2, 1, 3, 3, 2, 1, 0
-                    }
+                    GenerateRandom(20, 3)
+                    // new List<float>() // 0 = finish, 1 = left, 2 = middle, 3 = right
+                    // {
+                    //     2, 1, 2, 1, 1, 3, 2, 2, 1 ,3, 1, 3, 2, 1, 3, 3, 2, 1, 0
+                    // }
                 },
                 {
                     "direction",
-                    new List<int>() // 0 = finish, 1 = up, 2 = down, 3 = left, 4 = right
-                    {
-                        3, 4, 1, 2, 3, 3, 3, 4, 1, 2, 3, 3, 3, 4, 1, 2, 3, 3, 0
-                    }
+                    GenerateRandom(20, 4)
+                    // new List<float>() // 0 = finish, 1 = up, 2 = down, 3 = left, 4 = right
+                    // {
+                    //     3, 4, 1, 2, 3, 3, 3, 4, 1, 2, 3, 3, 3, 4, 1, 2, 3, 3, 0
+                    // }
                 },
                 {
                     "rate",
-                    new List<int>() // 0 = finish, else
+                    new List<float>() // 0 = finish, else
                     {
                         7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 0
+                    }
+                },
+                {
+                    "startDelay",
+                    new List<float>()
+                    {
+                        5.68f - 2.3f - 0.45f - 1.9f + 4f - 5.57f - 0.3f + 2f + 0.51f, 5.68f, 5.58f
+                    }
+                },
+                {
+                    "bpm",
+                    new List<float>()
+                    {
+                        125
                     }
                 }
             }
         );
+    }
+
+    public List<float> GenerateRandom(int length, float maxValue, float minValue = 1, int seed = 0)
+    {
+        Random random = new Random(seed);
+        List<float> floatList = new List<float>();
+        int prev = 0;
+
+        for (int i = 0; i < length - 1; i++)
+        {
+            do
+            {
+                float randomFloat = (float)(random.NextDouble() * (maxValue - minValue) + minValue);
+            } while (randomFloat == prev);
+
+            prev = randomFloat;
+            floatList.Add(randomFloat);
+        }
+
+        floatList.Add(0);
+
+        return floatList;
     }
 }
