@@ -3,11 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public static class Globals
-{
-    public const double spawnRate = 0.13;   // should be larger than minimum time between any two notes
-}
-
 public class Constructs
 {
     public List<DateTime> Time { get; set; }

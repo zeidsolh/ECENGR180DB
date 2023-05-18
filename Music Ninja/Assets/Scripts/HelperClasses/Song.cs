@@ -14,7 +14,7 @@ public class Song
     public int bpm;
     private float initialSpawnerDelay;
     //private int highscore;
-    private Dictionary<string, List<int>> seqKey;  // encoded data for spawner
+    private Dictionary<string, List<float>> seqKey;  // encoded data for spawner
     public float startDelay;    // Used to align the first target with the correct beat
     int m_difficulty;
     public static int highscore;
@@ -137,11 +137,11 @@ public class Song
         //     curSong.setKey(sequenceKey);
         // }
     }
-    public void setKey(Dictionary<string, List<int>> seq)
+    public void setKey(Dictionary<string, List<float>> seq)
     {
         seqKey = seq;
     }
-    public Dictionary<string, List<int>> getKey()
+    public Dictionary<string, List<float>> getKey()
     {
         return seqKey;
     }
