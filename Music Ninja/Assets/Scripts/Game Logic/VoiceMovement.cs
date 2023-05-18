@@ -23,6 +23,7 @@ namespace MirrorBasics
         {
             actions.Add("continue", Continue);
             actions.Add("play", Play);
+            actions.Add("special", PowerUp);
 
             keywordRecognizer = new KeywordRecognizer(actions.Keys.ToArray());
             keywordRecognizer.OnPhraseRecognized += RecognizedSpeech;
@@ -44,6 +45,12 @@ namespace MirrorBasics
         {
             Debug.Log("PLAY");
             MainMenu.instance.OnButtonPress();
+        }
+
+        private void PowerUp()
+        {
+            Debug.Log("Power");
+            Player.localPlayer.sendObstacle("left");
         }
     }
 }

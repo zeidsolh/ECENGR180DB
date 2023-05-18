@@ -37,34 +37,32 @@ namespace MirrorBasics
 
         void Update()
         {
+            if (Input.GetKeyDown(KeyCode.X)){
+                sendObstacle("left");
+            }
+            if (Input.GetKeyDown(KeyCode.O)){
+                sendObstacle("right");
+            }
+            
+        }
+
+        public void sendObstacle(string direction)
+        {
             if (isLocalPlayer)
             {
-                if (Input.GetKeyDown(KeyCode.X) && streakScore.instance.positivePowerUps())
+                if (streakScore.instance.positivePowerUps())
                 {
                     Player[] players = GameObject.FindObjectsOfType<Player>();
                     foreach (Player player in players)
                     {
                         if (player.GetComponent<Player>() != localPlayer)
                         {
-                            SendMessageTo(player.gameObject, "left");
-                            streakScore.instance.decrementPowerUps();
-                        }
-                    }
-                }
-                if (Input.GetKeyDown(KeyCode.O) && streakScore.instance.positivePowerUps())
-                {
-                    Player[] players = GameObject.FindObjectsOfType<Player>();
-                    foreach (Player player in players)
-                    {
-                        if (player.GetComponent<Player>() != localPlayer)
-                        {
-                            SendMessageTo(player.gameObject, "right");
+                            SendMessageTo(player.gameObject, direction);
                             streakScore.instance.decrementPowerUps();
                         }
                     }
                 }
             }
-            
         }
 
         public void clientDisconnect()
