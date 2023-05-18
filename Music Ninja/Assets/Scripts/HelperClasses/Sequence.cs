@@ -68,25 +68,26 @@ public class Sequence
         );
     }
 
-    public List<float> GenerateRandom(int length, float maxValue, float minValue = 1, int seed = 0)
+    public List<float> GenerateRandom(int length, int maxValue, int minValue = 1, int seed = 0)
     {
-        Random random = new Random(seed);
+        System.Random random = new System.Random(seed);
         List<float> floatList = new List<float>();
         int prev = 0;
 
         for (int i = 0; i < length - 1; i++)
-        {
+        {   
+            int randomFloat = 0;
             do
             {
-                float randomFloat = (float)(random.NextDouble() * (maxValue - minValue) + minValue);
+                randomFloat = random.Next() * (maxValue - minValue) + minValue;
             } while (randomFloat == prev);
 
             prev = randomFloat;
-            floatList.Add(randomFloat);
+            floatList.Add((float)randomFloat);
         }
 
         floatList.Add(0);
-        Debug.Log($"Random Generation: Length - {length}, MaxValue - {maxValue}, MinValue - {minValue}, List - {floatlist}");
+        Debug.Log($"Random Generation: Length - {length}, MaxValue - {maxValue}, MinValue - {minValue}, List - {floatList}");
         return floatList;
     }
 }

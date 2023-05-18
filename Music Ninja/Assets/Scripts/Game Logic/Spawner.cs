@@ -145,7 +145,7 @@ public class Spawner : MonoBehaviour
         delayInProgress = false;
     }
 
-    void decodeAndPopulate(string songName, Dictionary<string, List<int>> sequence, Song curSong)
+    void decodeAndPopulate(string songName, Dictionary<string, List<float>> sequence, Song curSong)
     {
         if (songName != "" && sequence["lane"][0] != 0)
         {
@@ -167,11 +167,11 @@ public class Spawner : MonoBehaviour
             // Transcribe the sequence key and populate the "targets" and "timeBetweenEachNote" containers appropriately
             for (int i = 0; i < sequence["lane"].Count - 1; i++)
             {
-                (position, positionFinal) = positionList[sequence["lane"][i] - 1]; // set positions for game object
-                rotation = rotationList[sequence["direction"][i] - 1]; // set direction of gesture for game object
+                (position, positionFinal) = positionList[(int)sequence["lane"][i] - 1]; // set positions for game object
+                rotation = rotationList[(int)sequence["direction"][i] - 1]; // set direction of gesture for game object
 
                 // set the correct spawn rate for game object
-                switch (sequence["rate"][i])
+                switch ((int)sequence["rate"][i])
                 {
                     case 0:
                         interval = curSong.beat() / 3.0f * 2;
