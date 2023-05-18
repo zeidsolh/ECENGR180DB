@@ -86,7 +86,7 @@ public class Sequence
         }
 
         floatList.Add(0);
-
+        Debug.Log($"Random Generation: Length - {length}, MaxValue - {maxValue}, MinValue - {minValue}, List - {floatlist}");
         return floatList;
     }
 }
