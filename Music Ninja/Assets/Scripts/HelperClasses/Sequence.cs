@@ -29,19 +29,17 @@ public class Sequence
             {
                 {
                     "lane",
-                    GenerateRandom(20, 3)
-                    // new List<float>() // 0 = finish, 1 = left, 2 = middle, 3 = right
-                    // {
-                    //     2, 1, 2, 1, 1, 3, 2, 2, 1 ,3, 1, 3, 2, 1, 3, 3, 2, 1, 0
-                    // }
+                    new List<float>() // 0 = finish, 1 = left, 2 = middle, 3 = right
+                    {
+                        2, 1, 2, 1, 1, 3, 2, 2, 1 ,3, 1, 3, 2, 1, 3, 3, 2, 1, 0
+                    }
                 },
                 {
                     "direction",
-                    GenerateRandom(20, 4)
-                    // new List<float>() // 0 = finish, 1 = up, 2 = down, 3 = left, 4 = right
-                    // {
-                    //     3, 4, 1, 2, 3, 3, 3, 4, 1, 2, 3, 3, 3, 4, 1, 2, 3, 3, 0
-                    // }
+                    new List<float>() // 0 = finish, 1 = up, 2 = down, 3 = left, 4 = right
+                    {
+                        3, 4, 1, 2, 3, 3, 3, 4, 1, 2, 3, 3, 3, 4, 1, 2, 3, 3, 0
+                    }
                 },
                 {
                     "rate",
