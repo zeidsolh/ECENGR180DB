@@ -18,6 +18,7 @@ public class MainMenu : MonoBehaviour
     [SerializeField] GameObject MainMenuCanvas;
     public static MainMenu instance;
     public GameObject NetworkManagerGameObject;
+    public GameObject MenuSong;
 
     private void Awake()
     {
@@ -38,6 +39,7 @@ public class MainMenu : MonoBehaviour
         //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         MainMenuCanvas.SetActive(false);
         SceneManager.LoadScene(1, LoadSceneMode.Additive);
+        MenuSong.SetActive(false);
     }
 
     public void Options()

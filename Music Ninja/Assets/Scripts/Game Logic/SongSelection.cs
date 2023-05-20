@@ -7,6 +7,7 @@ public class SongSelection : MonoBehaviour
 {
     public GameObject song1;
     public GameObject song2;
+    public GameObject song3;
 
 
     // Start is called before the first frame update
@@ -22,11 +23,19 @@ public class SongSelection : MonoBehaviour
         {
             song1.SetActive(true);
             song2.SetActive(false);
+            song3.SetActive(false);
         }
         else if (songSelected == 2)
         {
             song1.SetActive(false);
             song2.SetActive(true);
+            song3.SetActive(false);
+        }
+        else if (songSelected == 3)
+        {
+            song1.SetActive(false);
+            song2.SetActive(false);
+            song3.SetActive(true);
         }
     }
 }

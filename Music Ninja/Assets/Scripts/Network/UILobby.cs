@@ -27,6 +27,7 @@ namespace MirrorBasics
         [SerializeField] GameObject UIPlayerPrefab;
         [SerializeField] Text matchIDText;
         [SerializeField] GameObject beginGameButton;
+        [SerializeField] GameObject backButton;
 
         void Start()
         {
@@ -41,6 +42,11 @@ namespace MirrorBasics
 
             Player.localPlayer.HostGame();
 
+        }
+
+        public void BackButton()
+        {
+            Player.localPlayer.clientDisconnect();
         }
 
         public void HostSuccess(bool success, string matchID)
@@ -98,12 +104,14 @@ namespace MirrorBasics
         public void BeginGame()
         {
             lobbyCanvas.enabled = false;
+            backButton.SetActive(false);
             Player.localPlayer.BeginGame();
         }
 
         public void DisableConnect()
         {
             lobbyCanvas.enabled = false;
+            backButton.SetActive(false);
             connectScreen.SetActive(false);
         }
 

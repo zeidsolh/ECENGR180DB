@@ -16,7 +16,7 @@ public class sendingmsg : NetworkBehaviour
         Debug.Log($"Server Score: {newCount}");
         if (!isServer)
         {
-            score_display_v2.instance.UpdatePoint(newCount);
+            //score_display_v2.instance.UpdatePoint(newCount);
         }
         
     }
@@ -57,7 +57,7 @@ public class sendingmsg : NetworkBehaviour
     {
         opponent_score++;
         Debug.Log($"opponent score {opponent_score}");
-        score_display_v2.instance.UpdatePoint(opponent_score);
+        //score_display_v2.instance.UpdatePoint(opponent_score);
     }
 
     [ClientRpc(includeOwner = false)]

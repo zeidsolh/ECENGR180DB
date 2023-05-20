@@ -498,7 +498,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'You Won!
+  m_text: 'Good Game !
 
 '
   m_isRightToLeft: 0
@@ -1627,7 +1627,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 38.6, y: 303}
-  m_SizeDelta: {x: 279.5852, y: 83.6218}
+  m_SizeDelta: {x: 389.5, y: 83.6218}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &873697304
 MonoBehaviour:
@@ -1911,6 +1911,8 @@ MonoBehaviour:
   scoreText: {fileID: 1463914065}
   totalPossibleNotes: 0
   highScoreText: {fileID: 455592896}
+  WonLost: {fileID: 321879501}
+  songName: {fileID: 308284697}
 --- !u!1 &1103743922
 GameObject:
   m_ObjectHideFlags: 0

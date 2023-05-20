@@ -271,6 +271,7 @@ public class Spawner : MonoBehaviour
 
     void LoadNextScene()
     {
+
         //score = getInput.playerscore;
         SceneManager.LoadScene("EndScreen", LoadSceneMode.Additive);
         SongBackground.SetActive(false);

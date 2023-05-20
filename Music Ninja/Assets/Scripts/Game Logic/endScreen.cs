@@ -17,8 +17,10 @@ namespace MirrorBasics
         public int totalPossibleNotes;
         Button continueButton;
         public static endScreen instance;
-
+        double oppPercent = 0;
         public TMP_Text highScoreText;
+        public TMP_Text WonLost;
+        public TMP_Text songName;
 
         private void Awake()
         {
@@ -35,11 +37,25 @@ namespace MirrorBasics
                 PlayerPrefs.SetInt("HighScore", score);
             }
             highScoreText.text = "High Score = " + PlayerPrefs.GetInt("HighScore", 0).ToString();
+            int songSelected;
+            songSelected = PlayerPrefs.GetInt("songNumber", 1);
+            if (songSelected == 1)
+            {
+                songName.text = "Song Playing: Song 1";
+            }
+            else if (songSelected == 2)
+            {
+                songName.text = "Song Playing: Song 2";
+            }
+            else if (songSelected == 3)
+            {
+                songName.text = "Song Playing: Song 3";
+            }
         }
 
         void Update()
         {
-            totalPossibleNotes = inputScript.possiblePoints / 4;
+            totalPossibleNotes = inputScript.possiblePoints;
             score = inputScript.playerScore;
             double percent = 0;
             if (totalPossibleNotes == 0)
@@ -53,6 +69,24 @@ namespace MirrorBasics
             percent = percent * 100;
             percent = Math.Truncate(percent);
             scoreText.text = "Player Name\n" + "Score " + score.ToString() + "\n" + percent.ToString() + "% Accuracy";
+            oppPercent = score_display_v2.instance.getPercent();
+            if (oppPercent > percent)
+            {
+                WonLost.text = "You Lost :(";
+            }
+            else if(oppPercent < percent)
+            {
+                WonLost.text = "You Won :)";
+            }
+            else
+            {
+                WonLost.text = "You drew :)";
+            }
+            if (PlayerPrefs.GetInt("Online", 0) == 0)
+            {
+                WonLost.text = "Good Game!";
+            }
+
         }
 
         public void ContinueFunction()
