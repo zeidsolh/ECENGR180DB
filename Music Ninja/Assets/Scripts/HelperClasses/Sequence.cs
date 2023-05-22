@@ -13,58 +13,61 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
+public class SongData
+{
+    public int bpm { get; set; }
+    public string name { get; set; }
+    public List<float> lane { get; set; }
+    public List<float> direction { get; set; }
+    public List<float> rate { get; set; }
+    public List<float> startDelay { get; set; }
+
+    public SongData(string name, int bpm, List<float> lane, List<float> direction, List<float> rate, List<float> startDelay) 
+    {
+        this.name = name;
+        this.bpm = bpm;
+        this.lane = lane;
+        this.direction = direction;
+        this.rate = rate;
+        this.startDelay = startDelay;
+    }
+}
+
 public class Sequence 
 {
-    // a name mapping it to a dictionary where it holds the sequence of the song in 3 different vectors -> lane, direction, and timing
-    public Dictionary<string, Dictionary<string, List<float>>> sequence { get; set; } = new Dictionary<string, Dictionary<string, List<float>>>();
+    // a name of a song mapping it to the song's data
+    public Dictionary<string, SongData> sequence { get; set; } = new Dictionary<string, SongData>();
 
     public Sequence() 
     {
         // for now, hard code
         // "ml7,lr7,mu7,ld7,ll7,rl7,ml7,mr7,lu7,rd7,ll7,rl7,ml7,lr7,ru7,rd7,ml7,ll7" + "###,";
+        SongData test = new SongData
+        (
+            "test",
+            125,
+            new List<float>() // 0 = finish, 1 = left, 2 = middle, 3 = right
+            {
+                2, 1, 2, 1, 1, 3, 2, 2, 1 ,3, 1, 3, 2, 1, 3, 3, 2, 1, 0
+            },
+            new List<float>() // 0 = finish, 1 = up, 2 = down, 3 = left, 4 = right
+            {
+                3, 4, 1, 2, 3, 3, 3, 4, 1, 2, 3, 3, 3, 4, 1, 2, 3, 3, 0
+            },
+            new List<float>() // 0 = finish, else
+            {
+                7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 0
+            },
+            new List<float>()
+            {
+                5.68f - 2.3f - 0.45f - 1.9f + 4f - 5.57f - 0.3f + 2f + 0.51f, 5.68f, 5.58f
+            }
+        );
+        
         sequence.Add
         (
             "test", // name of song
-            new Dictionary<string, List<float>>()
-            {
-                {
-                    "lane",
-                    GenerateRandom(20, 3)
-                    // new List<float>() // 0 = finish, 1 = left, 2 = middle, 3 = right
-                    // {
-                    //     2, 1, 2, 1, 1, 3, 2, 2, 1 ,3, 1, 3, 2, 1, 3, 3, 2, 1, 0
-                    // }
-                },
-                {
-                    "direction",
-                    GenerateRandom(20, 4)
-                    // new List<float>() // 0 = finish, 1 = up, 2 = down, 3 = left, 4 = right
-                    // {
-                    //     3, 4, 1, 2, 3, 3, 3, 4, 1, 2, 3, 3, 3, 4, 1, 2, 3, 3, 0
-                    // }
-                },
-                {
-                    "rate",
-                    new List<float>() // 0 = finish, else
-                    {
-                        7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 0
-                    }
-                },
-                {
-                    "startDelay",
-                    new List<float>()
-                    {
-                        5.68f - 2.3f - 0.45f - 1.9f + 4f - 5.57f - 0.3f + 2f + 0.51f, 5.68f, 5.58f
-                    }
-                },
-                {
-                    "bpm",
-                    new List<float>()
-                    {
-                        125
-                    }
-                }
-            }
+            test
         );
     }
 

@@ -8,13 +8,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class Song
+public class Song 
 {
     private string m_name; // song name
     public int bpm;
     private float initialSpawnerDelay;
     //private int highscore;
-    private Dictionary<string, List<float>> seqKey;  // encoded data for spawner
+    private SongData seqKey;  // encoded data for spawner
     public float startDelay;    // Used to align the first target with the correct beat
     int m_difficulty;
     public static int highscore;
@@ -137,11 +137,11 @@ public class Song
         //     curSong.setKey(sequenceKey);
         // }
     }
-    public void setKey(Dictionary<string, List<float>> seq)
+    public void setKey(SongData seq)
     {
         seqKey = seq;
     }
-    public Dictionary<string, List<float>> getKey()
+    public SongData getKey()
     {
         return seqKey;
     }
