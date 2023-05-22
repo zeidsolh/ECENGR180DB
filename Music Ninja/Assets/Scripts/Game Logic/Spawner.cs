@@ -49,8 +49,9 @@ public class Spawner : MonoBehaviour
 
 
     //public static string songChoice = "Crab Rave";    // for now
-    public static string songChoice = "Crab Rave";
-    public Song curSong = new Song(songChoice, 125, 0.58f);
+    public static string songChoice = "test";
+    public Sequence seq = new Sequence();
+    public Song curSong;
     public int difficultySelected;
     private int maxLimit = 999;
 
@@ -70,8 +71,6 @@ public class Spawner : MonoBehaviour
 
         // Get difficulty
         difficultySelected = 1; // for now
-        curSong.setDifficulty(difficultySelected);
-        curSong.loadScript(ref curSong);
         positionList = new List<(Vector3 start, Vector3 end)>() 
         {
             (startPositionLeft, finalPositionRight),
@@ -85,14 +84,14 @@ public class Spawner : MonoBehaviour
             Quaternion.Euler(0, 0, 270),
             Quaternion.Euler(0, 0, 90)
         };
-
-        speed = curSong.getKey().speedList[difficultySelected-1]; // set speed
+        curSong = seq.sequence[songChoice];
+        speed = curSong.speedList[difficultySelected-1]; // set speed
 
         // Decode the song script and populate the following containers: targets, timeBetweenEachNote, startPoints, endPoints
-        decodeAndPopulate(curSong.name(), curSong.getKey(), curSong);
+        decodeAndPopulate(curSong);
 
         // Delay execution to synchronize 1st target with the start of the song and call the DelayedPause coroutine with a startDelay second delay
-        StartCoroutine(DelayedPause(curSong.getKey().startDelay[difficultySelected-1])); 
+        StartCoroutine(DelayedPause(curSong.startDelay[difficultySelected-1])); 
     }
 
     void Update()
@@ -134,9 +133,9 @@ public class Spawner : MonoBehaviour
         delayInProgress = false;
     }
 
-    void decodeAndPopulate(string songName, SongData songData, Song curSong)
+    void decodeAndPopulate(Song songData)
     {
-        if (songName != "" && songData.lane[0] != 0)
+        if (songData.name != "" && songData.lane[0] != 0)
         {
             if (test)
                 Debug.Log("if statement 1.");
@@ -207,7 +206,7 @@ public class Spawner : MonoBehaviour
     void move(int numTargets)
     {
         //float elapsedTime = Time.time - startDelay;
-        float elapsedTime = Time.time - curSong.getDelay() - offset;
+        float elapsedTime = Time.time - curSong.startDelay[difficultySelected-1] - offset;
         //Debug.Log(numTargets);
         for (int i = 0; i < numTargets; i++) // add time condition
         {
@@ -215,33 +214,12 @@ public class Spawner : MonoBehaviour
             {
                 GameObject target = activeTargets[i];
                 Vector3 currentPosition = target.transform.position;
-                //Debug.Log("Moving target" + i); 
-                // obstacles
-                /*
-                int f;
-                int m = obstacles.Count;
-                if (i < m)
-                {
-                    f = m-1;
-                } else
-                {
-                    f = i;
-                }
-                GameObject obstacle = obstacles[f];
-                Vector3 obstacleCurrentPosition = obstacle.transform.position;
-                Vector3 obstacleStartPoint = startPoints[i];
-                Vector3 obstacleEndPoint = endPoints[i];
-                */
 
                 Vector3 startPoint = startPoints[i];
                 Vector3 endPoint = endPoints[i];
 
                 currentPosition = startPoint + (endPoint - startPoint) * ((elapsedTime - timeSinceFirstSpawn(i)) * speed);
                 target.transform.position = currentPosition;
-
-                //obstacleCurrentPosition = obstacleStartPoint + (obstacleEndPoint - obstacleStartPoint) * ((elapsedTime - timeSinceFirstSpawn(i)) * speed);
-                //obstacle.transform.position = obstacleCurrentPosition;
-
             }
         }
     }
