@@ -42,7 +42,7 @@ public class streakScore : MonoBehaviour
             powerUps++;
 
         }
-        streakNumber.text = streak.ToString();
+        streakNumber.text = "x"+streak.ToString();
         powerUpNumber.text = powerUps.ToString();
     }
 

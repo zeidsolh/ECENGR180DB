@@ -37,6 +37,7 @@ public class getInput : MonoBehaviour
         score = new Scorer();
         Debug.Log("Created Scorer");
         comment = "";
+        accuracy=0;
     }
 
     void OnTriggerEnter(Collider other)
