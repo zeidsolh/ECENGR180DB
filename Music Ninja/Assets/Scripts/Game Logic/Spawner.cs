@@ -55,7 +55,7 @@ public class Spawner : MonoBehaviour
     public int difficultySelected;
     private int maxLimit = 999;
 
-    private bool test = true;
+    private bool test = false;
 
     //public float duration = 2.0f; // length of Crab Rave in seconds: 163
     void Start()

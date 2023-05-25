@@ -34,7 +34,7 @@ public class MainMenu : MonoBehaviour
     public void OnButtonPress()
     {
         n++;
-        Debug.Log("Button clicked " + n + " times.");
+        //Debug.Log("Button clicked " + n + " times.");
         PlayerPrefs.SetInt("Online", 0);
         //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         MainMenuCanvas.SetActive(false);
@@ -72,7 +72,7 @@ public class MainMenu : MonoBehaviour
     void Start()
     {
         scene = SceneManager.GetActiveScene();
-        Debug.Log("Active Scene name is: " + scene.name + "\nActive Scene index: " + scene.buildIndex);
+        //Debug.Log("Active Scene name is: " + scene.name + "\nActive Scene index: " + scene.buildIndex);
     }
 
 }

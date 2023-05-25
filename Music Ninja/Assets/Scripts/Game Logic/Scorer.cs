@@ -131,7 +131,8 @@ public class Matcher
         }
 
         objects.Add(curr);
-        Debug.Log("Added Object");
+        if (testMode)
+            Debug.Log("Added Object");
         return true;
     }
 
@@ -146,10 +147,15 @@ public class Matcher
     {
         var line_data = createList();
         int object_index = 1, missed = 0, matched = 0;
-        Debug.Log("ObjectsList");
-        printObjects(objects);
-        Debug.Log("MediaPipe");
-        printObjects(line_data);
+
+        if (testMode)
+        {
+            Debug.Log("ObjectsList");
+            printObjects(objects);
+            Debug.Log("MediaPipe");
+            printObjects(line_data);
+        }
+        
         bool match = false;
         comment = "";
         foreach (var line in line_data)
@@ -286,7 +292,7 @@ public class Matcher
             {
                 if (testMode)
                     Debug.Log("Continuing");
-                Debug.Log("Continuing");
+                //Debug.Log("Continuing");
                 continue;
             }
             else// set current object to be deleted because current stream is past the time of current object
@@ -294,7 +300,7 @@ public class Matcher
                 if (testMode)
                     Debug.Log("Not Matched");
 
-                Debug.Log("Deleted Object");
+                //Debug.Log("Deleted Object");
 
                 if (objects[object_index].Direction != 0)
                 {

@@ -16,12 +16,15 @@ namespace MirrorBasics
         public int totalPossibleNotes;
         public TMP_Text endScreenText;
 
+        private bool test = false;
+
         void Start()
         {
             inputObject = GameObject.Find("Hitbox Trigger Box");
             inputScript = inputObject.GetComponent<getInput>();
             score = inputScript.playerScore;
-            Debug.Log("Score Display says score is: " + score);
+            if (test)
+                Debug.Log("Score Display says score is: " + score);
         }
 
         void Update()

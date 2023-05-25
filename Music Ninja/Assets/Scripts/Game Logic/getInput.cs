@@ -30,11 +30,13 @@ public class getInput : MonoBehaviour
 
     public int streak;
 
+    private bool test = false;
+
     void Start()
     {
         //audioSource = GameObject.Find("AudioObject").GetComponent<AudioSource>();
         score = new Scorer();
-        Debug.Log("Created Scorer");
+        //Debug.Log("Created Scorer");
         comment = "";
     }
 
@@ -65,16 +67,20 @@ public class getInput : MonoBehaviour
         {
             temp_direction = 1;
         }
-        Debug.Log(DateTime.Now);
+
+        if (test)
+            Debug.Log(DateTime.Now);
         if (other.gameObject.tag == "blueTarget")
         {
             score.addObject(DateTime.Now.AddSeconds(0.25), -1, temp_direction);
-            Debug.Log($"Added Left Target With Direction: {temp_direction}");
+            if (test)
+                Debug.Log($"Added Left Target With Direction: {temp_direction}");
         }
         else
         {
             score.addObject(DateTime.Now.AddSeconds(0.25), temp_direction, -1);
-            Debug.Log($"Added Right Target With Direction: {temp_direction}");
+            if (test)
+                Debug.Log($"Added Right Target With Direction: {temp_direction}");
         }
 
 

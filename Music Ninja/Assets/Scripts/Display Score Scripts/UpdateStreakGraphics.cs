@@ -31,7 +31,7 @@ public class UpdateStreakGraphics : MonoBehaviour
     
         powerups=streakScript.powerUps;
         streak=streakScript.streak;
-        Debug.Log(streak);
+        //Debug.Log(streak);
         if(powerups>5)
         {
             powerups=5;
