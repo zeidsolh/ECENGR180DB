@@ -38,6 +38,7 @@ public class Matcher
     private bool testMode;
     private string outputPath;
     public int streak;
+    public int accuracy;
 
 
     //Add this to store data index
@@ -57,6 +58,7 @@ public class Matcher
         matchedDataIndexes = new List<int>();
         comment = "";
         streak = 0;
+        accuracy=0;
 
         // 0 = null, 1 = up, 2 = down, 3 = left, 4 = right
         if (testMode)
@@ -194,34 +196,39 @@ public class Matcher
                 objects[object_index].DataAgainst = $"Min: {line.Time[0]}, Max: {line.Time[1]}, Count: {line.Count}";
                 objects[object_index].Consider = false;
                 object_index++;
-                matched++;
+                //matched++;
                 SoundEffects.instance.PlayEffect();
                 match = true;
+                accuracy++;
                 streak++;
+                float streakfactor = (streak<=1)? 1:(((float)streak)/2.0f);
+                
 
-                // DateTime gestureTime = line.Time[0].AddSeconds(Globals.spawnRate / 2);
-                // DateTime targetTime = objects[object_index].Time[0].AddSeconds(Globals.spawnRate / 2);
+                DateTime gestureTime = line.Time[0].AddSeconds(Globals.spawnRate / 2);
+                DateTime targetTime = objects[object_index].Time[0].AddSeconds(Globals.spawnRate / 2);
 
-                // TimeSpan difference= gestureTime-targetTime;
-                // float difsec=(float)difference.Seconds;
-                // float milsec=(float)difference.Milliseconds;
-                // float dif =difsec +milsec*0.001f;
+                TimeSpan difference= gestureTime-targetTime;
+                float difsec=(float)(Math.Abs(difference.Seconds));
+                float milsec=(float)(Math.Abs(difference.Milliseconds));
+        
+                float dif =difsec +milsec*0.001f;  Debug.Log($"Gesture Time: {gestureTime}, Target Time: {targetTime}, Difference: {difference}");
+              
+                if(dif<=0.01)
+                {
+                    matched+=((int)streakfactor)*15;
+                }
+                else if(dif>0.01&&dif<=0.450)
+                {
 
-                // if(dif<=0.001)
-                // {
-                //     matched+=15;
-                // }
-                // else if(dif>0.001&&dif<=0.0324)
-                // {
+                    matched+=((int)streakfactor)*(int)(-22.7273f*dif+15.227273f);
+                }
+                else
+                {
+                    matched+=((int)streakfactor)*5;
+                }
 
-                //     matched+=(int)(-309.59752322f*dif+15.0309597523f);
-                // }
-                // else
-                // {
-                //     matched+=5;
-                // }
 
-                // Debug.Log($"Current Score: {matched}");
+                 Debug.Log($"Current Score: {matched}, Current Streak: {streak}");
 
 
             }
@@ -239,35 +246,37 @@ public class Matcher
                     objects[object_index].DataAgainst = $"Min: {line.Time[0]}, Max: {line.Time[1]}, Count: {line.Count}";
                     objects[object_index].Consider = false;
                     object_index++;
-                    matched++;
+                    //matched++;
                     SoundEffects.instance.PlayEffect();
                     match = true;
+
                     streak++;
+                    float streakfactor = (streak<=1)? 1:(((float)streak)/2.0f);
+                    
+                    accuracy++;
+                    
+                    TimeSpan difference= gestureTime-targetTime;
+                    float difsec=(float)(Math.Abs(difference.Seconds));
+                    float milsec=(float)(Math.Abs(difference.Milliseconds));
+                    float dif =difsec +milsec*0.001f;
+                    Debug.Log($"Gesture Time: {gestureTime}, Target Time: {targetTime}, Min: {min}, Max: {max}, Difference: {difference}");
+                    if(dif<=0.01)
+                    {
+                        matched+=((int)streakfactor)*15;
+                    }
+                    else if(dif>0.01&&dif<=0.450)
+                    {
+
+                        matched+=((int)streakfactor)*(int)(-22.7273f*dif+15.227273f);
+                    }
+                    else
+                    {
+                        matched+=((int)streakfactor)*5;
+                    }
 
 
-                    // TimeSpan difference= gestureTime-targetTime;
-                    // float difsec=(float)(Math.Abs(difference.Seconds));
-                    // float milsec=(float)(Math.Abs(difference.Milliseconds));
-                    // float dif =difsec +milsec*0.001f;
-
-                    // Debug.Log($"Dif:{dif}");
-                    // if(dif<=0.001)
-                    // {
-                    //     matched+=15;
-                    // }
-                    // else if(dif>0.001&&dif<=0.0324)
-                    // {
-
-                    //     matched+=(int)(-309.59752322f*dif+15.0309597523f);
-                    // }
-                    // else
-                    // {
-                    //     matched+=5;
-                    // }
-
-
-                    // Debug.Log($"Current Score: {matched}");
-
+                    Debug.Log($"Current Score: {matched}, Current Streak: {streak}");
+            
 
 
                     if (gestureTime < targetTime)
@@ -383,6 +392,7 @@ public class Scorer
     public int total { get; set; }
     public int score { get; set; }
     public int count { get; set; }
+    public int accuracy { get; set; }
 
     // Start is called before the first frame update
     public Scorer()
@@ -391,6 +401,7 @@ public class Scorer
         total = 0;
         score = 0;
         count = 0;
+        accuracy = 0;
     }
 
     // Update is called once per frame
@@ -398,6 +409,7 @@ public class Scorer
     {
         match.Update();
         score += match.missMatch[1];
+        accuracy=match.accuracy;
     }
 
     public string getComment()

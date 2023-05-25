@@ -13,14 +13,18 @@ namespace MirrorBasics
         getInput inputScript;
         int score;
         public Text scoreText;
+        public Text accuracyText;
         public int totalPossibleNotes;
         public TMP_Text endScreenText;
+        int accuracy;
+        
 
         void Start()
         {
             inputObject = GameObject.Find("Hitbox Trigger Box");
             inputScript = inputObject.GetComponent<getInput>();
             score = inputScript.playerScore;
+            accuracy = inputScript.accuracy;
             Debug.Log("Score Display says score is: " + score);
         }
 
@@ -28,6 +32,7 @@ namespace MirrorBasics
         {
             totalPossibleNotes = inputScript.possiblePoints;
             score = inputScript.playerScore;
+            accuracy = inputScript.accuracy;
             //Player.localPlayer.UpdateScore(score);
             
 
@@ -41,12 +46,14 @@ namespace MirrorBasics
             }
             else
             {
-                percent = Convert.ToDouble(score) / Convert.ToDouble(totalPossibleNotes);
+                //was score
+                percent = Convert.ToDouble(accuracy) / Convert.ToDouble(totalPossibleNotes);
             }
             percent = percent * 100;
             percent = Math.Truncate(percent);
-            scoreText.text = score.ToString() + " / " + totalPossibleNotes + " = " + percent.ToString() + "% Accuracy";
-            endScreenText.text = "Your stats:\n" + "Score " + score.ToString() + "\n" + percent.ToString() + "% Accuracy";
+            scoreText.text = score.ToString(); //+ " / " + totalPossibleNotes + " = " + percent.ToString() + "% Accuracy";
+            accuracyText.text = accuracy.ToString()+ " / " + totalPossibleNotes + " = " + percent.ToString() + "% Accuracy";
+            endScreenText.text = "Your stats:\n" + "Score " + score.ToString() + "\n"; //+ percent.ToString() + "% Accuracy";
         }
 
         void addScore()
