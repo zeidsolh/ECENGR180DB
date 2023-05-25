@@ -11,6 +11,7 @@ namespace MirrorBasics
     public class endScreen : MonoBehaviour
     {
         GameObject inputObject;
+        public GameObject menuSong;
         getInput inputScript;
         int score;
         public TMP_Text scoreText;
@@ -29,6 +30,7 @@ namespace MirrorBasics
 
         void Start()
         {
+            menuSong.SetActive(true);
             inputObject = GameObject.Find("Hitbox Trigger Box");
             inputScript = inputObject.GetComponent<getInput>();
             score = inputScript.playerScore;
@@ -91,7 +93,8 @@ namespace MirrorBasics
 
         public void ContinueFunction()
         {
-            if(PlayerPrefs.GetInt("Online", 0) == 0)
+            menuSong.SetActive(false);
+            if (PlayerPrefs.GetInt("Online", 0) == 0)
             {
                 MainMenu.instance.DestroyNetworkManager();
                 SceneManager.LoadScene("MainMenu");

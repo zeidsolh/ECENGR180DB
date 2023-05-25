@@ -14,6 +14,12 @@ public class options : MonoBehaviour
     [SerializeField] Button song1;
     [SerializeField] Button song2;
     [SerializeField] Button song3;
+    [SerializeField] Button song4;
+    [SerializeField] Button song5;
+    [SerializeField] Button song6;
+
+
+
 
     // Start is called before the first frame update
     void Start()
@@ -26,7 +32,11 @@ public class options : MonoBehaviour
         int level;
         level = PlayerPrefs.GetInt("gameDifficulty", 1);
         int songSelected;
-        songSelected = PlayerPrefs.GetInt("songNumber", 1); 
+        songSelected = PlayerPrefs.GetInt("songNumber", 1);
+        // new...
+        //string song = "";
+
+
         if (level == 1)
         {
             easyButton();
@@ -40,7 +50,7 @@ public class options : MonoBehaviour
             hardButton();
         }
 
-        if(songSelected == 1)
+        if (songSelected == 1)
         {
             songOne();
         }
@@ -48,9 +58,21 @@ public class options : MonoBehaviour
         {
             songTwo();
         }
-        else if(songSelected == 3)
+        else if (songSelected == 3)
         {
             songThree();
+        }
+        else if (songSelected == 4)
+        {
+            songFour();
+        }
+        else if (songSelected == 5)
+        {
+            songFive();
+        }
+        else if (songSelected == 6)
+        {
+            songSix();
         }
 
     }
@@ -85,6 +107,9 @@ public class options : MonoBehaviour
         song1.interactable = false;
         song2.interactable = true;
         song3.interactable = true;
+        song4.interactable = true;
+        song5.interactable = true;
+        song6.interactable = true;
     }
 
     public void songTwo()
@@ -93,6 +118,9 @@ public class options : MonoBehaviour
         song1.interactable = true;
         song2.interactable = false;
         song3.interactable = true;
+        song4.interactable = true;
+        song5.interactable = true;
+        song6.interactable = true;
     }
 
     public void songThree()
@@ -101,6 +129,42 @@ public class options : MonoBehaviour
         song1.interactable = true;
         song2.interactable = true;
         song3.interactable = false;
+        song4.interactable = true;
+        song5.interactable = true;
+        song6.interactable = true;
+    }
+
+    public void songFour()
+    {
+        PlayerPrefs.SetInt("songNumber", 4);
+        song1.interactable = true;
+        song2.interactable = true;
+        song3.interactable = true;
+        song4.interactable = false;
+        song5.interactable = true;
+        song6.interactable = true;
+    }
+
+    public void songFive()
+    {
+        PlayerPrefs.SetInt("songNumber", 5);
+        song1.interactable = true;
+        song2.interactable = true;
+        song3.interactable = true;
+        song4.interactable = true;
+        song5.interactable = false;
+        song6.interactable = true;
+    }
+
+    public void songSix()
+    {
+        PlayerPrefs.SetInt("songNumber", 6);
+        song1.interactable = true;
+        song2.interactable = true;
+        song3.interactable = true;
+        song4.interactable = true;
+        song5.interactable = true;
+        song6.interactable = false;
     }
 
 }

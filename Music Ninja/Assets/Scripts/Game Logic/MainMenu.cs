@@ -38,7 +38,7 @@ public class MainMenu : MonoBehaviour
         PlayerPrefs.SetInt("Online", 0);
         //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         MainMenuCanvas.SetActive(false);
-        SceneManager.LoadScene(1, LoadSceneMode.Additive);
+        SceneManager.LoadScene("SampleScene", LoadSceneMode.Additive);
         MenuSong.SetActive(false);
     }
 
