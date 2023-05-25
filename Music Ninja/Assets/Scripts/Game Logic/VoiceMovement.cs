@@ -23,7 +23,7 @@ namespace MirrorBasics
         {
             actions.Add("continue", Continue);
             actions.Add("play", Play);
-            actions.Add("special", PowerUp);
+            actions.Add("attack", PowerUp);
 
             keywordRecognizer = new KeywordRecognizer(actions.Keys.ToArray());
             keywordRecognizer.OnPhraseRecognized += RecognizedSpeech;
@@ -49,8 +49,9 @@ namespace MirrorBasics
 
         private void PowerUp()
         {
-            Debug.Log("Power");
+            Debug.Log("attack");
             Player.localPlayer.sendObstacle("left");
+            Player.localPlayer.sendObstacle("right");
         }
     }
 }
