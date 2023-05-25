@@ -24,8 +24,6 @@ public class Spawner : MonoBehaviour
     public GameObject prefab2;
     public GameObject obstacle;
     public Transform[] points;
-    //public float beat = (60f / 125f) * 2f;
-    public float beat;  // = (60f / curSong.bpm()) * 2f;
     private float timer;
     public float speed;
     public float timeSinceLastSpawn = 0;
@@ -39,7 +37,6 @@ public class Spawner : MonoBehaviour
     public List<float> timeBetweenEachNote = new List<float>();
     public List<Vector3> startPoints = new List<Vector3>();
     public List<Vector3> endPoints = new List<Vector3>();
-    private List<float> speedList;
     private List<(Vector3, Vector3)> positionList;
     private List<Quaternion> rotationList;
 
@@ -52,8 +49,9 @@ public class Spawner : MonoBehaviour
 
 
     //public static string songChoice = "Crab Rave";    // for now
-    public static string songChoice = "Crab Rave";
-    public Song curSong = new Song(songChoice, 125, 0.58f);
+    public static string songChoice = "test";
+    public Sequence seq = new Sequence();
+    public Song curSong;
     public int difficultySelected;
     private int maxLimit = 999;
 
@@ -67,22 +65,13 @@ public class Spawner : MonoBehaviour
         if (test)
             Debug.Log("Start Spawner");
 
-        Invoke("LoadNextScene", 80.0f);  // Switch to EndScreen scene after the duration specified
+        Invoke("LoadNextScene", 40.0f);  // Switch to EndScreen scene after the duration specified
 
         // Get song choice using speech recognition
 
         // Get difficulty
         difficultySelected = 1; // for now
-        curSong.setDifficulty(difficultySelected);
-        curSong.loadScript(ref curSong);
-        speedList = new List<float>()
-        {
-            curSong.beat() / 8.0f, //was 16 for tutorial
-            curSong.beat() / 2f,
-            curSong.beat(),
-            curSong.beat() * 2
-        };
-        positionList = new List<(Vector3 start, Vector3 end)>() 
+        positionList = new List<(Vector3 start, Vector3 end)>()
         {
             (startPositionLeft, finalPositionRight),
             (startPosition, finalPosition),
@@ -95,16 +84,14 @@ public class Spawner : MonoBehaviour
             Quaternion.Euler(0, 0, 270),
             Quaternion.Euler(0, 0, 90)
         };
-
-        // beat = (60f / curSong.bpm) * 2f;
-        speed = speedList[difficultySelected-1]; // set speed
-        beat = (60f / curSong.bpm);
+        curSong = seq.sequence[songChoice];
+        speed = curSong.speedList[difficultySelected - 1]; // set speed
 
         // Decode the song script and populate the following containers: targets, timeBetweenEachNote, startPoints, endPoints
-        decodeAndPopulate(curSong.name(), curSong.getKey(), curSong);
+        decodeAndPopulate(curSong);
 
         // Delay execution to synchronize 1st target with the start of the song and call the DelayedPause coroutine with a startDelay second delay
-        StartCoroutine(DelayedPause(curSong.getDelay())); 
+        StartCoroutine(DelayedPause(curSong.startDelay[difficultySelected - 1]));
     }
 
     void Update()
@@ -146,9 +133,9 @@ public class Spawner : MonoBehaviour
         delayInProgress = false;
     }
 
-    void decodeAndPopulate(string songName, Dictionary<string, List<float>> sequence, Song curSong)
+    void decodeAndPopulate(Song songData)
     {
-        if (songName != "" && sequence["lane"][0] != 0)
+        if (songData.name != "" && songData.lane[0] != 0)
         {
             if (test)
                 Debug.Log("if statement 1.");
@@ -163,36 +150,36 @@ public class Spawner : MonoBehaviour
             Quaternion rotation = Quaternion.Euler(0, 0, 180);  // default
             Vector3 position = startPosition;   // default
             Vector3 positionFinal = finalPosition;  // default
-            float interval = curSong.beat();   // default
+            float interval = songData.beat;   // default
 
             // Transcribe the sequence key and populate the "targets" and "timeBetweenEachNote" containers appropriately
-            for (int i = 0; i < sequence["lane"].Count - 1; i++)
+            for (int i = 0; i < songData.lane.Count - 1; i++)
             {
-                (position, positionFinal) = positionList[(int)sequence["lane"][i] - 1]; // set positions for game object
-                rotation = rotationList[(int)sequence["direction"][i] - 1]; // set direction of gesture for game object
+                (position, positionFinal) = positionList[songData.lane[i] - 1]; // set positions for game object
+                rotation = rotationList[songData.direction[i] - 1]; // set direction of gesture for game object
 
                 // set the correct spawn rate for game object
-                switch ((int)sequence["rate"][i])
+                switch (songData.rate[i])
                 {
                     case 0:
-                        interval = curSong.beat() / 3.0f * 2;
+                        interval = songData.beat / 3.0f * 2;
                         break;
                     case int n when (n > 0 && n <= 4):
-                        interval = curSong.beat() / Mathf.Pow(2, n + 1);
+                        interval = songData.beat / Mathf.Pow(2, n + 1);
                         break;
                     case int n when (n <= 9):
-                        interval = curSong.beat() * (n - 5);
+                        interval = songData.beat * (n - 5);
                         break;
                     default:
                         Debug.Log($"Should never reach here");
                         break;
                 }
-                
+
                 if (test)
                     Debug.Log($"Index {i}, position {position}, positionFinal {positionFinal}, rotation {rotation}, interval {interval}");
 
                 int randomInt = Random.Range(1, 3);
-                if(PlayerPrefs.GetInt("gameDifficulty", 1) == 1)
+                if (PlayerPrefs.GetInt("gameDifficulty", 1) == 1)
                 {
                     randomInt = 1;
                 }
@@ -219,7 +206,7 @@ public class Spawner : MonoBehaviour
     void move(int numTargets)
     {
         //float elapsedTime = Time.time - startDelay;
-        float elapsedTime = Time.time - curSong.getDelay() - offset;
+        float elapsedTime = Time.time - curSong.startDelay[difficultySelected - 1] - offset;
         //Debug.Log(numTargets);
         for (int i = 0; i < numTargets; i++) // add time condition
         {
@@ -227,33 +214,12 @@ public class Spawner : MonoBehaviour
             {
                 GameObject target = activeTargets[i];
                 Vector3 currentPosition = target.transform.position;
-                //Debug.Log("Moving target" + i); 
-                // obstacles
-                /*
-                int f;
-                int m = obstacles.Count;
-                if (i < m)
-                {
-                    f = m-1;
-                } else
-                {
-                    f = i;
-                }
-                GameObject obstacle = obstacles[f];
-                Vector3 obstacleCurrentPosition = obstacle.transform.position;
-                Vector3 obstacleStartPoint = startPoints[i];
-                Vector3 obstacleEndPoint = endPoints[i];
-                */
 
                 Vector3 startPoint = startPoints[i];
                 Vector3 endPoint = endPoints[i];
 
                 currentPosition = startPoint + (endPoint - startPoint) * ((elapsedTime - timeSinceFirstSpawn(i)) * speed);
                 target.transform.position = currentPosition;
-
-                //obstacleCurrentPosition = obstacleStartPoint + (obstacleEndPoint - obstacleStartPoint) * ((elapsedTime - timeSinceFirstSpawn(i)) * speed);
-                //obstacle.transform.position = obstacleCurrentPosition;
-
             }
         }
     }
@@ -271,6 +237,7 @@ public class Spawner : MonoBehaviour
 
     void LoadNextScene()
     {
+
         //score = getInput.playerscore;
         SceneManager.LoadScene("EndScreen", LoadSceneMode.Additive);
         SongBackground.SetActive(false);
