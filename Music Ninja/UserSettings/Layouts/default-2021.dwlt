@@ -19,7 +19,7 @@ MonoBehaviour:
     width: 1512
     height: 844
   m_ShowMode: 4
-  m_Title: Game
+  m_Title: Hierarchy
   m_RootView: {fileID: 2}
   m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
@@ -119,7 +119,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 200}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
-  controlID: 101
+  controlID: 39
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -144,7 +144,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 200}
   m_MaxSize: {x: 16192, y: 16192}
   vertical: 1
-  controlID: 102
+  controlID: 40
 --- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -169,7 +169,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 100}
   m_MaxSize: {x: 16192, y: 8096}
   vertical: 0
-  controlID: 103
+  controlID: 41
 --- !u!114 &8
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -233,7 +233,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 1
   m_Script: {fileID: 12006, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: ProjectBrowser
+  m_Name: ConsoleWindow
   m_EditorClassIdentifier: 
   m_Children: []
   m_Position:
@@ -242,14 +242,14 @@ MonoBehaviour:
     y: 460.5
     width: 1167
     height: 333.5
-  m_MinSize: {x: 231, y: 271}
-  m_MaxSize: {x: 10001, y: 10021}
-  m_ActualView: {fileID: 16}
+  m_MinSize: {x: 101, y: 121}
+  m_MaxSize: {x: 4001, y: 4021}
+  m_ActualView: {fileID: 12}
   m_Panes:
   - {fileID: 16}
   - {fileID: 12}
-  m_Selected: 0
-  m_LastSelected: 1
+  m_Selected: 1
+  m_LastSelected: 0
 --- !u!114 &11
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -336,9 +336,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 54710000
+      m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: 566bffff406cffffda6cffffdc6cffffe67affff667dffff5e82ffff0a88ffff2a97ffff6098ffffc898ffff2499ffffe89fffff2ea5ffff9ca5ffffe6a5fffff0a6ffff2aa7ffff6eacffff76b1ffff24b4ffff90b5ffff5ab8ffffb0c1ffff8ee6ffff32e7ffff8ce7ffff52eaffff40f8ffff32fbffff5c8200008ab20000bab20000dcb20000f0b2000012b3000054b30000ccb60000ecb60000a4b7000024b80000bcb80000a0bb00005ac80000fac8000004c900000ec900001ac90000b0c900007cca000068cd0000f4cd000008ce000012ce00001cce000028ce0000b4e1000042e2000028e30000cef900004efa0000f8fa00003e060100480601006a0601009c1c0100e21c0100ec1c01006c1d0100761d01005a1e0100661e01006a1e0100
+      m_ExpandedIDs: 32fbffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -833,13 +833,13 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Scenes
+    - Assets/prefabs
     m_Globs: []
     m_OriginalText: 
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/Scenes
+  - Assets/prefabs
   m_LastFoldersGridSize: -1
   m_LastProjectPath: /Users/zeidsolh/Library/Mobile Documents/com~apple~CloudDocs/Studies/UCLA/UCLA
     Quarter 12/EC ENGR 180DB/Project/ECENGR180DB/Music Ninja
@@ -849,7 +849,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 53.999634}
     m_SelectedIDs: 00710000
     m_LastClickedID: 28928
-    m_ExpandedIDs: 00000000e67000000271000000ca9a3bffffff7f
+    m_ExpandedIDs: 00000000e6700000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -902,8 +902,8 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: 
-    m_LastClickedInstanceID: 0
+    m_SelectedInstanceIDs: 34700000
+    m_LastClickedInstanceID: 28724
     m_HadKeyboardFocusLastEvent: 1
     m_ExpandedInstanceIDs: c623000000000000
     m_RenameOverlay:
