@@ -77,7 +77,7 @@ public class Spawner : MonoBehaviour
         curSong.loadScript(ref curSong);
         speedList = new List<float>()
         {
-            curSong.beat() / 8.0f, 
+            curSong.beat() / 8.0f, //was 16 for tutorial
             curSong.beat() / 2f,
             curSong.beat(),
             curSong.beat() * 2

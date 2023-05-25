@@ -29,6 +29,7 @@ public class getInput : MonoBehaviour
     public string comment = "";
 
     public int streak;
+    public int accuracy;
 
     void Start()
     {
@@ -154,6 +155,7 @@ public class getInput : MonoBehaviour
         }
 
         streak = score.getStreak();
+        accuracy =score.accuracy;
 
         /* The keyboard version of the game uses the following OnTriggerExit if-else chain to keep score */
         // Check if user input matches current object objectRotation
