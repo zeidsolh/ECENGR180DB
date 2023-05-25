@@ -2128,7 +2128,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9b41d0baaefabd4da5133c32340f4f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SongBackground: {fileID: 0}
+  SongBackground: {fileID: 518079079}
   CurrentScoreDisplay: {fileID: 1994352407}
   EndScoreDisplay: {fileID: 1245739754}
   SpawnerObject: {fileID: 997524072}
