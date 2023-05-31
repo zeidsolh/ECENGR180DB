@@ -14,11 +14,13 @@ namespace MirrorBasics
         public GameObject menuSong;
         getInput inputScript;
         int score;
+        int rawScore;
         public TMP_Text scoreText;
         public int totalPossibleNotes;
         Button continueButton;
         public static endScreen instance;
         double oppPercent = 0;
+        int oppScore = 0;
         public TMP_Text highScoreText;
         public TMP_Text WonLost;
         public TMP_Text songName;
@@ -34,7 +36,8 @@ namespace MirrorBasics
             inputObject = GameObject.Find("Hitbox Trigger Box");
             inputScript = inputObject.GetComponent<getInput>();
             score = inputScript.playerScore;
-            if(score > PlayerPrefs.GetInt("HighScore", 0))
+            rawScore = inputScript.accuracy;
+            if (score > PlayerPrefs.GetInt("HighScore", 0))
             {
                 PlayerPrefs.SetInt("HighScore", score);
             }
@@ -59,6 +62,7 @@ namespace MirrorBasics
         {
             totalPossibleNotes = inputScript.possiblePoints;
             score = inputScript.playerScore;
+            rawScore = inputScript.accuracy;
             double percent = 0;
             if (totalPossibleNotes == 0)
             {
@@ -66,17 +70,18 @@ namespace MirrorBasics
             }
             else
             {
-                percent = Convert.ToDouble(score) / Convert.ToDouble(totalPossibleNotes);
+                percent = Convert.ToDouble(rawScore) / Convert.ToDouble(totalPossibleNotes);
             }
             percent = percent * 100;
             percent = Math.Truncate(percent);
             scoreText.text = "Player Name\n" + "Score " + score.ToString() + "\n" + percent.ToString() + "% Accuracy";
             oppPercent = score_display_v2.instance.getPercent();
-            if (oppPercent > percent)
+            oppScore = score_display_v2.instance.getOppScore();
+            if (oppScore > score)
             {
                 WonLost.text = "You Lost :(";
             }
-            else if(oppPercent < percent)
+            else if(oppScore < score)
             {
                 WonLost.text = "You Won :)";
             }

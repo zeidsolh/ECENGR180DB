@@ -20,8 +20,10 @@ namespace MirrorBasics
         int score = 0;
         double percent = 0;
         public Text score_Text;
+        public Text mult_score_Text;
         public TMP_Text oppEndScreenText;
         public int totalPossibleNotes = 0;
+        int rawScore = 0;
 
         private void Awake()
         {
@@ -33,7 +35,8 @@ namespace MirrorBasics
         {
             inputObject = GameObject.Find("Hitbox Trigger Box");
             inputScript = inputObject.GetComponent<getInput>();
-            score_Text.text = score.ToString() + " / " + totalPossibleNotes.ToString();
+            score_Text.text = rawScore.ToString() + " / " + totalPossibleNotes.ToString() + " = " + percent.ToString() + "%";
+            mult_score_Text.text = score.ToString();
         }
 
         void Update()
@@ -43,17 +46,18 @@ namespace MirrorBasics
         public void UpdatePoint(int score1)
         {
             score = score1;
-            score_Text.text = score.ToString() + " / " + totalPossibleNotes.ToString();
+            mult_score_Text.text = score.ToString();
             if (totalPossibleNotes == 0)
             {
                 percent = 0;
             }
             else
             {
-                percent = Convert.ToDouble(score) / Convert.ToDouble(totalPossibleNotes);
+                percent = Convert.ToDouble(rawScore) / Convert.ToDouble(totalPossibleNotes);
             }
             percent = percent * 100;
             percent = Math.Truncate(percent);
+            score_Text.text = rawScore.ToString() + " / " + totalPossibleNotes.ToString() + " = " + percent.ToString() + "%";
             oppEndScreenText.text = "Opponent stats:\n" + "Score " + score.ToString() + "\n" + percent.ToString() + "% Accuracy";
             Debug.Log($"Percent{percent}");
         }
@@ -61,17 +65,38 @@ namespace MirrorBasics
         public void UpdatePossiblePoint(int score2)
         {
             totalPossibleNotes = score2;
-            score_Text.text = score.ToString() + " / " + totalPossibleNotes.ToString();
+            mult_score_Text.text = score.ToString();
             if (totalPossibleNotes == 0)
             {
                 percent = 0;
             }
             else
             {
-                percent = Convert.ToDouble(score) / Convert.ToDouble(totalPossibleNotes);
+                percent = Convert.ToDouble(rawScore) / Convert.ToDouble(totalPossibleNotes);
             }
             percent = percent * 100;
             percent = Math.Truncate(percent);
+            score_Text.text = rawScore.ToString() + " / " + totalPossibleNotes.ToString() + " = " + percent.ToString() + "%";
+            oppEndScreenText.text = "Opponent stats:\n" + "Score " + score.ToString() + "\n" + percent.ToString() + "% Accuracy";
+
+        }
+
+        public void UpdateRawPoint(int score3)
+        {
+            rawScore = score3;
+            mult_score_Text.text = score.ToString();
+            if (totalPossibleNotes == 0)
+            {
+                percent = 0;
+            }
+            else
+            {
+                percent = Convert.ToDouble(rawScore) / Convert.ToDouble(totalPossibleNotes);
+            }
+            percent = percent * 100;
+            percent = Math.Truncate(percent);
+            Debug.Log($"PERCENT IS {percent}");
+            score_Text.text = rawScore.ToString() + " / " + totalPossibleNotes.ToString() + " = " + percent.ToString() + "%";
             oppEndScreenText.text = "Opponent stats:\n" + "Score " + score.ToString() + "\n" + percent.ToString() + "% Accuracy";
 
         }
@@ -83,6 +108,11 @@ namespace MirrorBasics
 
         public double getPercent() {
             return percent;
+        }
+
+        public int getOppScore()
+        {
+            return score;
         }
 
     }

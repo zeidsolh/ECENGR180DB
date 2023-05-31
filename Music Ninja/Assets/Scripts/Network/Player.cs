@@ -17,6 +17,7 @@ namespace MirrorBasics
         [SyncVar] public int playerIndex;
         [SyncVar(hook = nameof(ScoreUpdated))] public int playerScore;
         [SyncVar(hook = nameof(possibleScoreUpdated))] public int possibleScore;
+        [SyncVar(hook = nameof(RawScoreUpdated))] public int playerRawScore;
 
         NetworkMatch networkMatchChecker;
 
@@ -258,6 +259,48 @@ namespace MirrorBasics
         void RpcPossibleScoreUpdated(int score)
         {
             score_display_v2.instance.UpdatePossiblePoint(score);
+        }
+
+        // update raw score to server
+        [Client]
+        public void UpdateRawScore(int score)
+        {
+            if (!isOwned) return;
+
+            playerRawScore = score;
+            CmdUpdateRawScore(score);
+        }
+
+        [Command]
+        void CmdUpdateRawScore(int score)
+        {
+            playerRawScore = score;
+        }
+
+
+
+
+
+
+        // update score to clients
+        //[SyncVar(hook = nameof(ScoreUpdated))] int score;
+
+        void RawScoreUpdated(int oldScore, int newScore)
+        {
+            Debug.Log($"NEW SCORE {newScore}");
+            score_display_v2.instance.UpdateRawPoint(newScore);
+        }
+
+        [Server]
+        void ScoreRawUpdated(int score)
+        {
+            RpcRawScoreUpdated(score);
+        }
+
+        [ClientRpc]
+        void RpcRawScoreUpdated(int score)
+        {
+            score_display_v2.instance.UpdateRawPoint(score);
         }
 
 

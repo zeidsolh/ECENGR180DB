@@ -52,8 +52,8 @@ namespace MirrorBasics
             percent = percent * 100;
             percent = Math.Truncate(percent);
             scoreText.text = score.ToString(); //+ " / " + totalPossibleNotes + " = " + percent.ToString() + "% Accuracy";
-            accuracyText.text = accuracy.ToString()+ " / " + totalPossibleNotes + " = " + percent.ToString() + "% Accuracy";
-            endScreenText.text = "Your stats:\n" + "Score " + score.ToString() + "\n"; //+ percent.ToString() + "% Accuracy";
+            accuracyText.text = accuracy.ToString()+ " / " + totalPossibleNotes + " = " + percent.ToString() + "%";
+            endScreenText.text = "Your stats:\n" + "Score " + score.ToString() + "\n" + percent.ToString() + "% Accuracy";
         }
 
         void addScore()
