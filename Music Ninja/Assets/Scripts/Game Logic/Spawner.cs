@@ -64,8 +64,34 @@ public class Spawner : MonoBehaviour
 
         if (test)
             Debug.Log("Start Spawner");
-
-        Invoke("LoadNextScene", 40.0f);  // Switch to EndScreen scene after the duration specified
+        float duration = 30f; // duration of the scene is 30 sec by default
+        int song_num;
+        song_num = PlayerPrefs.GetInt("songNumber", 1);
+        if (song_num == 1)
+        {
+            duration = 163.0f;
+        }
+        else if (song_num == 2)
+        {
+            duration = 242.0f;
+        }
+        else if (song_num == 3)
+        {
+            duration = 219.0f;
+        }
+        else if (song_num == 4)
+        {
+            duration = 358.0f;
+        }
+        else if (song_num == 5)
+        {
+            duration = 249.0f;
+        }
+        else if (song_num == 6)
+        {
+            duration = 281.0f;
+        }
+        Invoke("LoadNextScene", duration);  // Switch to EndScreen scene after the duration specified
 
         // Get song choice using speech recognition
 
