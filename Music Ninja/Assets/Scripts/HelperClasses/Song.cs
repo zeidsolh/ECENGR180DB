@@ -36,10 +36,10 @@ public class Song
         beat = (bpm > bpm_low && bpm < bpm_high) ? 60f / bpm : 128f;
         speedList = new List<float>()
         {
-            beat / 8.0f, 
-            beat / 2f,
-            beat,
-            beat * 2
+            beat / 8.0f,
+            beat / 4.0f,
+            beat / 2.0f,
+            beat
         };
     }
 }
@@ -61,11 +61,11 @@ public class Album
             50
         );
 
-        Song Disconnected = new Song("Disconnected", 128, new List<float>() { 0.1f }, 242);
-        Song Flight = new Song("Flight", 87, new List<float>() { 0.1f }, 219);
-        Song EveryLanguage = new Song("Every Language is Alive", 129, new List<float>() { 0.1f }, 358);
-        Song Unity = new Song("Unity", 105, new List<float>() { 0.1f }, 249);
-        Song BreathingUnderwater = new Song("Breathing Underwater", 140, new List<float>() { 0.1f }, 278);
+        Song Disconnected = new Song("Disconnected", 128, new List<float>() { 0.1f, 0.1f, 0.1f }, 242);
+        Song Flight = new Song("Flight", 87, new List<float>() { 0.1f, 0.1f, 0.1f }, 219);
+        Song EveryLanguage = new Song("Every Language is Alive", 129, new List<float>() { 0.1f, 0.1f, 0.1f }, 358);
+        Song Unity = new Song("Unity", 105, new List<float>() { 0.1f, 0.1f, 0.1f }, 249);
+        Song BreathingUnderwater = new Song("Breathing Underwater", 140, new List<float>() { 0.1f, 0.1f, 0.1f }, 278);
 
         songList.Add("test", test);
         songList.Add("Disconnected", Disconnected);

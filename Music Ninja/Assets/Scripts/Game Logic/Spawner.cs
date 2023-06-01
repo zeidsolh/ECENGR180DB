@@ -102,7 +102,7 @@ public class Spawner : MonoBehaviour
         // Get song choice using speech recognition
 
         // Get difficulty
-        difficultySelected = 1; // for now
+        difficultySelected = PlayerPrefs.GetInt("gameDifficulty", 1);
         positionList = new List<(Vector3 start, Vector3 end)>()
         {
             (startPositionLeft, finalPositionRight),
