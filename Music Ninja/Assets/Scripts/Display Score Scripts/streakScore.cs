@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class streakScore : MonoBehaviour
 {
@@ -15,6 +16,7 @@ public class streakScore : MonoBehaviour
     int previousStreak;
     public Text streakNumber;
     public Text powerUpNumber;
+    public TMP_Text combotext;
 
     private void Awake()
     {
@@ -42,8 +44,14 @@ public class streakScore : MonoBehaviour
             powerUps++;
 
         }
-        streakNumber.text = "x"+streak.ToString();
+        streakNumber.text = streak.ToString();
         powerUpNumber.text = powerUps.ToString();
+        int combo=(streak<=10)?(streak):10;
+        combotext.text = "x"+combo.ToString();
+
+
+
+
     }
 
     public bool positivePowerUps()

@@ -10,6 +10,7 @@ public class UpdateStreakGraphics : MonoBehaviour
     static streakScore streakScript;
     public Image streakBar;
     public Image PowerUpBar;
+    public Image StreakScoreModBar;
     int streak;
     int powerups;
 
@@ -22,6 +23,7 @@ public class UpdateStreakGraphics : MonoBehaviour
         powerups=streakScript.powerUps;
         PowerUpBar.fillAmount= 0f;
         streakBar.fillAmount= 0f;
+        StreakScoreModBar.fillAmount= 0f;
         
     }
 
@@ -37,9 +39,12 @@ public class UpdateStreakGraphics : MonoBehaviour
             powerups=5;
         }
         float fillPowerup =(float)powerups/5f;
-        streak=streak%2;
-        float fillStreak =(float)streak/2f;
+
+        float powerprog=streak%2;
+        float fillscoremod=(float)streak/10f;
+        float fillStreak =(float)powerprog/2f;
         PowerUpBar.fillAmount = fillPowerup;
         streakBar.fillAmount = fillStreak;
+        StreakScoreModBar.fillAmount= fillscoremod;
     }
 }
