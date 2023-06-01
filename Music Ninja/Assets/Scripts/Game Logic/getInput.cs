@@ -139,13 +139,14 @@ public class getInput : MonoBehaviour
     void OnTriggerExit(Collider other)
     {
         score.Update();
-        if(score.score - points_lost_to_obstacles < 0)
+        int frac_points_lost = 0.16 * points_lost_to_obstacles;  // almost -10 points per second
+        if(score.score - frac_points_lost < 0)
         {
             playerScore = 0;
         }
         else
         {
-            playerScore = score.score - points_lost_to_obstacles;
+            playerScore = score.score - frac_points_lost;
         }
         comment = score.getComment();
         //Debug.Log("Object has exited the trigger box region.");

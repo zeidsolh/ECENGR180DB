@@ -22,8 +22,11 @@ namespace MirrorBasics
         void Start()
         {
             actions.Add("continue", Continue);
+            actions.Add("tin you", Continue);
             actions.Add("play", Play);
+            actions.Add("lay", Play);
             actions.Add("attack", PowerUp);
+            actions.Add("tac", PowerUp);
 
             keywordRecognizer = new KeywordRecognizer(actions.Keys.ToArray());
             keywordRecognizer.OnPhraseRecognized += RecognizedSpeech;
