@@ -11,6 +11,9 @@ using System;
 public class Song
 {
     public int bpm { get; set; }
+    public int length { get; set; }
+    public int maxLane { get; set; }
+    public int maxDirection { get; set; }
     public float beat { get; set; }  
     public string name { get; set; }
     public List<int> lane { get; set; }
@@ -21,14 +24,14 @@ public class Song
 
     private int bpm_low = 80, bpm_high = 240;
 
-    public Song(string name, int bpm, List<int> lane, List<int> direction, List<int> rate, List<float> startDelay) 
+    public Song(string name, int bpm, List<float> startDelay, int length = 40) 
     {
         this.name = name;
         this.bpm = bpm;
-        this.lane = lane;
-        this.direction = direction;
-        this.rate = rate;
         this.startDelay = startDelay;
+        this.length = length;
+        this.maxLane = 3;
+        this.maxDirection = 4;
 
         beat = (bpm > bpm_low && bpm < bpm_high) ? 60f / bpm : 128f;
         speedList = new List<float>()
@@ -38,5 +41,26 @@ public class Song
             beat,
             beat * 2
         };
+    }
+}
+
+public class Album
+{
+    public Dictionary<string, Song> songList { get; set; } = new Dictionary<string, Song>();
+
+    public Album() 
+    {
+        Song test = new Song
+        (
+            "test",
+            125,
+            new List<float>()
+            {
+                1.67f, 5.68f, 5.58f
+            },
+            50
+        );
+
+        songList.Add("test", test);
     }
 }

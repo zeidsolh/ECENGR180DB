@@ -84,7 +84,7 @@ public class Spawner : MonoBehaviour
             Quaternion.Euler(0, 0, 270),
             Quaternion.Euler(0, 0, 90)
         };
-        curSong = seq.sequence[songChoice];
+        curSong = seq.getSong(songChoice);
         speed = curSong.speedList[difficultySelected - 1]; // set speed
 
         // Decode the song script and populate the following containers: targets, timeBetweenEachNote, startPoints, endPoints
