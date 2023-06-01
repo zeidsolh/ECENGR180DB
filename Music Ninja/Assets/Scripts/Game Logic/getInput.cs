@@ -4,6 +4,10 @@ Description:
     OnTriggerEnter invokes addObject on the Scorer object "score" to tell the scorer the timestamp and direction of each target
     that passes through the region.
     The keyboard version of the game uses OnTriggerExit to increment score (currently commented out).
+    A small amount of time is added to the time that a target first enters the trigger region so that the swipe-time is compared
+    with the time when the target is in the middle of the trigger region rather than the start. (Technically this amount
+    should depend on the difficulty/target-speed, but for now difficulties 1 and 2 use the same target-speed and so the amount
+    is hard coded). See line 77 and 82. Was originally 0.25 (s).
 */
 
 using System;
@@ -70,12 +74,12 @@ public class getInput : MonoBehaviour
         Debug.Log(DateTime.Now);
         if (other.gameObject.tag == "blueTarget")
         {
-            score.addObject(DateTime.Now.AddSeconds(0.25), -1, temp_direction);
+            score.addObject(DateTime.Now.AddSeconds(0.265), -1, temp_direction);
             Debug.Log($"Added Left Target With Direction: {temp_direction}");
         }
         else
         {
-            score.addObject(DateTime.Now.AddSeconds(0.25), temp_direction, -1);
+            score.addObject(DateTime.Now.AddSeconds(0.265), temp_direction, -1);
             Debug.Log($"Added Right Target With Direction: {temp_direction}");
         }
 
