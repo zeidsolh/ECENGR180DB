@@ -49,7 +49,7 @@ public class Spawner : MonoBehaviour
 
 
     //public static string songChoice = "Crab Rave";    // for now
-    public static string songChoice = "test";
+    public static string songChoice = "Disconnected";
     public Sequence seq = new Sequence();
     public Song curSong;
     public int difficultySelected;
