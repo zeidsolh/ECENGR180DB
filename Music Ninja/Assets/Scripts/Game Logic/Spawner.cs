@@ -49,7 +49,7 @@ public class Spawner : MonoBehaviour
 
 
     //public static string songChoice = "Crab Rave";    // for now
-    public static string songChoice = "Disconnected";
+    public static string songChoice = "test";
     public Sequence seq = new Sequence();
     public Song curSong;
     public int difficultySelected;
@@ -70,26 +70,32 @@ public class Spawner : MonoBehaviour
         if (song_num == 1)
         {
             duration = 163.0f;
+            songChoice = "test";
         }
         else if (song_num == 2)
         {
             duration = 242.0f;
+            songChoice = "Disconnected";
         }
         else if (song_num == 3)
         {
             duration = 219.0f;
+            songChoice = "Flight";
         }
         else if (song_num == 4)
         {
             duration = 358.0f;
+            songChoice = "Every Language is Alive";
         }
         else if (song_num == 5)
         {
             duration = 249.0f;
+            songChoice = "Unity";
         }
         else if (song_num == 6)
         {
             duration = 281.0f;
+            songChoice = "Breathing Underwater";
         }
         Invoke("LoadNextScene", duration);  // Switch to EndScreen scene after the duration specified
 

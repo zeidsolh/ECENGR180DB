@@ -46,15 +46,27 @@ namespace MirrorBasics
             songSelected = PlayerPrefs.GetInt("songNumber", 1);
             if (songSelected == 1)
             {
-                songName.text = "Song Playing: Song 1";
+                songName.text = "Song Played: Crab Rave";
             }
             else if (songSelected == 2)
             {
-                songName.text = "Song Playing: Song 2";
+                songName.text = "Song Played: Disconnected";
             }
             else if (songSelected == 3)
             {
-                songName.text = "Song Playing: Song 3";
+                songName.text = "Song Played: Flight";
+            }
+            else if (songSelected == 4)
+            {
+                songName.text = "Song Played: Every Language is Alive";
+            }
+            else if (songSelected == 5)
+            {
+                songName.text = "Song Played: Unity";
+            }
+            else if (songSelected == 6)
+            {
+                songName.text = "Song Played: Breathing Under Water";
             }
         }
 
