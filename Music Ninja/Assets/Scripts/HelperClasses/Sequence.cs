@@ -22,34 +22,38 @@ public class Sequence
         Song curr = album.songList[name];
         
         
-        curr.lane = GenerateRandom(curr.length, curr.maxLane);
-        curr.direction = GenerateRandom(curr.length, curr.maxDirection);
-        curr.rate = Enumerable.Repeat(7, curr.length).ToList();
+        curr.lane = GenerateRandom(curr.length, new HashSet<int>(){}, curr.maxLane);
+        curr.direction = GenerateRandom(curr.length, new HashSet<int>(){}, curr.maxDirection);
+        curr.rate = GenerateRandom(curr.length, new HashSet<int>(){ 5 }, 7, 3);
 
         return curr;
     }
 
     // generate random sequences
     // ranges are inclusive []
-    public List<int> GenerateRandom(int length, int maxValue, int minValue = 1, int seed = 0)
+    public List<int> GenerateRandom(int length, HashSet<int> exclude, int maxValue, int minValue = 1, int seed = 0)
     {
         System.Random random = new System.Random(seed);
         List<int> output = new List<int>();
         int prev = 0;
 
         for (int i = 0; i < length - 1; i++)
-        {   
-            int randomFloat = 0;
-            do
-            {
-                randomFloat = random.Next(minValue, maxValue + 1);
-            } while (randomFloat == prev);
+            {   
+                int randomNum = 0;
+                do
+                {
+                    randomNum = random.Next(minValue, maxValue + 1);
+                } while (randomNum == prev || exclude.Contains(randomNum));
 
-            prev = randomFloat;
-            output.Add(randomFloat);
-        }
+                
+
+                prev = randomNum;
+                output.Add(randomNum);
+            }
 
         output.Add(0);
+        // for (int i = 0; i < output.Count; i++)
+        //     Debug.Log($"{output[i]}");
         return output;
     }
 }

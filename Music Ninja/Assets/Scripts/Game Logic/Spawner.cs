@@ -118,7 +118,7 @@ public class Spawner : MonoBehaviour
         difficultySelected = PlayerPrefs.GetInt("gameDifficulty", 1);
         positionList = new List<(Vector3 start, Vector3 end)>()
         {
-            (startPositionLeft, finalPositionRight),
+            (startPositionLeft, finalPositionLeft),
             (startPosition, finalPosition),
             (startPositionRight, finalPositionRight)
         };
@@ -210,7 +210,7 @@ public class Spawner : MonoBehaviour
                         interval = songData.beat / 3.0f * 2;
                         break;
                     case int n when (n > 0 && n <= 4):
-                        interval = songData.beat / Mathf.Pow(2, n + 1);
+                        interval = songData.beat / Mathf.Pow(2, (n - 2.9f));
                         break;
                     case int n when (n <= 9):
                         interval = songData.beat * (n - 5);
@@ -239,8 +239,13 @@ public class Spawner : MonoBehaviour
                         break;
                 }
 
+                if (interval == 0) {
+                    Debug.Log($"{songData.rate[i]} gives 0");
+                    Application.Quit();
+                }
+
                 if (test)
-                    Debug.Log($"Index {i}, position {position}, positionFinal {positionFinal}, rotation {rotation}, interval {interval}");
+                        Debug.Log($"Index {i}, on lane {songData.lane[i]}, position {position}, positionFinal {positionFinal}, rotation {rotation}, rate {songData.rate[i]}, interval {interval}");
 
                 int randomInt = Random.Range(1, 3);
                 if (PlayerPrefs.GetInt("gameDifficulty", 1) == 1)
