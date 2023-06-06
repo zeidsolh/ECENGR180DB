@@ -56,10 +56,10 @@ public class Album
             125,
             new List<float>()
             {
-                1.67f, 5.68f, 5.58f
+                1.67f, 9.77f, 5.58f
             },
             50
-        );
+        );  // was 1.67f, 5.68f, 5.58f
 
         Song Disconnected = new Song("Disconnected", 128, new List<float>() { 0.1f, 0.1f, 0.1f }, 242);
         Song Flight = new Song("Flight", 87, new List<float>() { 0.1f, 0.1f, 0.1f }, 219);
