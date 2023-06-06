@@ -98,6 +98,15 @@ public class Spawner : MonoBehaviour
             songChoice = "Breathing Underwater";
         }
 
+        // Get difficulty
+        difficultySelected = PlayerPrefs.GetInt("gameDifficulty", 1);
+        if (songChoice == "Unity" && difficultySelected == 1)
+        {
+            Debug.Log("Shortening Runwar...");
+            startPosition = new Vector3(0, 1.6f, 20.0f);
+            startPositionLeft = new Vector3(-0.8f, 1.6f, 20.0f);
+            startPositionRight = new Vector3(0.8f, 1.6f, 20.0f);
+        }
 
 
 
@@ -205,6 +214,25 @@ public class Spawner : MonoBehaviour
                         break;
                     case int n when (n <= 9):
                         interval = songData.beat * (n - 5);
+                        
+                        // Add random chance of 1/8 note instead of quarter note w/ less likelyhood on hard then medium
+                        if (difficultySelected == 2 && n == 7)
+                        {
+                            int r = Random.Range(0, 2);
+                            if(r == 1)
+                            {
+                                interval = songData.beat * (n - 5) / 2;
+                            }
+                        }
+                        else if (difficultySelected == 3 && n == 7)
+                        {
+                            int r = Random.Range(0, 7);
+                            if (r == 1)
+                            {
+                                interval = songData.beat * (n - 5) / 2;
+                            }
+                        }
+                        
                         break;
                     default:
                         Debug.Log($"Should never reach here");

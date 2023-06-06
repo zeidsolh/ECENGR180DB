@@ -23,10 +23,21 @@ namespace MirrorBasics
         {
             actions.Add("continue", Continue);
             actions.Add("tin you", Continue);
+
             actions.Add("play", Play);
             actions.Add("lay", Play);
+
             actions.Add("attack", PowerUp);
             actions.Add("tac", PowerUp);
+
+            actions.Add("stop", Stop);
+            actions.Add("quit", Stop);
+            actions.Add("new song", Stop);
+            actions.Add("next", Stop);
+            actions.Add("quick", Stop);
+            actions.Add("new", Stop);
+            actions.Add("exit", Stop);
+            actions.Add("escape", Stop);
 
             keywordRecognizer = new KeywordRecognizer(actions.Keys.ToArray());
             keywordRecognizer.OnPhraseRecognized += RecognizedSpeech;
@@ -55,6 +66,12 @@ namespace MirrorBasics
             Debug.Log("attack");
             Player.localPlayer.sendObstacle("left");
             Player.localPlayer.sendObstacle("right");
+        }
+
+        private void Stop()
+        {
+            Debug.Log("Exiting...");
+            SceneManager.LoadScene("EndScreen");
         }
     }
 }

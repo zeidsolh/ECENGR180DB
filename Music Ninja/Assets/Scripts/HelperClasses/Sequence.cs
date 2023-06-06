@@ -20,7 +20,8 @@ public class Sequence
 
     public Song getSong(string name) {
         Song curr = album.songList[name];
-
+        
+        
         curr.lane = GenerateRandom(curr.length, curr.maxLane);
         curr.direction = GenerateRandom(curr.length, curr.maxDirection);
         curr.rate = Enumerable.Repeat(7, curr.length).ToList();

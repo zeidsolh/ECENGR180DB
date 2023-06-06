@@ -62,10 +62,10 @@ public class Album
         );  // was 1.67f, 5.68f, 5.58f
 
         Song Disconnected = new Song("Disconnected", 128, new List<float>() { 13.53f, 6.88f, 11.13f }, 242);
-        Song Flight = new Song("Flight", 87, new List<float>() { 12.11f, 0.1f, 20.6f }, 219);   // 219 for full song. 47 for intro
+        Song Flight = new Song("Flight", 87, new List<float>() { 12.11f, 6.74f, 20.6f }, 219);   // 219 for full song. 47 for intro
         Song EveryLanguage = new Song("Every Language is Alive", 129, new List<float>() { 0.1f, 0.1f, 0.1f }, 358);
-        Song Unity = new Song("Unity", 105, new List<float>() { 0.1f, 0.1f, 0.1f }, 249);
-        Song BreathingUnderwater = new Song("Breathing Underwater", 140, new List<float>() { 0.1f, 0.1f, 0.1f }, 278);
+        Song Unity = new Song("Unity", 105, new List<float>() { 0.1f, 2.9f, 6.323f }, 249);
+        Song BreathingUnderwater = new Song("Breathing Underwater", 140, new List<float>() { 9.9f, 0.1f, 0.1f }, 278);
 
         songList.Add("test", test);
         songList.Add("Disconnected", Disconnected);
