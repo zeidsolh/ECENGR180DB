@@ -97,6 +97,10 @@ public class Spawner : MonoBehaviour
             duration = 281.0f;
             songChoice = "Breathing Underwater";
         }
+
+
+
+
         Invoke("LoadNextScene", duration);  // Switch to EndScreen scene after the duration specified
 
         // Get song choice using speech recognition
