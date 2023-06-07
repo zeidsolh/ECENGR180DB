@@ -49,6 +49,18 @@ namespace MirrorBasics
             actions.Add("exit", Stop);
             actions.Add("escape", Stop);
 
+            actions.Add("tutorial", Tutorial);
+            actions.Add("torial", Tutorial);
+
+            actions.Add("options", Options);
+            actions.Add("option", Options);
+            actions.Add("portion", Options);
+
+            actions.Add("Back", Back);
+            actions.Add("ack", Back);
+            actions.Add("hack", Back);
+            actions.Add("tack", Back);
+
             keywordRecognizer = new KeywordRecognizer(actions.Keys.ToArray());
             keywordRecognizer.OnPhraseRecognized += RecognizedSpeech;
             keywordRecognizer.Start();
@@ -82,6 +94,25 @@ namespace MirrorBasics
         {
             Debug.Log("Exiting...");
             SceneManager.LoadScene("EndScreen");
+        }
+
+        private void Options()
+        {
+            Debug.Log("Options");
+            OptionsScript.instance.OptionsButton();
+        }
+
+        private void Tutorial()
+        {
+            Debug.Log("Tutorial");
+            tutorialButtons.instance.TutorialButton();
+        }
+
+        private void Back()
+        {
+            Debug.Log("Back");
+            OptionsScript.instance.BackOptions();
+            tutorialButtons.instance.BackTutorial();
         }
     }
 }
