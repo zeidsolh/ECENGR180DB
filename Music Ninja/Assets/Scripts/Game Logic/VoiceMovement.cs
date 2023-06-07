@@ -30,7 +30,16 @@ namespace MirrorBasics
 
             actions.Add("attack", PowerUp);
             actions.Add("tac", PowerUp);
-
+            actions.Add("attached", PowerUp);
+            actions.Add("attacked", PowerUp);
+            actions.Add("the tech", PowerUp);
+            actions.Add("the stack", PowerUp);
+            actions.Add("patek", PowerUp);
+            actions.Add("the tack", PowerUp);
+            actions.Add("kotak", PowerUp);
+            actions.Add("batac", PowerUp);
+            actions.Add("as heck", PowerUp);
+            
             actions.Add("stop", Stop);
             actions.Add("quit", Stop);
             actions.Add("new song", Stop);
