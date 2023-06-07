@@ -22,6 +22,7 @@ namespace MirrorBasics
         void Start()
         {
             actions.Add("continue", Continue);
+            actions.Add("continued", Continue);
             actions.Add("tin you", Continue);
 
             actions.Add("play", Play);
