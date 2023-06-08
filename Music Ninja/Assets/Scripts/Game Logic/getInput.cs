@@ -139,7 +139,7 @@ public class getInput : MonoBehaviour
     void OnTriggerExit(Collider other)
     {
         score.Update();
-        int frac_points_lost = (int) (0.16 * points_lost_to_obstacles);  // almost -10 points per second
+        int frac_points_lost = (int) (points_lost_to_obstacles);  // almost -10 points per second
         if(score.score - frac_points_lost < 0)
         {
             playerScore = 0;

@@ -23,6 +23,7 @@ public class MainMenu : MonoBehaviour
     private void Awake()
     {
         instance = this;
+        PlayerPrefs.SetInt("MainMenu", 1);
     }
 
     public void DestroyNetworkManager()
@@ -33,6 +34,7 @@ public class MainMenu : MonoBehaviour
     int n;
     public void OnButtonPress()
     {
+         if(PlayerPrefs.GetInt("MainMenu")==1){     
         n++;
         Debug.Log("Button clicked " + n + " times.");
         PlayerPrefs.SetInt("Online", 0);
@@ -40,6 +42,8 @@ public class MainMenu : MonoBehaviour
         MainMenuCanvas.SetActive(false);
         SceneManager.LoadScene("SampleScene", LoadSceneMode.Additive);
         MenuSong.SetActive(false);
+        PlayerPrefs.SetInt("MainMenu", 0);
+         }
     }
 
     public void Options()
@@ -53,9 +57,12 @@ public class MainMenu : MonoBehaviour
 
     public void Multiplayer()
     {
+        if(PlayerPrefs.GetInt("MainMenu")==1){   
         Debug.Log("Multiplayer menu selected.");
         PlayerPrefs.SetInt("Online", 1);
         //SceneManager.LoadScene(2);
+        PlayerPrefs.SetInt("MainMenu", 0);
+         }
     }
 
 

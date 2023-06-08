@@ -110,6 +110,7 @@ namespace MirrorBasics
 
         public void ContinueFunction()
         {
+            PlayerPrefs.SetInt("MainMenu", 1);
             menuSong.SetActive(false);
             if (PlayerPrefs.GetInt("Online", 0) == 0)
             {

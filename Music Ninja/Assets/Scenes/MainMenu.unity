@@ -3974,6 +3974,7 @@ MonoBehaviour:
   MainMenuCanvas: {fileID: 967398859}
   NetworkManagerGameObject: {fileID: 1951708773}
   MenuSong: {fileID: 470672929}
+  speechRec: {fileID: 1641914590}
 --- !u!1 &972476929
 GameObject:
   m_ObjectHideFlags: 0
@@ -4714,7 +4715,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Crab Rave -Noisestorm
+  m_text: Crab Rave -Noisestorm (Demo)
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -7700,7 +7701,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 30, y: 312.7}
-  m_SizeDelta: {x: 222.7, y: 35}
+  m_SizeDelta: {x: 300, y: 35}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1872839539
 MonoBehaviour:
@@ -8010,7 +8011,7 @@ MonoBehaviour:
   offlineScene: Assets/Scenes/MainMenu.unity
   onlineScene: Assets/Scenes/Lobby.unity
   transport: {fileID: 1951708774}
-  networkAddress: 192.168.0.156
+  networkAddress: 172.20.10.2
   maxConnections: 100
   authenticator: {fileID: 0}
   playerPrefab: {fileID: 2349955937369507092, guid: a8806696858644060b8eb695b43a0fe4, type: 3}

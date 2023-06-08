@@ -15,15 +15,21 @@ public class OptionsScript : MonoBehaviour
 
     public void OptionsButton()
     {
-        MainMenu.instance.Options();
-        MenuMain.SetActive(false);
-        OptionsScreen.SetActive(true);
-        options.instance.setButton();
+        if(PlayerPrefs.GetInt("MainMenu")==1){     
+            MainMenu.instance.Options();
+            MenuMain.SetActive(false);
+            OptionsScreen.SetActive(true);
+            options.instance.setButton();
+             PlayerPrefs.SetInt("MainMenu", 0);
+        }
     }
 
     public void BackOptions()
     {
+        if(PlayerPrefs.GetInt("MainMenu")==0){  
         OptionsScreen.SetActive(false);
         MenuMain.SetActive(true);
+        PlayerPrefs.SetInt("MainMenu", 0);
+        }
     }
 }
