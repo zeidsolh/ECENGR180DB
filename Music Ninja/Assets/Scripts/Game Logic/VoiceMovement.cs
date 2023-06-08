@@ -87,7 +87,7 @@ namespace MirrorBasics
         {
             Debug.Log("attack");
             Player.localPlayer.sendObstacle("left");
-            Player.localPlayer.sendObstacle("right");
+            //Player.localPlayer.sendObstacle("right");
         }
 
         private void Stop()

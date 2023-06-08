@@ -101,7 +101,7 @@ def sendToUnity(filename,data,buffersize):
     while not sent:
         try:
             fil = open(filename, "r+")
-            file_append = open('file_append.txt', 'a')
+            #file_append = open('file_append.txt', 'a')
         except:
             print("Couldn't Access File, Trying to send again!")
             continue
@@ -116,8 +116,8 @@ def sendToUnity(filename,data,buffersize):
             fil.seek(0)
             fil.truncate(0)
             fil.write(newtext)
-        file_append.write(datapacket)
-        file_append.close()
+        #file_append.write(datapacket)
+        #file_append.close()
         fil.close()
         sent=True   
 
@@ -309,7 +309,7 @@ with mp_holistic.Holistic(
     flippedimage =cv2.flip(image, 1)
     cv2.putText(flippedimage,"Most Recent Gesture Right: " + directions[previousGesture],(330,100),cv2.FONT_HERSHEY_PLAIN,1,(0,255,0),1)
     cv2.putText(flippedimage,"Most Recent Gesture Left: " + directions[previousGestureleft],(70,100),cv2.FONT_HERSHEY_PLAIN,1,(255,0,0),1)
-    scale_percent = 60 # percent of original size
+    scale_percent = 40 # percent of original size
     widthscaled = int(width * scale_percent / 100)
     heightscaled = int(height * scale_percent / 100)
     dim = (widthscaled, heightscaled)

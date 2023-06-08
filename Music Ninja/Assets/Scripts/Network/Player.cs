@@ -58,7 +58,8 @@ namespace MirrorBasics
                     {
                         if (player.GetComponent<Player>() != localPlayer)
                         {
-                            SendMessageTo(player.gameObject, direction);
+                            SendMessageTo(player.gameObject, "left");
+                            SendMessageTo(player.gameObject, "right");
                             streakScore.instance.decrementPowerUps();
                         }
                     }
