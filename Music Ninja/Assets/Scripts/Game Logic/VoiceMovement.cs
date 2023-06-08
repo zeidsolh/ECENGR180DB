@@ -61,7 +61,7 @@ namespace MirrorBasics
             actions.Add("hack", Back);
             actions.Add("tack", Back);
 
-            keywordRecognizer = new KeywordRecognizer(actions.Keys.ToArray());
+            keywordRecognizer = new KeywordRecognizer(actions.Keys.ToArray(),ConfidenceLevel.Low);
             keywordRecognizer.OnPhraseRecognized += RecognizedSpeech;
             keywordRecognizer.Start();
         }
