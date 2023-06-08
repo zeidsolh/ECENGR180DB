@@ -18,6 +18,8 @@ public class options : MonoBehaviour
     [SerializeField] Button song5;
     [SerializeField] Button song6;
 
+    public static options instance;
+
 
 
 
@@ -25,6 +27,11 @@ public class options : MonoBehaviour
     void Start()
     {
         Debug.Log("In options");
+    }
+
+    private void Awake()
+    {
+        instance = this;
     }
 
     public void setButton()
