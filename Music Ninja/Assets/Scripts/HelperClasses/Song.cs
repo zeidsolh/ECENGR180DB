@@ -56,10 +56,10 @@ public class Album
             125,
             new List<float>()
             {
-                1.67f, 9.47f, 5.58f
+                8.66f, 1.28f, 5.87f
             },
             50
-        );  // was 1.67f, 5.68f, 5.58f
+        );  // was 1.67f, 9.47 then 5.68f, 5.58f
 
         Song Disconnected = new Song("Disconnected", 128, new List<float>() { 13.53f, 6.88f, 11.13f }, 242);
         Song Flight = new Song("Flight", 87, new List<float>() { 12.11f, 6.74f, 20.6f }, 219);   // 219 for full song. 47 for intro

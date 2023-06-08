@@ -92,8 +92,8 @@ namespace MirrorBasics
 
         private void Stop()
         {
-            Debug.Log("Exiting...");
-            SceneManager.LoadScene("EndScreen");
+            Debug.Log("Stop function tabled");
+            //SceneManager.LoadScene("EndScreen");
         }
 
         private void Options()
