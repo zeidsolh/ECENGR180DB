@@ -74,12 +74,12 @@ public class getInput : MonoBehaviour
         Debug.Log(DateTime.Now);
         if (other.gameObject.tag == "blueTarget")
         {
-            score.addObject(DateTime.Now.AddSeconds(0.265), -1, temp_direction);
+            score.addObject(DateTime.Now.AddSeconds(0.28), -1, temp_direction);
             Debug.Log($"Added Left Target With Direction: {temp_direction}");
         }
         else
         {
-            score.addObject(DateTime.Now.AddSeconds(0.265), temp_direction, -1);
+            score.addObject(DateTime.Now.AddSeconds(0.28), temp_direction, -1);
             Debug.Log($"Added Right Target With Direction: {temp_direction}");
         }
 

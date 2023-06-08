@@ -36,7 +36,7 @@ public class Song
         beat = (bpm > bpm_low && bpm < bpm_high) ? 60f / bpm : 128f;
         speedList = new List<float>()
         {
-            beat / 8.0f,
+            beat / 12.0f,
             beat / 8.0f,
             beat / 2.0f,
             beat
