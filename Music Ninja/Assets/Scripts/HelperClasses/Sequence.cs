@@ -29,11 +29,16 @@ public class Sequence
         {
             // easy
             curr.rate = GenerateRandom(curr.length, new HashSet<int>() { 5 }, 8, 7);
-        } else
+        } else if (PlayerPrefs.GetInt("gameDifficulty",1) == 2)
         {
             // medium and hard
+            curr.rate = GenerateRandom(curr.length, new HashSet<int>() { 5 }, 9, 6);
+        } else if (PlayerPrefs.GetInt("gameDifficulty",1) == 3)
+        {
+            // hard
             curr.rate = GenerateRandom(curr.length, new HashSet<int>() { 5 }, 7, 6);
         }
+        
         
 
         return curr;
