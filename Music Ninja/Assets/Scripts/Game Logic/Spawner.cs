@@ -209,10 +209,10 @@ public class Spawner : MonoBehaviour
                     case 0:
                         interval = songData.beat / 3.0f * 2;
                         break;
-                    case int n when (n > 0 && n <= 4):
-                        interval = songData.beat / Mathf.Pow(2, (n - 2.9f));
+                    case int n when (n > 0 && n <= 4):  // ???
+                        interval = songData.beat / Mathf.Pow(2, (n + 1)); // ???
                         break;
-                    case int n when (n <= 9):
+                    case int n when (n <= 9): // ???
                         interval = songData.beat * (n - 5);
                         
                         // Add random chance of 1/8 note instead of quarter note w/ less likelyhood on hard then medium

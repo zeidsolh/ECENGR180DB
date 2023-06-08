@@ -20,18 +20,28 @@ public class Sequence
 
     public Song getSong(string name) {
         Song curr = album.songList[name];
+
+
+        curr.lane = GenerateRandom(curr.length, new HashSet<int>() { }, curr.maxLane);
+        curr.direction = GenerateRandom(curr.length, new HashSet<int>() { }, curr.maxDirection, 1, 0, true);
+
+        if (PlayerPrefs.GetInt("gameDifficulty", 1) == 1)
+        {
+            // easy
+            curr.rate = GenerateRandom(curr.length, new HashSet<int>() { 5 }, 8, 7);
+        } else
+        {
+            // medium and hard
+            curr.rate = GenerateRandom(curr.length, new HashSet<int>() { 5 }, 7, 6);
+        }
         
-        
-        curr.lane = GenerateRandom(curr.length, new HashSet<int>(){}, curr.maxLane);
-        curr.direction = GenerateRandom(curr.length, new HashSet<int>(){}, curr.maxDirection);
-        curr.rate = GenerateRandom(curr.length, new HashSet<int>(){ 5 }, 7, 3);
 
         return curr;
     }
 
     // generate random sequences
     // ranges are inclusive []
-    public List<int> GenerateRandom(int length, HashSet<int> exclude, int maxValue, int minValue = 1, int seed = 0)
+    public List<int> GenerateRandom(int length, HashSet<int> exclude, int maxValue, int minValue = 1, int seed = 0, bool direction = false)
     {
         System.Random random = new System.Random(seed);
         List<int> output = new List<int>();
@@ -43,7 +53,7 @@ public class Sequence
                 do
                 {
                     randomNum = random.Next(minValue, maxValue + 1);
-                } while (randomNum == prev || exclude.Contains(randomNum));
+                } while ((randomNum == prev)&&direction || exclude.Contains(randomNum));
 
                 
 
