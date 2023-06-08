@@ -37,7 +37,7 @@ public class Song
         speedList = new List<float>()
         {
             beat / 8.0f,
-            beat / 4.0f,
+            beat / 8.0f,
             beat / 2.0f,
             beat
         };
