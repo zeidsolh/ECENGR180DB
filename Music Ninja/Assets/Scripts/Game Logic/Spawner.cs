@@ -69,7 +69,7 @@ public class Spawner : MonoBehaviour
         song_num = PlayerPrefs.GetInt("songNumber", 1);
         if (song_num == 1)
         {
-            duration = 163.0f;
+            duration = 88.0f;   // 163.0f;
             songChoice = "test";
         }
         else if (song_num == 2)
